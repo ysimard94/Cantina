@@ -6,7 +6,7 @@ function recupererProduitsSaq($i, $browser)
 {
     $produits = [];
 
-    $url = "https://www.saq.com/fr/produits/vin?p=$i&product_list_limit=10";
+    $url = "https://www.saq.com/fr/produits/vin?p=$i&product_list_limit=96";
 
     // Request the URL and get a new Crawler instance
     $crawler = $browser->request('GET', $url);
