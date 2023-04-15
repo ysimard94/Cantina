@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
-import CatalogueView from "@/views/CatalogueView.vue";
 import SuccessView from "@/views/SuccessView.vue";
 import store from "@/store";
 
@@ -9,11 +8,6 @@ const routes = [
         path: "/",
         name: "home",
         component: HomeView,
-    },
-    {
-        path: "/catalogue",
-        name: "catalogue",
-        component: CatalogueView,
     },
     {
         path: "/saq-produits",
