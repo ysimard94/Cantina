@@ -5,20 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+
+class Categorie extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'name',
-        'img_url',
-        'price',
-        'description',
-        'category_id',
     ];
 
-    public function category()
+    public function bouteilles()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(Bouteille::class);
     }
 }
+

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\SAQController;
+use App\Http\Controllers\BouteilleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 // Route::get('/', function () {
-//     return view('welcome');
+//     return true;
 // });
 
 // Route::get('/users', function () {
@@ -27,5 +29,8 @@ use Illuminate\Support\Facades\Auth;
 
 // Catch-all route
 Route::get('{any}', function () {
-    return view('app'); // Assuming you have an 'index' view that serves your Vue app
+    return view('app');
 })->where('any', '.*');
+
+
+

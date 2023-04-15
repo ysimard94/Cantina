@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\category;
+use App\Models\pays;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class paysController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +13,6 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $categories = Category::all();
-        return response()->json($categories);
     }
 
     /**
@@ -36,7 +34,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(category $category)
+    public function show(pays $pays)
     {
         //
     }
@@ -44,7 +42,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(category $category)
+    public function edit(pays $pays)
     {
         //
     }
@@ -52,7 +50,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, category $category)
+    public function update(Request $request, pays $pays)
     {
         //
     }
@@ -60,7 +58,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(category $category)
+    public function destroy(pays $pays)
     {
         //
     }
