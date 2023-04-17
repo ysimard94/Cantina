@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\SAQController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,6 @@ Route::get('/saq-produits', [SAQController::class, 'index']);
 
 // Categories routes
 Route::get('/categorie', [CategorieController::class, 'index']);
+
+// Authentification routes
+Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
