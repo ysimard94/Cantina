@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nom');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
-            $table->foreign('pays_id')
+            $table->foreign('user_id')
             ->references('id')
             ->on('users')
             ->onDelete('cascade')
