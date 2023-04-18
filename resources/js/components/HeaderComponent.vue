@@ -116,6 +116,13 @@
                         v-if="!estConnecter"
                         >Créer un compte</router-link
                     >
+                    <button
+                        class="text-black text-center py-2"
+                        v-if="estConnecter"
+                        @click="deconnexion"
+                    >
+                        Déconnecter
+                    </button>
                 </div>
             </div>
         </nav>
