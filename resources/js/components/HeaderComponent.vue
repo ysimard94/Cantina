@@ -17,7 +17,21 @@
                                 :to="{ name: 'accueil' }">Accueil</router-link>
                             <router-link
                                 class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
-                                :to="{ name: 'saq-produits' }">Obtenir produits SAQ</router-link>
+                                :to="{ name: 'saq-produits' }">Obtenir produits SAQ</router-link
+                            >
+                            <router-link
+                            class="nav-link inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+                            :to="{ name: 'monCellier' }"
+                            v-if="estConnecter"
+                            >Mon Cellier</router-link
+                        >
+                        <router-link
+                            class="nav-link inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+                            :to="{ name: 'Catalogue.index' }"
+                            v-if="estConnecter"
+                            >Catalogue</router-link
+                        >
+                                
                             <router-link
                                 class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
                                 :to="{ name: 'connexion' }"

@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\SAQController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PaysController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,11 +35,15 @@ Route::middleware(['Auth'])->group(function () {
 
     // Categories routes
     Route::get('/categorie', [CategorieController::class, 'index']);
+    Route::get('/pays', [PaysController::class, 'index']);
 
     Route::get('/deconnexion', [AuthController::class, 'deconnecter']);
+    
+    // Catalogue routes
+    Route::get('/catalogue', [BouteilleController::class, 'index']);
 });
-
 
 // Authentification routes
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
 Route::post('/connexion', [AuthController::class, 'authentifier']);
+

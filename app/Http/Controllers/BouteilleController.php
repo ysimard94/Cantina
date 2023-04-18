@@ -10,21 +10,26 @@ class BouteilleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($nombre, $page)
-{
-    // Calculate the offset based on the number of items per page and the current page number
-    $offset = ($page - 1) * $nombre;
+    //     public function index($nombre, $page)
+    // {
+    //     // Calculate the offset based on the number of items per page and the current page number
+    //     $offset = ($page - 1) * $nombre;
 
-    // Retrieve the specified number of products from the database using pagination
-    $produits = Bouteille::offset($offset)->limit($nombre)->get();
+    //     // Retrieve the specified number of products from the database using pagination
+    //     $produits = Bouteille::offset($offset)->limit($nombre)->get();
 
-    // Get the total number of products
-    $totalProduits = Bouteille::count();
+    //     // Get the total number of products
+    //     $totalProduits = Bouteille::count();
 
-    return response()->json(['produits' => $produits, 'total' => $totalProduits]);
-}
+    //     return response()->json(['produits' => $produits, 'total' => $totalProduits]);
+    // }
 
-    
+    public function index()
+    {
+        $bouteilles = Bouteille::all();
+        return response()->json($bouteilles);
+    }
+
 
     /**
      * Show the form for creating a new resource.

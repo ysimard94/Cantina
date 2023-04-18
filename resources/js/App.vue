@@ -16,7 +16,7 @@
             <!-- <transition name="fade" mode="out-in"> -->
             <!-- </transition> -->
         </main>
-        <FooterComponent />
+        <!--<FooterComponent />-->
     </div>
 </template>
 

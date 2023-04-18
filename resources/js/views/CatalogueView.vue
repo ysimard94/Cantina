@@ -1,0 +1,84 @@
+<template>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full">
+        <div class="bg-bg_rose overflow-hidden shadow rounded-lg py-2 m-2 h-full" v-for="bouteille in bouteilles" :key="bouteille.id">
+
+            <img :src="bouteille.photo" :alt="bouteille.nom" class="w-1/3 mx-auto">
+            <div class="px-4 py-4">
+                <h4 class="text-lg font-semibold text-vin_rouge text-left">{{ bouteille.nom }}</h4>
+                <div class="mt-4 flex justify-between items-center">
+                    <div>
+                        <div class="text-black font-medium text-left"> {{ getPaysNameById(bouteille.pays_id) }}</div>
+                        <div class="text-black font-medium text-left">{{ getCategoriesNameById(bouteille.categorie_id) }}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-gray-700 font-medium mr-2 text-right">Note </div>
+                        <div class="flex items-center">
+                            <!--  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18.604,7.285c-0.21-0.651-0.84-1.104-1.538-1.104l-5.244-0.038L10.542,1.65c-0.357-0.72-1.402-0.72-1.758,0L7.634,6.143L2.39,6.181c-0.698,0-1.329,0.453-1.539,1.104c-0.21,0.652-0.033,1.366,0.484,1.776l3.813,3.416l-1.105,5.491c-0.105,0.518,0.121,1.039,0.556,1.311c0.436,0.272,0.974,0.246,1.368-0.07l4.722-2.871l4.724,2.872c0.163,0.099,0.341,0.147,0.518,0.147c0.334,0,0.661-0.148,0.883-0.427c0.435-0.272,0.661-0.793,0.556-1.311l-1.105-5.491l3.813-3.416C18.638,8.65,18.814,7.936,18.604,7.285z"/>
+                        </svg>-->
+                            <div class="text-gray-400 font-medium text-right">{{ bouteille.note }}({{ bouteille.nbr_notes }}
+                                avis)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-auto mb-4">
+                <div class="py-4 ">
+                    <div class="flex justify-center">
+                        <button
+                            class="bg-vin_rouge rounded-md w-full text-sm text-vin_blanc hover:text-white focus:outline-none px-2 py-2">Ajouter</button>
+                    </div>
+                    <div class="my-2"></div>
+                    <div class="flex justify-center">
+                        <button
+                            class="bg-vin_rouge rounded-md w-full text-sm text-vin_blanc hover:text-white focus:outline-none px-2 py-2">Voir
+                            plus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+
+import axios from 'axios';
+export default {
+    data() {
+        return {
+            bouteilles: [],
+            pays: [],
+            categories: []
+        }
+    },
+    mounted() {
+        this.fetchBouteilles()
+    },
+    methods: {
+        fetchBouteilles() {
+            axios.get('/api/catalogue').then(response => {
+                this.bouteilles = response.data
+            })
+        },
+        getPaysNameById(id) {
+            axios.get('/api/pays').then(response => {
+                this.pays = response.data
+            })
+
+
+            const found = this.pays.find(p => p.id === id);
+            return found ? found.nom : '';
+        },
+        getCategoriesNameById(id) {
+            axios.get('/api/categorie').then(response => {
+                this.categories = response.data
+            })
+
+
+            const found = this.categories.find(p => p.id === id);
+            return found ? found.nom : '';
+        },
+    },
+}
+</script>
