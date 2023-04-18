@@ -3,6 +3,7 @@ import HomeView from "@/views/HomeView.vue";
 import SuccessView from "@/views/SuccessView.vue";
 import NewUserView from "@/views/NewUserView.vue";
 import LoginView from "@/views/LoginView.vue";
+import CellierView from "@/views/CellierView.vue";
 import store from "@/store";
 
 const routes = [
@@ -20,6 +21,11 @@ const routes = [
         path: "/nouvutil",
         name: "nouvel-utilisateur",
         component: NewUserView,
+    },
+    {
+        path: "/monCellier",
+        name: "monCellier",
+        component: CellierView,
     },
     {
         path: "/saq-produits",
