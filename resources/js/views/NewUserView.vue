@@ -28,20 +28,17 @@
 </template>
 
 <script>
-
-    export default {
-        data() {
-            return{
-                nom: "",
-                courriel: "",
-                mdp: "",
-                conf_mdp: ""
-            }
-        }
-    }
-    methods: {
-        soumettre: () => {
-
-        }
-    }
+export default {
+    data() {
+        return {
+            nom: "",
+            courriel: "",
+            mdp: "",
+            conf_mdp: "",
+        };
+    },
+};
+methods: {
+    soumettre: () => {};
+}
 </script>
