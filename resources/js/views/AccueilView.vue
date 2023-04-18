@@ -69,3 +69,11 @@
         </section>
     </div>
 </template>
+
+<script>
+export default {
+    mounted() {
+        console.log(this.$store.state.session.utilisateur_id);
+    },
+};
+</script>

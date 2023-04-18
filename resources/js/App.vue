@@ -60,7 +60,7 @@ export default {
     opacity: 0;
 }
 main {
-    min-height: 100vh;
+    min-height: 81vh;
     display: flex;
     flex-direction: column;
 }
