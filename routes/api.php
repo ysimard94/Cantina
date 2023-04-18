@@ -33,7 +33,7 @@ Route::middleware(['Auth'])->group(function () {
     // Categories routes
     Route::get('/categorie', [CategorieController::class, 'index']);
 
-    Route::get('/deconnexion', [AuthController::class, 'deconnecter'])->middleware('Auth');
+    Route::get('/deconnexion', [AuthController::class, 'deconnecter']);
 });
 
 

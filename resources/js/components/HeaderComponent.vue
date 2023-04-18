@@ -136,7 +136,6 @@ export default {
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
-                // this.$store.dispatch("setLoading", false);
                 this.$emit("loading:end");
             }
         },
