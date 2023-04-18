@@ -1,7 +1,8 @@
 <template>
     <div class="container">
-        <h1>mon cellier</h1>
         <div class="row">
+            <bouteille-card/>
+            <bouteille-card/>
             <bouteille-card/>
         </div>
     </div>

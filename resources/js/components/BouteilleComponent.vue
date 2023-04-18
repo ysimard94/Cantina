@@ -1,30 +1,33 @@
 <template>
-    <div class="bg-white overflow-hidden shadow rounded-lg">
-        <img src="../../assets/vin.png" alt="Bottle image" class="w-16 h-32 object-cover mx-auto">
+    <div class="bg-bg_rose overflow-hidden shadow rounded-lg px-2 py-2 m-4">
+        <img src="../../assets/vin.png" alt="Bottle image" class="w-16 h-32 object-cover mx-auto ">
         <div class="px-4 py-4">
-            <h4 class="text-lg font-medium text-gray-900">11th Hour Cellars Pinot Noir</h4>
-            <p class="text-gray-600">While the expression "11th hour" refers to a last-minute decision</p>
+            <h4 class="text-lg font-semibold text-vin_rouge text-left">11th Hour Cellars Pinot Noir</h4>
             <div class="mt-4 flex justify-between items-center">
                 <div>
-                    <span class="text-gray-700 font-medium">$17.75</span>
-                    <span class="text-gray-400 font-medium">/ bouteille</span>
+                    <div class="text-black font-medium text-left">Portugal</div>
+                    <div class="text-black font-medium text-left">Vin rouge</div>
                 </div>
                 <div>
-                    <span class="text-gray-700 font-medium">United States</span>
-                    <span class="text-gray-400 font-medium">- 2018</span>
+                     <div class="text-gray-700 font-medium mr-2 text-right">Note </div>
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18.604,7.285c-0.21-0.651-0.84-1.104-1.538-1.104l-5.244-0.038L10.542,1.65c-0.357-0.72-1.402-0.72-1.758,0L7.634,6.143L2.39,6.181c-0.698,0-1.329,0.453-1.539,1.104c-0.21,0.652-0.033,1.366,0.484,1.776l3.813,3.416l-1.105,5.491c-0.105,0.518,0.121,1.039,0.556,1.311c0.436,0.272,0.974,0.246,1.368-0.07l4.722-2.871l4.724,2.872c0.163,0.099,0.341,0.147,0.518,0.147c0.334,0,0.661-0.148,0.883-0.427c0.435-0.272,0.661-0.793,0.556-1.311l-1.105-5.491l3.813-3.416C18.638,8.65,18.814,7.936,18.604,7.285z"/>
+                        </svg>
+                        <div class="text-gray-400 font-medium text-right">4.5</div>
+      </div>
                 </div>
             </div>
         </div>
-        <div class="px-4 py-3 bg-gray-100">
-            <div class="flex justify-between items-center">
-                <div>
-                    <span class="text-gray-700 font-medium">rouge</span>
-                </div>
-                <div>
-                    <button class="text-sm text-red-600 hover:text-red-900 focus:outline-none"
-                        >Supprimer</button>
-                </div>
-            </div>
+        <div class="px-4 py-3 ">
+            <div class="flex justify-center">
+            <button class="bg-vin_rouge rounded-md w-full text-sm text-vin_blanc hover:text-white focus:outline-none px-2 py-2" >Voir Details</button>
+          </div>
+          <div class="my-2"></div>
+            <div class="flex justify-center">
+            <button class="bg-vin_rouge rounded-md w-full text-sm text-vin_blanc hover:text-white focus:outline-none px-2 py-2" >Supprimer</button>
+          </div>
+
         </div>
     </div>
 </template>
