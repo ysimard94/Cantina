@@ -7,22 +7,22 @@
                         <!-- Logo -->
                         <div class="mr-4">
                             <router-link class="flex-shrink-0 flex items-center" :to="{ name: 'accueil' }">
-                                <img class="h-8 w-auto" src="../../assets/vino-logo.png" alt="Vino Logo" />
+                                <img class="max-w-[54px]" src="../../assets/vino-logo.png" alt="Vino Logo" />
                             </router-link>
                         </div>
                         <!-- Menu principal -->
                         <div class="hidden md:flex items-center space-x-5">
                             <router-link
-                                class="nav-link md:inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+                                class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
                                 :to="{ name: 'accueil' }">Accueil</router-link>
                             <router-link
-                                class="nav-link md:inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+                                class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
                                 :to="{ name: 'saq-produits' }">Obtenir produits SAQ</router-link>
                             <router-link
-                                class="nav-link md:inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+                                class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
                                 :to="{ name: 'connexion' }">Connexion</router-link>
                             <router-link
-                                class="nav-link md:inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+                                class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
                                 :to="{ name: 'nouvel-utilisateur' }">Créer un compte</router-link>
                         </div>
                     </div>
