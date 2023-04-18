@@ -54,18 +54,18 @@
             </div>
             <!-- Menu mobile -->
             <div v-show="menuMobile" class="md:hidden bg-bg-gris">
-                <div class="px-2 flex flex-col justify-center">
+                <div class="flex flex-col justify-center">
                     <router-link
-                        class=" text-black py-2 border-b-2 border-gray-400 text-center justify-center"
+                        class=" text-black py-2 hover:bg-gray-200 border-b-2 border-gray-400 text-center justify-center"
                         :to="{ name: 'accueil' }">Accueil</router-link>
                     <router-link
-                        class="text-black text-center border-b-2 border-gray-400 py-2"
+                        class="text-black text-center hover:bg-gray-200 border-b-2 border-gray-400 py-2"
                         :to="{ name: 'saq-produits' }">Obtenir produits SAQ</router-link>
                     <router-link
-                        class="text-black text-center border-b-2 border-gray-400 py-2"
+                        class="text-black text-center hover:bg-gray-200 border-b-2 border-gray-400 py-2"
                         :to="{ name: 'connexion' }">Connexion</router-link>
                     <router-link
-                        class="text-black text-center py-2"
+                        class="text-black text-center hover:bg-gray-200 py-2"
                         :to="{ name: 'nouvel-utilisateur' }">Créer un compte</router-link>
                 </div>
             </div>
