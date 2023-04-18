@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SAQController;
 use App\Http\Controllers\BouteilleController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,7 @@ use App\Http\Controllers\BouteilleController;
 Route::get('{any}', function () {
     return view('app');
 })->where('any', '.*');
+
 
 
 
