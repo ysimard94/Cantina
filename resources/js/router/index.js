@@ -4,6 +4,7 @@ import SuccessView from "@/views/SuccessView.vue";
 import NewUserView from "@/views/NewUserView.vue";
 import LoginView from "@/views/LoginView.vue";
 import CellierView from "@/views/CellierView.vue";
+import CatalogueView from "@/views/CatalogueView.vue";
 import store from "@/store";
 
 const routes = [
@@ -31,6 +32,11 @@ const routes = [
         path: "/saq-produits",
         name: "saq-produits",
         component: SuccessView,
+    },
+    {
+        path: "/catalogue",
+        name: "Catalogue.index",
+        component: CatalogueView,
     },
 ];
 
