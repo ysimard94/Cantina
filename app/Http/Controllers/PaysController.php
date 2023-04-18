@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\pays;
+use App\Models\Pays;
 use Illuminate\Http\Request;
 
 class paysController extends Controller
@@ -12,7 +12,8 @@ class paysController extends Controller
      */
     public function index()
     {
-        //
+        $pays = Pays::all();
+        return response()->json($pays);
     }
 
     /**
