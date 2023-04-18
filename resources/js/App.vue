@@ -1,7 +1,7 @@
 <template>
     <div class="relative min-h-screen">
         <HeaderComponent />
-        <main>
+        <main class="bg-[#D9D9D9]">
             <router-view
                 v-slot="{ Component }"
                 @loading:start="onLoadingStart"
