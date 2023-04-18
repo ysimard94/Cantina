@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\SAQController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PaysController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +33,7 @@ Route::get('/categorie', [CategorieController::class, 'index']);
 
 // Authentification routes
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
+
+Route::get('/catalogue', [BouteilleController::class, 'index']);
+Route::get('/pays', [PaysController::class, 'index']);
+Route::get('/categorie', [CategorieController::class, 'index']);
