@@ -29,6 +29,7 @@
                             v-if="estConnecter">Mes Celliers</router-link>
                         <router-link class="text-slate-100 hover:text-slate-400" :to="{ name: 'deconnexion' }"
                             v-if="estConnecter">Déconnecter</router-link>
+
                     </div>
                 </div>
             </div>

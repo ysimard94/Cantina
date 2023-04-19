@@ -29,10 +29,10 @@ Route::middleware('auth:api')->group(function () {
 
     // à compléter
     Route::get('/categorie', [CategorieController::class, 'index']);
-Route::get('/pays', [PaysController::class, 'index']);
-Route::get('/bouteilles', [BouteilleController::class, 'index']);
-Route::put('/utilisateur-edit/{utilisateur}', [UtilisateurController::class, 'update']);
-Route::put('/utilisateur-show/{utilisateur}', [UtilisateurController::class, 'show']);
+    Route::get('/pays', [PaysController::class, 'index']);
+    Route::get('/bouteilles', [BouteilleController::class, 'index']);
+    Route::put('/utilisateur-edit/{utilisateur}', [UtilisateurController::class, 'update']);
+    Route::get('/utilisateur-show/{utilisateur}', [UtilisateurController::class, 'show']);
 });
 
 Route::get('/saq-produits', [SAQController::class, 'index']);
@@ -40,3 +40,4 @@ Route::get('/saq-produits', [SAQController::class, 'index']);
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
 
 Route::post('/connexion', [AuthController::class, 'authentifier']);
+

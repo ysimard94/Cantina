@@ -7,7 +7,7 @@
                 <div class="mb-4">
                     <label
                         for="courriel"
-                        class="block text-lg text-left font-bold text-vin-rouge"
+                        class="block text-lg text-left font-bold text-vin-rouge pt-2 pb-2 pl-1 pr-1"
                         >Courriel</label
                     >
                     <input
@@ -20,7 +20,7 @@
                 <div class="mb-4">
                     <label
                         for="mdp"
-                        class="block text-lg text-left font-bold text-vin-rouge"
+                        class="block text-lg text-left font-bold text-vin-rouge pt-2 pb-2 pl-1 pr-1"
                         >Mot de passe</label
                     >
                     <input
