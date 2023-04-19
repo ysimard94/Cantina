@@ -1,7 +1,7 @@
-import http from "../http-common";
+import api from "../http-common";
 class CategorieDataService {
     async getAll() {
-        return await http.get("/category");
+        return await api.get("/category");
     }
 }
 export default new CategorieDataService();

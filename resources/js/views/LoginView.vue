@@ -3,17 +3,40 @@
         <div class="bg-bg-rose m-4 p-3 shadow-md rounded">
             <form @submit.prevent="connexion">
                 <h3 class="mb-4 text-vin-rouge font-bold text-xl">Connexion</h3>
-                 <p class="text-red-400">{{ message }}</p>
+                <p class="text-red-400">{{ message }}</p>
                 <div class="mb-4">
-                    <label for="courriel" class="block text-lg text-left font-bold text-vin-rouge">Courriel</label>
-                    <input type="text" v-model="courriel" id="courriel" class="w-full rounded pt-2 pb-2 pl-1 pr-1">
+                    <label
+                        for="courriel"
+                        class="block text-lg text-left font-bold text-vin-rouge"
+                        >Courriel</label
+                    >
+                    <input
+                        type="text"
+                        v-model="courriel"
+                        id="courriel"
+                        class="w-full rounded"
+                    />
                 </div>
                 <div class="mb-4">
-                    <label for="mdp" class="block text-lg text-left font-bold text-vin-rouge">Mot de passe</label>
-                    <input type="password" v-model="mdp" id="mdp" class="w-full rounded pt-2 pb-2 pl-1 pr-1">
+                    <label
+                        for="mdp"
+                        class="block text-lg text-left font-bold text-vin-rouge"
+                        >Mot de passe</label
+                    >
+                    <input
+                        type="password"
+                        v-model="mdp"
+                        id="mdp"
+                        class="w-full rounded"
+                    />
                 </div>
                 <div>
-                    <button type="submit" class="mb-4 mt4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5">Se Connecter</button>
+                    <button
+                        type="submit"
+                        class="mb-4 mt4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5"
+                    >
+                        Se Connecter
+                    </button>
                 </div>
             </form>
         </div>
@@ -49,11 +72,13 @@ export default {
                 } else if (reponse.data.code === "mot_de_passe_incorrect") {
                     this.message = "Mot de passe incorrect";
                 } else {
-                    console.log("success");
                     this.$store.commit("setSession", {
                         key: "utilisateur_id",
-                        value: reponse.data.utilisateur_id,
+                        value: reponse.data.utilisateur.id,
                     });
+                    console.log(reponse.data.token);
+                    localStorage.setItem("authToken", reponse.data.token);
+
                     this.$router.push({ name: "accueil" });
                 }
             } catch (error) {
