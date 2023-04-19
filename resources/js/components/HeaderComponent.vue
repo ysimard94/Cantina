@@ -104,6 +104,18 @@
                         class="text-black text-center hover:bg-gray-200 border-b-2 border-gray-400 py-2"
                         :to="{ name: 'saq-produits' }">Obtenir produits SAQ</router-link>
                     <router-link
+                        class="text-black text-center hover:bg-gray-200 py-2 border-b-2 border-gray-400"
+                        :to="{ name: 'monCellier' }"
+                        v-if="estConnecter"
+                        >Mon Cellier</router-link
+                    >
+                    <router-link
+                        class="text-black text-center hover:bg-gray-200 py-2 border-b-2 border-gray-400"
+                        :to="{ name: 'catalogue.index' }"
+                        v-if="estConnecter"
+                        >Catalogue</router-link
+                    >
+                    <router-link
                         class="text-black text-center hover:bg-gray-200 border-b-2 border-gray-400 py-2"
                         :to="{ name: 'connexion' }"
                         v-if="!estConnecter"
