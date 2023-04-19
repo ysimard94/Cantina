@@ -1,24 +1,24 @@
-import api from "../http-common";
+import apiClient from "../http-common";
 
 class BouteilleDataService {
     async getAll() {
-        return await api.get(`/bouteilles`);
+        return await apiClient.get(`/bouteilles`);
     }
 
     async create(data) {
-        return await api.post("/bouteille", data);
+        return await apiClient.post("/bouteille", data);
     }
 
     async get(id) {
-        return await api.get(`/bouteille/${id}`);
+        return await apiClient.get(`/bouteille/${id}`);
     }
 
     async delete(id) {
-        return await api.delete(`/bouteille/${id}`);
+        return await apiClient.delete(`/bouteille/${id}`);
     }
 
     async update(id, data) {
-        return await api.put(`/bouteille/${id}`, data);
+        return await apiClient.put(`/bouteille/${id}`, data);
     }
 }
 
