@@ -6,11 +6,11 @@
                  <p class="text-red-400">{{ message }}</p>
                 <div class="mb-4">
                     <label for="courriel" class="block text-lg text-left font-bold text-vin-rouge">Courriel</label>
-                    <input type="text" v-model="courriel" id="courriel" class="w-full rounded">
+                    <input type="text" v-model="courriel" id="courriel" class="w-full rounded pt-2 pb-2 pl-1 pr-1">
                 </div>
                 <div class="mb-4">
                     <label for="mdp" class="block text-lg text-left font-bold text-vin-rouge">Mot de passe</label>
-                    <input type="password" v-model="mdp" id="mdp" class="w-full rounded">
+                    <input type="password" v-model="mdp" id="mdp" class="w-full rounded pt-2 pb-2 pl-1 pr-1">
                 </div>
                 <div>
                     <button type="submit" class="mb-4 mt4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5">Se Connecter</button>

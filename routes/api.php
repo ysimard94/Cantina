@@ -40,9 +40,9 @@ Route::middleware(['Auth'])->group(function () {
     Route::get('/deconnexion', [AuthController::class, 'deconnecter']);
 
     // Catalogue routes
-
+    Route::get('/bouteille', [BouteilleController::class, 'index']);
 });
-Route::get('/bouteilles', [BouteilleController::class, 'index']);
+
 // Authentification routes
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
 Route::post('/connexion', [AuthController::class, 'authentifier']);
