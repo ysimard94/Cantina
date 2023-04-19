@@ -51,11 +51,7 @@ Route::post('/connexion', [AuthController::class, 'authentifier']);
 
 //route celiers
 
-// Route::get('/celiers', [CelierController::class, 'index']);
-// Route::post('/celiers', [CelierController::class, 'store']);
-// Route::get('/celiers/{id}', [CelierController::class, 'show']);
-// Route::put('/celiers/{id}', [CelierController::class, 'update']);
-// Route::delete('/celiers/{id}', [CelierController::class, 'destroy']);
+
 
 // route pour avoir les bouteilles au cellier
 Route::get('/celliers/{id}/bouteilles', [CelierController::class, 'getBouteilles']);
