@@ -7,6 +7,8 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\SAQController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PaysController;
+use App\Http\Controllers\BouteilleCelierController;
+use App\Http\Controllers\CelierController;
 
 
 
@@ -46,3 +48,21 @@ Route::get('/bouteilles', [BouteilleController::class, 'index']);
 // Authentification routes
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
 Route::post('/connexion', [AuthController::class, 'authentifier']);
+
+//route celiers
+
+// Route::get('/celiers', [CelierController::class, 'index']);
+// Route::post('/celiers', [CelierController::class, 'store']);
+// Route::get('/celiers/{id}', [CelierController::class, 'show']);
+// Route::put('/celiers/{id}', [CelierController::class, 'update']);
+// Route::delete('/celiers/{id}', [CelierController::class, 'destroy']);
+
+// route pour avoir les bouteilles au cellier
+Route::get('/celliers/{id}/bouteilles', [CelierController::class, 'getBouteilles']);
+
+// route pour avoir supprimer une bouteille dans cellier
+Route::delete('/celliers/{cellierId}/bouteilles/{bouteilleId}', [CelierController::class, 'supprimerBouteilleCellier']);
+
+// route pour ajouter une bouteille dans une cellier
+
+Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleCelierController::class, 'store']);
