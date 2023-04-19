@@ -25,24 +25,23 @@ use App\Http\Controllers\PaysController;
 //     return $request->user();
 // });
 
-// Auth middleware personnalisé
-Route::middleware(['Auth'])->group(function () {
-    // Products routes
-    Route::get('/saq-produits', [SAQController::class, 'index']);
+Route::middleware('auth:api')->group(function () {
 
-    // Accueil routes
-    // Route::get('/accueil', [AccueilController::class, 'index']);
+    // à compléter
 
-    // Categories routes
-    Route::get('/categorie', [CategorieController::class, 'index']);
-    Route::get('/pays', [PaysController::class, 'index']);
-
-    Route::get('/deconnexion', [AuthController::class, 'deconnecter']);
-
-    // Catalogue routes
-    Route::get('/bouteille', [BouteilleController::class, 'index']);
 });
 
-// Authentification routes
+Route::get('/categorie', [CategorieController::class, 'index']);
+Route::get('/pays', [PaysController::class, 'index']);
+Route::post('/deconnexion', [AuthController::class, 'deconnecter']);
+
+Route::get('/bouteilles', [BouteilleController::class, 'index']);
+
+Route::get('/saq-produits', [SAQController::class, 'index']);
+
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
+
 Route::post('/connexion', [AuthController::class, 'authentifier']);
+
+
+

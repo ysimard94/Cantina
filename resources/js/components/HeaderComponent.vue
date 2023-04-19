@@ -6,31 +6,41 @@
                     <div class="flex items-center">
                         <!-- Logo -->
                         <div class="mr-4">
-                            <router-link class="flex-shrink-0 flex items-center" :to="{ name: 'accueil' }">
-                                <img class="max-w-[54px]" src="../../assets/vino-logo.png" alt="Vino Logo" />
+                            <router-link
+                                class="flex-shrink-0 flex items-center"
+                                :to="{ name: 'accueil' }"
+                            >
+                                <img
+                                    class="max-w-[54px]"
+                                    src="../../assets/vino-logo.png"
+                                    alt="Vino Logo"
+                                />
                             </router-link>
                         </div>
                         <!-- Menu principal -->
                         <div class="hidden md:flex items-center space-x-5">
                             <router-link
                                 class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
-                                :to="{ name: 'accueil' }">Accueil</router-link>
-                            <router-link
-                                class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
-                                :to="{ name: 'saq-produits' }">Obtenir produits SAQ</router-link
+                                :to="{ name: 'accueil' }"
+                                >Accueil</router-link
                             >
                             <router-link
-                            class="nav-link inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
-                            :to="{ name: 'monCellier' }"
-                            v-if="estConnecter"
-                            >Mon Cellier</router-link
-                        >
-                        <router-link
-                            class="nav-link inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
-                            :to="{ name: 'catalogue.index' }"
-                            v-if="estConnecter"
-                            >Catalogue</router-link
-                        >
+                                class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+                                :to="{ name: 'saq-produits' }"
+                                >Obtenir produits SAQ</router-link
+                            >
+                            <router-link
+                                class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+                                :to="{ name: 'monCellier' }"
+                                v-if="estConnecter"
+                                >Mon Cellier</router-link
+                            >
+                            <router-link
+                                class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+                                :to="{ name: 'catalogue.index' }"
+                                v-if="estConnecter"
+                                >Catalogue</router-link
+                            >
 
                             <router-link
                                 class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
@@ -44,13 +54,12 @@
                                 v-if="!estConnecter"
                                 >Créer un compte</router-link
                             >
-                            <button
-                                class="nav-link md:inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+                            <router-link
+                                class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+                                :to="{ name: 'deconnexion' }"
                                 v-if="estConnecter"
-                                @click="deconnexion"
+                                >Déconnecter</router-link
                             >
-                                Déconnecter
-                            </button>
                         </div>
                     </div>
                     <!-- Bouton menu mobile -->
@@ -98,11 +107,15 @@
             <div v-show="menuMobile" class="md:hidden bg-bg-gris">
                 <div class="flex flex-col justify-center">
                     <router-link
-                        class=" text-black py-2 hover:bg-gray-200 border-b-2 border-gray-400 text-center justify-center"
-                        :to="{ name: 'accueil' }">Accueil</router-link>
+                        class="text-black py-2 hover:bg-gray-200 border-b-2 border-gray-400 text-center justify-center"
+                        :to="{ name: 'accueil' }"
+                        >Accueil</router-link
+                    >
                     <router-link
                         class="text-black text-center hover:bg-gray-200 border-b-2 border-gray-400 py-2"
-                        :to="{ name: 'saq-produits' }">Obtenir produits SAQ</router-link>
+                        :to="{ name: 'saq-produits' }"
+                        >Obtenir produits SAQ</router-link
+                    >
                     <router-link
                         class="text-black text-center hover:bg-gray-200 py-2 border-b-2 border-gray-400"
                         :to="{ name: 'monCellier' }"
@@ -127,13 +140,12 @@
                         v-if="!estConnecter"
                         >Créer un compte</router-link
                     >
-                    <button
-                        class="text-black text-center py-2"
+                    <router-link
+                        class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+                        :to="{ name: 'deconnexion' }"
                         v-if="estConnecter"
-                        @click="deconnexion"
+                        >Déconnecter</router-link
                     >
-                        Déconnecter
-                    </button>
                 </div>
             </div>
         </nav>
@@ -152,19 +164,6 @@ export default {
     methods: {
         afficherMenu() {
             this.menuMobile = !this.menuMobile;
-        },
-        deconnexion: async function () {
-            try {
-                const reponse = await AuthDataService.deconnecter();
-                this.$store.commit("resetSession");
-                // Rediriger vers la page de connexion
-                this.$router.push({ name: "connexion" });
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            } finally {
-                // this.$store.dispatch("setLoading", false);
-                this.$emit("loading:end");
-            }
         },
     },
     computed: {

@@ -49,8 +49,15 @@ class AuthController extends Controller
         $utilisateur->mdp = Hash::make($request->mdp);
         $utilisateur->save();
 
+        $token = $utilisateur->createToken('Personal Access Token', ['expires_in' => 3600])->accessToken;
+
         // Retourner une réponse
-        return response()->json(['message' => "L'Utilisateur a été créé avec succes"], 201);
+        return response()->json([
+            'status' => 'success',
+            'user' => $utilisateur,
+            'token' => $token->accessToken,
+
+        ], 201);
     }
 
     /**
@@ -75,19 +82,36 @@ class AuthController extends Controller
         if (!Hash::check($request->mdp, $utilisateur->mdp)) {
             return response()->json(['code' => 'mot_de_passe_incorrect']);
         }
+        $token = $utilisateur->createToken('Personal Access Token', ['expires_in' => 3600])->accessToken;
         session(['utilisateur_id' => $utilisateur->id]);
         
         // Retourner une réponse
         return response()->json([
-            'message' => "L'utilisateur a été connecté avec succès",
-            'utilisateur_id' => $utilisateur->id
+            'status' => 'success',
+            'utilisateur' => $utilisateur,
+            'token' => $token,
         ], 201);
     }
 
     public function deconnecter(Request $request)
     {
-        $request->session()->forget('utilisateur_id');
-        return response()->json(['message' => 'Utilisateur déconnecté avec succès'], 200);
+        $accessToken = $request->user()->token();
+
+        if ($accessToken) {
+            $accessToken->revoke();
+    
+            $request->session()->forget('utilisateur_id');
+    
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Logged out successfully',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to log out',
+            ], 400);
+        }
     }
 
     /**
