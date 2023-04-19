@@ -7,7 +7,6 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\SAQController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PaysController;
-use App\Http\Controllers\UtilisateurController;
 
 
 
@@ -41,3 +40,4 @@ Route::get('/saq-produits', [SAQController::class, 'index']);
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
 
 Route::post('/connexion', [AuthController::class, 'authentifier']);
+

@@ -5,6 +5,7 @@ class BouteilleDataService {
         return await apiClient.get(`/bouteilles`);
     }
 
+   
     async create(data) {
         return await apiClient.post("/bouteille", data);
     }
