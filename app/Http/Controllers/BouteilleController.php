@@ -26,7 +26,7 @@ class BouteilleController extends Controller
 
     public function index()
     {
-        $bouteilles = Bouteille::all();
+        $bouteilles = Bouteille::with('categorie', 'pays')->get();
         return response()->json($bouteilles);
     }
 
