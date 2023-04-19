@@ -1,14 +1,14 @@
-import http from "../http-common";
+import api from "../http-common";
 
 class AuthDataService {
     async connexion(data) {
-        return await http.post("/connexion", data);
+        return await api.post("/connexion", data);
     }
     async deconnecter() {
-        return await http.get("/deconnexion");
+        return await api.post("/deconnexion");
     }
     async creation(data) {
-        return await http.post("/enregistrer", data);
+        return await api.post("/enregistrer", data);
     }
 }
 
