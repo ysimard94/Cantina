@@ -35,7 +35,7 @@ const routes = [
     },
     {
         path: "/catalogue",
-        name: "Catalogue.index",
+        name: "catalogue.index",
         component: CatalogueView,
     },
 ];

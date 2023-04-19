@@ -1,8 +1,8 @@
 import http from "../http-common";
 
 class BouteilleDataService {
-    async getAll(nombre, page) {
-        return await http.get(`/bouteille/${nombre}/${page}`);
+    async getAll() {
+        return await http.get(`/bouteilles`);
     }
 
     async create(data) {
