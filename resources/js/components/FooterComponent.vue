@@ -23,10 +23,13 @@
                     <div class="flex flex-col font-sans text-right mt-3 space-y-1">
                         <router-link 
                             class="text-slate-100 hover:text-slate-400"
-                            :to="{ name: 'connexion' }">Connexion</router-link>
+                            :to="{ name: 'connexion' }" v-if="!estConnecter">Connexion</router-link>
                         <router-link 
                             class="text-slate-100 hover:text-slate-400"
-                            :to="{ name: 'nouvel-utilisateur' }">Créer un compte</router-link>
+                            :to="{ name: 'nouvel-utilisateur' } " v-if="!estConnecter">Créer un compte</router-link>
+                        <router-link 
+                            class="text-slate-100 hover:text-slate-400"
+                            :to="{ name: 'modifierUtil', components:this.$store.state.session.utilisateur_id }" v-if="estConnecter">Modifier le profil</router-link>
                     </div>
                 </div>
             </div>
@@ -42,6 +45,12 @@
 <script>
 export default {
     name: "FooterComponent",
+    computed: {
+        estConnecter() {
+            console.log(this.$store.state.session.utilisateur_id);
+            return this.$store.state.session.utilisateur_id !== undefined;
+        },
+    },
 };
 </script>
 
