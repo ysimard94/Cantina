@@ -5,6 +5,7 @@ import NewUserView from "@/views/NewUserView.vue";
 import LoginView from "@/views/LoginView.vue";
 import CellierView from "@/views/CellierView.vue";
 import CatalogueView from "@/views/CatalogueView.vue";
+import ModifierUtilView from "@/views/ModifierUtilView.vue";
 import store from "@/store";
 
 const routes = [
@@ -43,6 +44,11 @@ const routes = [
         path: "/catalogue",
         name: "catalogue.index",
         component: CatalogueView,
+    },
+    {
+        path: "/modifier/:id",
+        name: "modifierUtil",
+        component: ModifierUtilView,
     },
 ];
 
