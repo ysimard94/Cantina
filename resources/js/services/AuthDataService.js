@@ -5,7 +5,10 @@ class AuthDataService {
         return await http.post("/connexion", data);
     }
     async deconnecter() {
-        return await http.get("/deconnextion");
+        return await http.get("/deconnexion");
+    }
+    async creation(data) {
+        return await http.post("/enregistrer", data);
     }
 }
 
