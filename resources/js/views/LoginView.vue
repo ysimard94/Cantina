@@ -76,8 +76,8 @@ export default {
                         key: "utilisateur_id",
                         value: reponse.data.utilisateur.id,
                     });
-                    console.log(reponse.data.token);
-                    localStorage.setItem("authToken", reponse.data.token);
+                    console.log(reponse.data.session);
+                    localStorage.setItem("jwt-token", reponse.data.token);
 
                     this.$router.push({ name: "accueil" });
                 }
