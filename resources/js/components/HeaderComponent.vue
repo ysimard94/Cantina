@@ -18,7 +18,7 @@
                             </router-link>
                         </div>
                         <!-- Menu principal -->
-                        <div class="hidden md:flex items-center space-x-5">
+                        <div class="hidden md:flex items-center space-x-5 font-sans font-bold">
                             <router-link
                                 class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
                                 :to="{ name: 'accueil' }"
