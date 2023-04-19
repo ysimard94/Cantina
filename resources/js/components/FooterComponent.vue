@@ -4,7 +4,7 @@
             <div class="flex justify-between my-5">
                 <div>
                     <h5 class="text-left font-bold text-lg text-vin-blanc font-serif">Navigation</h5>
-                    <div class="flex flex-col text-left mt-3 text-slate-100 space-y-1">
+                    <div class="flex flex-col font-sans text-left mt-3 text-slate-100 space-y-1">
                         <router-link 
                             class="text-slate-100 hover:text-slate-400"
                             :to="{ name: 'accueil' }">Accueil</router-link>
@@ -20,7 +20,7 @@
                 </div>
                 <div>
                     <h5 class="text-right font-bold text-lg text-vin-blanc font-serif">Membre</h5>
-                    <div class="flex flex-col text-right mt-3 space-y-1">
+                    <div class="flex flex-col font-sans text-right mt-3 space-y-1">
                         <router-link 
                             class="text-slate-100 hover:text-slate-400"
                             :to="{ name: 'connexion' }">Connexion</router-link>
