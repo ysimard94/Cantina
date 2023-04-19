@@ -1,3 +1,45 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+@font-face {
+    font-family: 'Merriweather';
+    font-weight: 300;
+    src: url('/fonts/Merriweather-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    font-weight: 400;
+    src: url('/fonts/Merriweather-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    font-weight: 700;
+    src: url('/fonts/Merriweather-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato';
+    font-weight: 100;
+    src: url('/fonts/Lato-Thin.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato';
+    font-weight: 300;
+    src: url('/fonts/Lato-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato';
+    font-weight: 400;
+    src: url('/fonts/Lato-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato';
+    font-weight: 700;
+    src: url('/fonts/Lato-Bold.ttf') format('truetype');
+}

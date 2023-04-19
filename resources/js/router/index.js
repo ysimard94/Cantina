@@ -19,6 +19,12 @@ const routes = [
         component: LoginView,
     },
     {
+        path: "/deconnexion",
+        name: "deconnexion",
+        component: LoginView,
+        beforeEnter: logout,
+    },
+    {
         path: "/nouvutil",
         name: "nouvel-utilisateur",
         component: NewUserView,
@@ -53,5 +59,18 @@ router.beforeEach((to, from, next) => {
 router.afterEach(() => {
     store.dispatch("setLoading", false);
 });
+
+// Effacer le token de session
+function logout(to, from, next) {
+    console.log("logout");
+    // Effacer le token de local storage
+    localStorage.removeItem("jwt-token");
+
+    // Effacer le token de session
+    store.commit("resetSession");
+
+    // Redirigé vers la page de connexion
+    next();
+}
 
 export { router };

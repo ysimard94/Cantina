@@ -19,6 +19,10 @@ module.exports = {
                 bg_fonce: "#2D2D2D",
                 bg_gris: "#D9D9D9",
             },
+            fontFamily: {
+                'serif': ['Merriweather', 'serif'],
+                'sans': ['Lato', 'sans-serif'],
+            },
         },
     },
     plugins: [],

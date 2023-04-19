@@ -7,8 +7,6 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\SAQController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PaysController;
-use App\Http\Controllers\BouteilleCelierController;
-use App\Http\Controllers\CelierController;
 
 
 
@@ -27,38 +25,18 @@ use App\Http\Controllers\CelierController;
 //     return $request->user();
 // });
 
-// Auth middleware personnalisé
-Route::middleware(['Auth'])->group(function () {
-    // Products routes
-    Route::get('/saq-produits', [SAQController::class, 'index']);
+Route::middleware('auth:api')->group(function () {
 
-    // Accueil routes
-    // Route::get('/accueil', [AccueilController::class, 'index']);
-
-    // Categories routes
+    // à compléter
     Route::get('/categorie', [CategorieController::class, 'index']);
-    Route::get('/pays', [PaysController::class, 'index']);
-
-    Route::get('/deconnexion', [AuthController::class, 'deconnecter']);
-
-    // Catalogue routes
-
-});
+Route::get('/pays', [PaysController::class, 'index']);
 Route::get('/bouteilles', [BouteilleController::class, 'index']);
-// Authentification routes
+Route::put('/utilisateur-edit/{utilisateur}', [UtilisateurController::class, 'update']);
+Route::put('/utilisateur-show/{utilisateur}', [UtilisateurController::class, 'show']);
+});
+
+Route::get('/saq-produits', [SAQController::class, 'index']);
+
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
+
 Route::post('/connexion', [AuthController::class, 'authentifier']);
-
-//route celiers
-
-
-
-// route pour avoir les bouteilles au cellier
-Route::get('/celliers/{id}/bouteilles', [CelierController::class, 'getBouteilles']);
-
-// route pour avoir supprimer une bouteille dans cellier
-Route::delete('/celliers/{cellierId}/bouteilles/{bouteilleId}', [CelierController::class, 'supprimerBouteilleCellier']);
-
-// route pour ajouter une bouteille dans une cellier
-
-Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleCelierController::class, 'store']);

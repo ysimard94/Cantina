@@ -4,35 +4,37 @@
             <div class="flex justify-between my-5">
                 <div>
                     <h5 class="text-left font-bold text-lg text-vin-blanc font-serif">Navigation</h5>
-                    <div class="flex flex-col text-left mt-3 text-slate-100 space-y-1">
-                        <router-link 
-                            class="text-slate-100 hover:text-slate-400"
+                    <div class="flex flex-col font-sans text-left mt-3 text-slate-100 space-y-1">
+                        <router-link class="text-slate-100 hover:text-slate-400"
                             :to="{ name: 'accueil' }">Accueil</router-link>
-                        <router-link 
-                            class="text-slate-100 hover:text-slate-400"
-                            :to="{ name: 'saq-produits' }">Obtenir produits SAQ</router-link>
+                        <router-link class="text-slate-100 hover:text-slate-400" :to="{ name: 'catalogue.index' }"
+                            v-if="estConnecter">Catalogue</router-link>
+                        <router-link class="text-slate-100 hover:text-slate-400" :to="{ name: 'saq-produits' }">Obtenir
+                            produits SAQ</router-link>
                     </div>
                 </div>
-                <div>
+                <div class="justify-center my-auto">
                     <router-link :to="{ name: 'accueil' }">
                         <img class="max-w-[70px]" src="../../assets/vino-logo.png" alt="Vino logo">
                     </router-link>
                 </div>
                 <div>
                     <h5 class="text-right font-bold text-lg text-vin-blanc font-serif">Membre</h5>
-                    <div class="flex flex-col text-right mt-3 space-y-1">
-                        <router-link 
-                            class="text-slate-100 hover:text-slate-400"
-                            :to="{ name: 'connexion' }">Connexion</router-link>
-                        <router-link 
-                            class="text-slate-100 hover:text-slate-400"
-                            :to="{ name: 'nouvel-utilisateur' }">Créer un compte</router-link>
+                    <div class="flex flex-col font-sans text-right mt-3 space-y-1">
+                        <router-link class="text-slate-100 hover:text-slate-400" :to="{ name: 'connexion' }"
+                            v-if="!estConnecter">Connexion</router-link>
+                        <router-link class="text-slate-100 hover:text-slate-400" :to="{ name: 'nouvel-utilisateur' }"
+                            v-if="!estConnecter">Créer un compte</router-link>
+                        <router-link class="text-slate-100 hover:text-slate-400" :to="{ name: 'monCellier' }"
+                            v-if="estConnecter">Mes Celliers</router-link>
+                        <router-link class="text-slate-100 hover:text-slate-400" :to="{ name: 'deconnexion' }"
+                            v-if="estConnecter">Déconnecter</router-link>
                     </div>
                 </div>
             </div>
             <div class="flex flex-col items-center justify-center">
-                <div class="text-center text-white">
-                    <p class="text-sm text-vin-blanc">© All rights reserved, VINO 2023</p>
+                <div class=" text-white">
+                    <p class="text-center font-sans text-sm text-vin-blanc">© All rights reserved, VINO 2023</p>
                 </div>
             </div>
         </div>
@@ -42,6 +44,12 @@
 <script>
 export default {
     name: "FooterComponent",
+    computed: {
+        estConnecter() {
+            console.log(this.$store.state.session.utilisateur_id);
+            return this.$store.state.session.utilisateur_id !== undefined;
+        },
+    },
 };
 </script>
 
