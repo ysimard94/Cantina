@@ -7,6 +7,7 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\SAQController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PaysController;
+use App\Http\Controllers\UtilisateurController;
 
 
 
@@ -28,20 +29,20 @@ use App\Http\Controllers\PaysController;
 Route::middleware('auth:api')->group(function () {
 
     // à compléter
-
-});
-
-Route::get('/categorie', [CategorieController::class, 'index']);
+    Route::get('/categorie', [CategorieController::class, 'index']);
 Route::get('/pays', [PaysController::class, 'index']);
-Route::post('/deconnexion', [AuthController::class, 'deconnecter']);
-
 Route::get('/bouteilles', [BouteilleController::class, 'index']);
+Route::put('/utilisateur-edit/{utilisateur}', [UtilisateurController::class, 'update']);
+Route::put('/utilisateur-show/{utilisateur}', [UtilisateurController::class, 'show']);
+});
 
 Route::get('/saq-produits', [SAQController::class, 'index']);
 
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
 
 Route::post('/connexion', [AuthController::class, 'authentifier']);
+
+
 
 
 

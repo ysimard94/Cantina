@@ -142,6 +142,7 @@
 
 <script>
 import AuthDataService from "@/services/AuthDataService";
+import UtilisateurDataService from "@/services/UtilisateurDataService";
 export default {
     name: "HeaderComponent",
     data() {
