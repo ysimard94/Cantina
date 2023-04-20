@@ -1,10 +1,16 @@
 <template>
     <section class="mt-12">
         <div class="bg-bg-rose m-4 p-3 shadow-md rounded">
-            <form @submit.prevent="ajouterBouteille">
+            <form
+                @submit.prevent="ajouterBouteille"
+                enctype="multipart/form-data"
+            >
                 <h3 class="mb-4 text-vin-rouge font-bold text-xl">
                     Ajouter une bouteille
                 </h3>
+                <p v-if="message" class="block text-md text-green-700">
+                    {{ message }}
+                </p>
                 <div class="mb-4">
                     <label
                         for="nom"
@@ -30,20 +36,6 @@
                     ></textarea>
                 </div>
 
-                <div class="mb-4">
-                    <label
-                        for="photo"
-                        class="block text-lg text-left font-bold text-vin-rouge"
-                        >Photo</label
-                    >
-                    <input
-                        type="file"
-                        id="photo"
-                        ref="photoInput"
-                        @change="chargerPhoto"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                    />
-                </div>
                 <div class="mb-4">
                     <label
                         for="pays_id"
@@ -110,7 +102,7 @@
                         >Note (%)</label
                     >
                     <input
-                        v-model="notes"
+                        v-model="note"
                         id="annee"
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
                     />
@@ -144,6 +136,7 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength, integer, helpers } from "@vuelidate/validators";
+import axios from "axios";
 
 import PaysDataService from "@/services/PaysDataService";
 import CategorieDataService from "@/services/CategorieDataService";
@@ -162,8 +155,8 @@ export default {
             photo: null,
             code_saq: null,
             prix: 0,
-            notes: "",
-            nbr_notes: null,
+            note: "",
+            nbr_notes: 0,
             pays_id: null,
             categorie_id: null,
             url_saq: null,
@@ -171,6 +164,7 @@ export default {
             message: "",
             pays: [],
             categories: [],
+            message: "",
         };
     },
 
@@ -201,21 +195,22 @@ export default {
             formData.append("nom", this.nom);
             formData.append("description", this.description);
             if (this.photo) {
-                formData.append("photo", this.photo, this.photo.name);
+                formData.append("photo", this.photo);
             }
             formData.append("code_saq", this.code_saq);
             formData.append("prix", this.prix);
-            formData.append("notes", this.notes);
+            formData.append("note", this.note);
             formData.append("nbr_notes", this.nbr_notes);
             formData.append("pays_id", this.pays_id);
             formData.append("categorie_id", this.categorie_id);
             formData.append("url_saq", this.url_saq);
             formData.append("annee", this.annee);
 
-            console.log(Array.from(formData.entries()));
+            // console.log(formData.entries());
+
             try {
                 const reponse = await BouteilleDataService.create(formData);
-                console.log(reponse);
+                this.message = reponse.data.message;
                 // this.message = reponse.data.message;
             } catch (error) {
                 console.error(error);
@@ -241,14 +236,6 @@ export default {
                 console.error(error);
             } finally {
             }
-        },
-        chargerPhoto(event) {
-            if (event.target.files.length > 0) {
-                this.photo = event.target.files[0];
-            } else {
-                this.photo = null;
-            }
-            console.log("Photo:", this.photo);
         },
     },
     mounted: async function () {
