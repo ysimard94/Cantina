@@ -37,7 +37,7 @@ Route::middleware('auth:api')->group(function () {
 });
 Route::get('/categorie', [CategorieController::class, 'index']);
 
-Route::post('/ajouter-bouteille', [BouteilleController::class, 'create']);
+Route::post('/bouteille', [BouteilleController::class, 'create']);
     Route::get('/pays', [PaysController::class, 'index']);
     Route::get('/bouteilles', [BouteilleController::class, 'index']);
 

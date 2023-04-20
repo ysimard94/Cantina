@@ -40,7 +40,7 @@
                         type="file"
                         id="photo"
                         ref="photoInput"
-                        @change="handlePhotoUpload"
+                        @change="chargerPhoto"
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
                     />
                 </div>
@@ -115,6 +115,18 @@
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
                     />
                 </div>
+                <div class="mb-4">
+                    <label
+                        for="annee"
+                        class="block text-lg text-left font-bold text-vin-rouge"
+                        >prix (Optionel)</label
+                    >
+                    <input
+                        v-model="prix"
+                        id="annee"
+                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                    />
+                </div>
 
                 <div>
                     <button
@@ -178,25 +190,33 @@ export default {
             prix: {
                 numeric: helpers.regex("numeric", /^[0-9]+(\.[0-9]{1,2})?$/),
             },
+            photo: {
+                fileSize: fileSize(2048 * 1024),
+            },
         };
     },
     methods: {
         ajouterBouteille: async function () {
+            const formData = new FormData();
+            formData.append("nom", this.nom);
+            formData.append("description", this.description);
+            if (this.photo) {
+                formData.append("photo", this.photo, this.photo.name);
+            }
+            formData.append("code_saq", this.code_saq);
+            formData.append("prix", this.prix);
+            formData.append("notes", this.notes);
+            formData.append("nbr_notes", this.nbr_notes);
+            formData.append("pays_id", this.pays_id);
+            formData.append("categorie_id", this.categorie_id);
+            formData.append("url_saq", this.url_saq);
+            formData.append("annee", this.annee);
+
+            console.log(Array.from(formData.entries()));
             try {
-                const reponse = await BouteilleDataService.create({
-                    nom: this.nom,
-                    description: this.description,
-                    photo: this.photo,
-                    code_saq: this.code_saq,
-                    prix: this.prix,
-                    notes: this.notes,
-                    nbr_notes: null,
-                    pays_id: this.pays_id,
-                    categorie_id: this.categorie_id,
-                    url_saq: this.url_saq,
-                    annee: this.annee,
-                });
-                this.message = reponse.data.message;
+                const reponse = await BouteilleDataService.create(formData);
+                console.log(reponse);
+                // this.message = reponse.data.message;
             } catch (error) {
                 console.error(error);
             } finally {
@@ -222,8 +242,13 @@ export default {
             } finally {
             }
         },
-        handleFileUpload(event) {
-            this.photo = event.target.files[0];
+        chargerPhoto(event) {
+            if (event.target.files.length > 0) {
+                this.photo = event.target.files[0];
+            } else {
+                this.photo = null;
+            }
+            console.log("Photo:", this.photo);
         },
     },
     mounted: async function () {
