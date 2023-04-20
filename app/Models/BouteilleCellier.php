@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BouteilleCelier extends Model
+class BouteilleCellier extends Model
 {
-    protected $table = 'bouteille_celier';
+    protected $table = 'bouteille_cellier';
 
     protected $fillable = [
-        'celier_id',
+        'cellier_id',
         'bouteille_id'
     ];
 
@@ -18,8 +18,8 @@ class BouteilleCelier extends Model
         return $this->belongsTo(Bouteille::class);
     }
 
-    public function celier()
+    public function cellier()
     {
-        return $this->belongsTo(Celier::class);
+        return $this->belongsTo(Cellier::class);
     }
 }

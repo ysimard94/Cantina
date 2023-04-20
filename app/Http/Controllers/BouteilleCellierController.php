@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BouteilleCelier;
+use App\Models\BouteilleCellier;
 use App\Models\Bouteille;
-use App\Models\Celier;
+use App\Models\Cellier;
 use Illuminate\Http\Request;
 
-class BouteilleCelierController extends Controller
+class BouteilleCellierController extends Controller
 {
     public function index()
     {
-        $bouteilleCeliers = BouteilleCelier::all();
+        $bouteillecelliers = BouteilleCellier::all();
 
-        return response()->json($bouteilleCeliers);
+        return response()->json($bouteillecelliers);
     }
 
     public function store($cellierId, $bouteilleId)
     {
-        $cellier = Celier::findOrFail($cellierId);
+        $cellier = Cellier::findOrFail($cellierId);
         $bouteille = Bouteille::findOrFail($bouteilleId);
 
         $cellier->bouteilles()->attach($bouteille);
@@ -28,17 +28,17 @@ class BouteilleCelierController extends Controller
 
     public function show($id)
     {
-        $bouteilleCelier = BouteilleCelier::findOrFail($id);
+        $bouteillecellier = BouteilleCellier::findOrFail($id);
 
-        return response()->json($bouteilleCelier);
+        return response()->json($bouteillecellier);
     }
 
     public function update(Request $request, $id)
     {
-        $bouteilleCelier = BouteilleCelier::findOrFail($id);
+        $bouteillecellier = BouteilleCellier::findOrFail($id);
 
-        $bouteilleCelier->update([
-            'celier_id' => $request->input('celier_id'),
+        $bouteillecellier->update([
+            'cellier_id' => $request->input('cellier_id'),
             'bouteille_id' => $request->input('bouteille_id')
         ]);
     }

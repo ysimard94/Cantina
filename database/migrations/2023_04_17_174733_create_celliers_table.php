@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Créer la table celiers
-        Schema::create('celiers', function (Blueprint $table) {
+        // Créer la table celliers
+        Schema::create('celliers', function (Blueprint $table) {
 
             $table->id();
             $table->string('nom');
             $table->unsignedBigInteger('utilisateur_id');
             $table->timestamps();
             $table->foreign('utilisateur_id')
-            ->references('id')
-            ->on('utilisateurs')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
+                ->references('id')
+                ->on('utilisateurs')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('celiers');
+        Schema::dropIfExists('celliers');
     }
 };
