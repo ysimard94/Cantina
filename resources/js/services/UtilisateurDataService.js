@@ -5,7 +5,7 @@ class UtilisateurDataService {
         return await apiClient.put(`/utilisateur-edit/${id}`, data);
     }
     async getUtilisateur(id) {
-        return await apiClient.put(`/utilisateur-show/${id}`);
+        return await apiClient.get(`/utilisateur-show/${id}`);
     }
 }
 

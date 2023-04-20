@@ -30,6 +30,7 @@ use App\Http\Controllers\BouteilleCellierController;
 Route::middleware('auth:api')->group(function () {
 
     // à compléter
+<<<<<<< HEAD
 
 
     Route::put('/utilisateur-edit/{utilisateur}', [UtilisateurController::class, 'update']);
@@ -38,12 +39,22 @@ Route::middleware('auth:api')->group(function () {
  Route::get('/categorie', [CategorieController::class, 'index']);
 Route::get('/pays', [PaysController::class, 'index']);
 Route::get('/bouteilles', [BouteilleController::class, 'index']);
+=======
+    Route::get('/categorie', [CategorieController::class, 'index']);
+    Route::get('/pays', [PaysController::class, 'index']);
+    Route::get('/bouteilles', [BouteilleController::class, 'index']);
+    Route::put('/utilisateur-edit/{utilisateur}', [UtilisateurController::class, 'update']);
+    Route::get('/utilisateur-show/{utilisateur}', [UtilisateurController::class, 'show']);
+});
+
+>>>>>>> b30710c8adb53200ce49cbb7109fe0a80a1b427d
 Route::get('/saq-produits', [SAQController::class, 'index']);
 
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
 
 Route::post('/connexion', [AuthController::class, 'authentifier']);
 
+<<<<<<< HEAD
 Route::get('/celliers/{id}/bouteilles', [cellierController::class, 'getBouteilles']);
 
 // route pour avoir supprimer une bouteille dans cellier
@@ -52,3 +63,5 @@ Route::delete('/celliers/{cellierId}/bouteilles/{bouteilleId}', [CellierControll
 // route pour ajouter une bouteille dans une cellier
 
 Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleCellierController::class, 'store']);
+=======
+>>>>>>> b30710c8adb53200ce49cbb7109fe0a80a1b427d
