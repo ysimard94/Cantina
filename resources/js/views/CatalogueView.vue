@@ -4,12 +4,12 @@
                 :key="bouteille.id">
 
                 <img :src="bouteille.photo" :alt="bouteille.nom" class="w-1/3 mx-auto">
-                <div class=" px-4 pt-4 flex flex-col justify-between">
-                    <h4 class="text-lg font-semibold text-vin_rouge text-left h-[67px] leading-tight">{{ bouteille.nom }}</h4>
+                <div class="px-4 pt-4 flex flex-col justify-between">
+                    <h4 class="text-lg font-serif font-semibold text-vin-rouge text-left h-[67px] leading-tight">{{ bouteille.nom }}</h4>
                     <div class="mt-4 flex justify-between items-center">
-                        <div>
-                            <div class="text-black font-medium text-left"> {{ bouteille.pays.nom }}</div>
-                            <div class="text-black font-medium text-left">{{ bouteille.categorie.nom }}
+                        <div class="font-sans text-gray-700">
+                            <div class="font-medium text-left"> {{ bouteille.pays.nom }}</div>
+                            <div class="font-medium text-left">{{ bouteille.categorie.nom }}
                             </div>
                         </div>
                         <div>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="mt-auto">
-                    <div class="pb-2 px-4 ">
+                    <div class="pb-2 px-4 font-sans">
                         <div class="flex justify-center">
                             <button @click="ajouterAuCellier(bouteille)"
                                 class="bg-vin_rouge rounded-md w-full text-sm text-vin_blanc hover:text-white focus:outline-none px-2 py-2">Ajouter</button>
