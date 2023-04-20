@@ -6,6 +6,7 @@ import LoginView from "@/views/LoginView.vue";
 import CellierView from "@/views/CellierView.vue";
 import CatalogueView from "@/views/CatalogueView.vue";
 import ModifierUtilView from "@/views/ModifierUtilView.vue";
+import AjouterBouteilleView from "@/views/AjouterBouteilleView.vue";
 import store from "@/store";
 
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
         path: "/modifier/:id",
         name: "modifierUtil",
         component: ModifierUtilView,
+    },
+    {
+        path: "/ajouter-bouteille",
+        name: "ajouter-bouteille",
+        component: AjouterBouteilleView,
     },
 ];
 
