@@ -48,9 +48,9 @@ Route::delete('/celliers/{cellierId}/bouteilles/{bouteilleId}', [CellierControll
   
     Route::get('/bouteille/{bouteille}', [BouteilleController::class, 'show']);
     Route::get('/categorie', [CategorieController::class, 'index']);
+    Route::get('/bouteilles', [BouteilleController::class, 'index']);
 });
 
-Route::get('/bouteilles', [BouteilleController::class, 'index']);
 
 Route::get('/saq-produits', [SAQController::class, 'index']);
 
