@@ -33,10 +33,21 @@
                         <td class="text-left truncate max-w-[14rem] px-4 py-3">
                             {{ bouteille.nom }}
                         </td>
-                        <td class="text-center px-4 py-3">
+
+                        <td class="flex flex-col text-center px-4 py-3">
+                            <router-link
+                                v-if="bouteille.code_saq"
+                                class="bg-vin_rouge hover:bg-gray-700 text-white font-bold py-2 px-4 rounded my-1"
+                                :to="{
+                                    name: 'modifier-bouteille',
+                                    params: { id: bouteille.id },
+                                }"
+                            >
+                                Modifier
+                            </router-link>
                             <button
                                 @click="supprimerBouteille(bouteille.id)"
-                                class="bg-vin_rouge hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                                class="bg-vin_rouge hover:bg-gray-700 text-white font-bold py-2 px-4 rounded my-1"
                             >
                                 Supprimer
                             </button>

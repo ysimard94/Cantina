@@ -45,11 +45,12 @@ Route::delete('/celliers/{cellierId}/bouteilles/{bouteilleId}', [CellierControll
     Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleController::class, 'ajoutAuCellier']);
     Route::post('/bouteille', [BouteilleController::class, 'create']);
     Route::get('/pays', [PaysController::class, 'index']);
-    Route::get('/bouteilles', [BouteilleController::class, 'index']);
+  
+    Route::get('/bouteille/{bouteille}', [BouteilleController::class, 'show']);
     Route::get('/categorie', [CategorieController::class, 'index']);
 });
 
-
+Route::get('/bouteilles', [BouteilleController::class, 'index']);
 
 Route::get('/saq-produits', [SAQController::class, 'index']);
 

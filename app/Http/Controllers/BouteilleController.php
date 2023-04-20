@@ -73,7 +73,8 @@ class BouteilleController extends Controller
      */
     public function show(Bouteille $bouteille)
     {
-       //
+       // retourner une réponse avec les données de la bouteille
+         return response()->json($bouteille);
     }
 
     /**
