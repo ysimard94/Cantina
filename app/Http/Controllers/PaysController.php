@@ -12,7 +12,7 @@ class paysController extends Controller
      */
     public function index()
     {
-        $pays = Pays::all();
+        $pays = Pays::orderBy('nom', 'asc')->get();
         return response()->json($pays);
     }
 

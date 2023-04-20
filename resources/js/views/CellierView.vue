@@ -1,13 +1,5 @@
 <template>
     <div class="container mx-auto px-2">
-        <div class="flex justify-center my-4">
-            <router-link
-                to="/ajouter-bouteille"
-                class="w-full bg-vin_rouge hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            >
-                Ajouter une bouteille
-            </router-link>
-        </div>
         <div class="bg-white shadow-md rounded my-6 overflow-x-auto">
             <header class="bg-vin_blanc text-vin_rouge py-2 px-4">
                 <h1 class="text-2xl font-serif font-semibold">Mon Cellier</h1>
