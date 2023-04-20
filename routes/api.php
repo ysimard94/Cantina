@@ -34,12 +34,22 @@ Route::middleware('auth:api')->group(function () {
 
     Route::put('/utilisateur-edit/{utilisateur}', [UtilisateurController::class, 'update']);
     Route::get('/utilisateur-show/{utilisateur}', [UtilisateurController::class, 'show']);
-});
-Route::get('/categorie', [CategorieController::class, 'index']);
 
-Route::post('/bouteille', [BouteilleController::class, 'create']);
+    Route::get('/celliers/{id}/bouteilles', [CellierController::class, 'getBouteilles']);
+
+// route pour avoir supprimer une bouteille dans cellier
+Route::delete('/celliers/{cellierId}/bouteilles/{bouteilleId}', [CellierController::class, 'supprimerBouteilleCellier']);
+
+// route pour ajouter une bouteille dans une cellier
+
+    Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleController::class, 'ajoutAuCellier']);
+    Route::post('/bouteille', [BouteilleController::class, 'create']);
     Route::get('/pays', [PaysController::class, 'index']);
     Route::get('/bouteilles', [BouteilleController::class, 'index']);
+    Route::get('/categorie', [CategorieController::class, 'index']);
+});
+
+
 
 Route::get('/saq-produits', [SAQController::class, 'index']);
 
@@ -48,11 +58,4 @@ Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
 Route::post('/connexion', [AuthController::class, 'authentifier']);
 
 
-Route::get('/celliers/{id}/bouteilles', [CellierController::class, 'getBouteilles']);
 
-// route pour avoir supprimer une bouteille dans cellier
-Route::delete('/celliers/{cellierId}/bouteilles/{bouteilleId}', [CellierController::class, 'supprimerBouteilleCellier']);
-
-// route pour ajouter une bouteille dans une cellier
-
-Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleController::class, 'ajoutAuCellier']);
