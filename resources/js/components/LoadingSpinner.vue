@@ -1,4 +1,3 @@
-<!-- LoadingSpinner.vue -->
 <template>
     <div class="loading">
         <svg
