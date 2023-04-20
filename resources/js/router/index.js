@@ -7,6 +7,7 @@ import CellierView from "@/views/CellierView.vue";
 import CatalogueView from "@/views/CatalogueView.vue";
 import ModifierUtilView from "@/views/ModifierUtilView.vue";
 import AjouterBouteilleView from "@/views/AjouterBouteilleView.vue";
+import PageNonTrouveView from "@/views/PageNonTrouveView.vue";
 import store from "@/store";
 
 const routes = [
@@ -25,6 +26,9 @@ const routes = [
         name: "deconnexion",
         component: LoginView,
         beforeEnter: logout,
+        meta: {
+            requiresAuth: true,
+        },
     },
     {
         path: "/nouvutil",
@@ -35,6 +39,9 @@ const routes = [
         path: "/monCellier",
         name: "monCellier",
         component: CellierView,
+        meta: {
+            requiresAuth: true,
+        },
     },
     {
         path: "/saq-produits",
@@ -45,16 +52,30 @@ const routes = [
         path: "/catalogue",
         name: "catalogue.index",
         component: CatalogueView,
+        meta: {
+            requiresAuth: true,
+        },
     },
     {
         path: "/modifier/:id",
         name: "modifierUtil",
         component: ModifierUtilView,
+        meta: {
+            requiresAuth: true,
+        },
     },
     {
         path: "/ajouter-bouteille",
         name: "ajouter-bouteille",
         component: AjouterBouteilleView,
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: "/:catchAll(.*)",
+        name: "NotFound",
+        component: PageNonTrouveView,
     },
 ];
 
@@ -65,7 +86,16 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     store.dispatch("setLoading", true);
-    next();
+
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
+        if (!localStorage.getItem("jwt-token")) {
+            next({ name: "connexion" });
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
 });
 
 router.afterEach(() => {
