@@ -8,6 +8,7 @@ import CatalogueView from "@/views/CatalogueView.vue";
 import ModifierUtilView from "@/views/ModifierUtilView.vue";
 import AjouterBouteilleView from "@/views/AjouterBouteilleView.vue";
 import PageNonTrouveView from "@/views/PageNonTrouveView.vue";
+import ModifierBouteilleView from "@/views/ModifierBouteilleView.vue";
 import store from "@/store";
 
 const routes = [
@@ -52,9 +53,6 @@ const routes = [
         path: "/catalogue",
         name: "catalogue.index",
         component: CatalogueView,
-        meta: {
-            requiresAuth: true,
-        },
     },
     {
         path: "/modifier/:id",
@@ -71,6 +69,15 @@ const routes = [
         meta: {
             requiresAuth: true,
         },
+    },
+    {
+        path: "/modifier-bouteille/:id",
+        name: "modifier-bouteille",
+        component: ModifierBouteilleView,
+        meta: {
+            requiresAuth: true,
+        },
+        props: true,
     },
     {
         path: "/:catchAll(.*)",
