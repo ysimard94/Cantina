@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bouteille;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class BouteilleController extends Controller
 {
@@ -37,13 +38,28 @@ class BouteilleController extends Controller
      */
     public function create(Request $request)
     {
+
+        return response()->json($request->all());
         // Valider la bouteille
-        $request->validate([
+        // $request->validate([
+        //     'nom' => 'required',
+        //     'photo' => 'file|image|max:2048',
+        //     'categorie_id' => 'required',
+        //     'pays_id' => 'required',
+        // ]);
+
+        $validator = Validator::make($request->all(), [
             'nom' => 'required',
             'photo' => 'file|image|max:2048',
             'categorie_id' => 'required',
             'pays_id' => 'required',
         ]);
+    
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+      
 
         // Vérifier si une photo a été envoyée, sinon utiliser une photo personnalisée
         if ($request->hasFile('photo')) {
