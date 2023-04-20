@@ -13,7 +13,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="mdp" class="block text-lg text-left font-bold text-vin-rouge">Ancien Mot de passe</label>
-                    <input type="password" v-model="mdb_courant" id="mdp" class="w-full rounded pt-2 pb-2 pl-1 pr-1">
+                    <input type="password" v-model="mdp_courant" id="mdp" class="w-full rounded pt-2 pb-2 pl-1 pr-1">
                 </div>
                 <div class="mb-4">
                     <label for="conf-mdp" class="block text-lg text-left font-bold text-vin-rouge">Nouveau Mot de
@@ -44,7 +44,7 @@ export default {
         return {
             nom: "",
             courriel: "",
-            mdb_courant: "",
+            mdp_courant: "",
             mdp_nouveau: "",
         };
     },
@@ -70,7 +70,7 @@ export default {
                     {
                         nom: this.nom,
                         courriel: this.courriel,
-                        mdb_courant: this.mdb_courant,
+                        mdp_courant: this.mdp_courant,
                         mdp_nouveau: this.mdp_nouveau,
                     }
                 );
