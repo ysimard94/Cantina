@@ -222,6 +222,7 @@ export default {
             try {
                 const reponse = await PaysDataService.getAll();
                 this.pays = reponse.data;
+                console.log(this.pays);
             } catch (error) {
                 console.error(error);
             } finally {
