@@ -44,6 +44,8 @@ class BouteilleController extends Controller
         $bouteilleData = $request->all();
         $bouteilleData['photo'] = $path;
         $bouteille = Bouteille::create($bouteilleData);
+        $cellier = Cellier::findOrFail(1);
+        $cellier->bouteilles()->attach($bouteille);
 
         return response()->json(['message' => 'Bouteille ajoutée avec succès.']);
     }
