@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <button type="submit"
-                        class="mb-4 mt-4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5">S'inscrire</button>
+                        class="mb-4 mt-4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5">Modifier</button>
                 </div>
             </form>
         </div>
@@ -30,14 +30,15 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core'
-import { required, minLength, email } from '@vuelidate/validators'
 import UtilisateurDataService from "@/services/UtilisateurDataService";
 
 export default {
     name: "ModifierUtilView",
     async mounted () {
         const util = await this.getUtilisateur()
+        console.log(util.user)
+        this.nom = util.user.nom
+        this.courriel = util.user.courriel
     },
     data () {
         return {
