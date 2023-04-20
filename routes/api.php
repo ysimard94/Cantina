@@ -36,8 +36,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/utilisateur-show/{utilisateur}', [UtilisateurController::class, 'show']);
 });
 Route::get('/categorie', [CategorieController::class, 'index']);
-Route::get('/pays', [PaysController::class, 'index']);
-Route::get('/bouteilles', [BouteilleController::class, 'index']);
+
+Route::post('/ajouter-bouteille', [BouteilleController::class, 'create']);
+    Route::get('/pays', [PaysController::class, 'index']);
+    Route::get('/bouteilles', [BouteilleController::class, 'index']);
+
 Route::get('/saq-produits', [SAQController::class, 'index']);
 
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);

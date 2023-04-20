@@ -13,8 +13,8 @@ class CategorieController extends Controller
     public function index()
     {
         //
-        $categories = categorie::all();
-        return response()->json($categories);
+        $categories = Categorie::all();
+        return response()->json(['categories' => $categories]);
     }
 
     /**
