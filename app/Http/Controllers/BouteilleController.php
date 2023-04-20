@@ -24,34 +24,20 @@ class BouteilleController extends Controller
      */
     public function create(Request $request)
     {
-
-        return response()->json($request->all());
+    
         // Valider la bouteille
-        // $request->validate([
-        //     'nom' => 'required',
-        //     'photo' => 'file|image|max:2048',
-        //     'categorie_id' => 'required',
-        //     'pays_id' => 'required',
-        // ]);
 
         $validator = Validator::make($request->all(), [
             'nom' => 'required',
-            'photo' => 'file|image|max:2048',
             'categorie_id' => 'required',
             'pays_id' => 'required',
-        ]);
-    
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-      
+        ]); 
 
         // Vérifier si une photo a été envoyée, sinon utiliser une photo personnalisée
         if ($request->hasFile('photo')) {
             $path = $request->file('photo')->store('photos', 'local');
         } else {
-            $path = 'ressources/assets/bouteille.webp';
+            $path = 'https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166';
         }
 
         // Créer une bouteille
@@ -59,7 +45,7 @@ class BouteilleController extends Controller
         $bouteilleData['photo'] = $path;
         $bouteille = Bouteille::create($bouteilleData);
 
-        return response()->json($bouteille, 201);
+        return response()->json(['message' => 'Bouteille ajoutée avec succès.']);
     }
     public function ajoutAuCellier($cellierId, $bouteilleId)
     {

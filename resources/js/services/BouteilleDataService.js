@@ -6,7 +6,7 @@ class BouteilleDataService {
     }
 
     async create(data) {
-        return await apiClient.post("/bouteille", data);
+        return await apiClient.postWithFormData("/bouteille", data);
     }
 
     async get(id) {
