@@ -8,13 +8,6 @@
                 Ajouter une bouteille
             </router-link>
         </div>
-        <div
-            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full"
-        >
-
-            Ajouter une bouteille
-        </router-link>
-        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full">
             <div class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg py-2 m-2 h-full"
                 v-for="bouteille in bouteilles" :key="bouteille.id">
