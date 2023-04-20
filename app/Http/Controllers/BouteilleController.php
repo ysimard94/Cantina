@@ -3,28 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bouteille;
+use App\Models\Cellier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class BouteilleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    //     public function index($nombre, $page)
-    // {
-    //     // Calculate the offset based on the number of items per page and the current page number
-    //     $offset = ($page - 1) * $nombre;
 
-    //     // Retrieve the specified number of products from the database using pagination
-    //     $produits = Bouteille::offset($offset)->limit($nombre)->get();
-
-    //     // Get the total number of products
-    //     $totalProduits = Bouteille::count();
-
-    //     return response()->json(['produits' => $produits, 'total' => $totalProduits]);
-    // }
 
     public function index()
     {
@@ -75,13 +61,16 @@ class BouteilleController extends Controller
 
         return response()->json($bouteille, 201);
     }
-    
-    
-    
-    
-    
-    
-    
+    public function ajoutAuCellier($cellierId, $bouteilleId)
+    {
+        $cellier = Cellier::findOrFail($cellierId);
+        $bouteille = Bouteille::findOrFail($bouteilleId);
+
+        $cellier->bouteilles()->attach($bouteille);
+
+        return response()->json(['message' => 'Bouteille ajoutée au cellier avec succès.']);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -122,4 +111,6 @@ class BouteilleController extends Controller
     {
        //
     }
+
+
 }

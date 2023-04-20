@@ -8,7 +8,7 @@ use App\Http\Controllers\SAQController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PaysController;
 use App\Http\Controllers\CellierController;
-use App\Http\Controllers\BouteilleCellierController;
+
 use App\Http\Controllers\UtilisateurController;
 
 
@@ -55,4 +55,4 @@ Route::delete('/celliers/{cellierId}/bouteilles/{bouteilleId}', [CellierControll
 
 // route pour ajouter une bouteille dans une cellier
 
-Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleCellierController::class, 'store']);
+Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleController::class, 'ajoutAuCellier']);

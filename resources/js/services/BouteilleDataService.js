@@ -5,7 +5,6 @@ class BouteilleDataService {
         return await apiClient.get(`/bouteilles`);
     }
 
-
     async create(data) {
         return await apiClient.post("/bouteille", data);
     }
@@ -20,6 +19,12 @@ class BouteilleDataService {
 
     async update(id, data) {
         return await apiClient.put(`/bouteille/${id}`, data);
+    }
+    async getAllBouteilleCellier(bouteilleId) {
+        return await apiClient.get(`/celliers/${bouteilleId}/celliers`);
+    }
+    async ajouterBouteilleAuCellier(cellierId, bouteilleId) {
+        return await apiClient.post(`/celliers/${cellierId}/bouteilles/${bouteilleId}`);
     }
 }
 
