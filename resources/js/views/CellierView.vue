@@ -1,5 +1,6 @@
 <template>
-    <div class="flex justify-center mx-2 my-4">
+   <div class="container mx-auto px-2">
+       <div class="flex justify-center mx-2 my-4">
         <router-link
             to="/ajouter-bouteille"
             class="bg-vin_rouge rounded-md text-sm text-vin_blanc hover:text-white focus:outline-none px-4 py-2 mt-2 inline-block text-center w-full"
@@ -7,44 +8,33 @@
             Ajouter une bouteille
         </router-link>
     </div>
-    <div class="bg-white shadow-md rounded my-2">
-        <table class="min-w-max w-full table-auto">
-            <thead>
-                <tr
-                    class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"
-                >
-                    <th class="py-3 px-6 text-left">#</th>
-                    <th class="py-3 px-6 text-left">Nom</th>
-                    <th class="py-3 px-6 text-left">Pays</th>
-                    <th class="py-3 px-6 text-left">Catégorie</th>
-                    <th class="py-3 px-6 text-center">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="text-gray-600 text-sm font-light">
-                <tr
-                    v-for="(bouteille, index) in bouteilles"
-                    :key="bouteille.id"
-                >
-                    <td class="py-3 px-6 text-left">{{ index + 1 }}</td>
-                    <td class="py-3 px-6 text-left">{{ bouteille.nom }}</td>
-                    <td class="py-3 px-6 text-left">
-                        {{ bouteille.pays ? bouteille.pays.nom : "" }}
-                    </td>
-                    <td class="py-3 px-6 text-left">
-                        {{ bouteille.categorie ? bouteille.categorie.nom : "" }}
-                    </td>
-                    <td class="py-3 px-6 text-center">
-                        <button
-                            @click="supprimerBouteille(bouteille.id)"
-                            class="bg-vin_rouge hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                        >
-                            Supprimer
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
+      <div class="bg-white shadow-md rounded my-6 overflow-x-auto">
+        <header class="bg-vin_blanc text-vin_rouge py-2 px-4">
+          <h1 class="text-2xl font-serif font-semibold">Mon Cellier</h1>
+        </header>
+
+        <table class="w-full table-auto ">
+          <thead>
+            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+              <th class="text-left whitespace-normal px-4 py-3">Nom</th>
+              <th class="text-center px-4 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-600 text-sm font-light">
+            <tr v-for="(bouteille) in bouteilles" :key="bouteille.id" class="whitespace-normal">
+              <td class="text-left truncate max-w-[14rem] px-4 py-3">{{ bouteille.nom }}</td>
+              <td class="text-center px-4 py-3">
+                <button @click="supprimerBouteille(bouteille.id)" class="bg-vin_rouge hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                  Supprimer
+                </button>
+              </td>
+            </tr>
+          </tbody>
         </table>
+      </div>
     </div>
+
+
 </template>
 
 <script>
@@ -75,13 +65,8 @@ export default {
         async supprimerBouteille(bouteilleId) {
             console.log(bouteilleId);
             try {
-                await CellierDataService.supprimerBouteilleCellier(
-                    1,
-                    bouteilleId
-                );
-                this.bouteilles = this.bouteilles.filter(
-                    (bouteille) => bouteille.id !== bouteilleId
-                );
+                await CellierDataService.supprimerBouteilleCellier(1, bouteilleId);
+                this.bouteilles = this.bouteilles.filter(bouteille => bouteille.id !== bouteilleId);
             } catch (error) {
                 console.log(error);
             }

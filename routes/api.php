@@ -48,7 +48,7 @@ Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
 Route::post('/connexion', [AuthController::class, 'authentifier']);
 
 
-Route::get('/celliers/{id}/bouteilles', [cellierController::class, 'getBouteilles']);
+Route::get('/celliers/{id}/bouteilles', [CellierController::class, 'getBouteilles']);
 
 // route pour avoir supprimer une bouteille dans cellier
 Route::delete('/celliers/{cellierId}/bouteilles/{bouteilleId}', [CellierController::class, 'supprimerBouteilleCellier']);
