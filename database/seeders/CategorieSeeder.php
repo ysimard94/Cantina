@@ -22,6 +22,9 @@ class CategorieSeeder extends Seeder
             [
                 'nom' => 'Vin rosé',
             ],
+            [
+                'nom' => 'Autre',
+            ],
         ]);
     }
     

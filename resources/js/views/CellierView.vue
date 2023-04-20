@@ -1,9 +1,9 @@
 <template>
     <div class="container mx-auto px-2">
-        <div class="flex justify-center my-4">
+        <div class="flex justify-center mx-2 my-4">
             <router-link
                 to="/ajouter-bouteille"
-                class="w-full bg-vin_rouge hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                class="bg-vin_rouge rounded-md text-sm text-vin_blanc hover:text-white focus:outline-none px-4 py-2 mt-2 inline-block text-center w-full"
             >
                 Ajouter une bouteille
             </router-link>

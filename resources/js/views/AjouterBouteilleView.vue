@@ -35,21 +35,6 @@
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
                     ></textarea>
                 </div>
-
-                <!-- <div class="mb-4">
-                    <label
-                        for="photo"
-                        class="block text-lg text-left font-bold text-vin-rouge"
-                        >Photo</label
-                    >
-                    <input
-                        type="file"
-                        id="photo"
-                        ref="photoInput"
-                        @change="chargerPhoto"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                    />
-                </div> -->
                 <div class="mb-4">
                     <label
                         for="pays_id"
@@ -209,6 +194,7 @@ export default {
             formData.append("nom", this.nom);
             formData.append("description", this.description);
             if (this.photo) {
+                console.log(this.photo);
                 formData.append("photo", this.photo);
             }
             formData.append("code_saq", this.code_saq);
@@ -251,14 +237,6 @@ export default {
             } finally {
             }
         },
-        // chargerPhoto(event) {
-        //     if (event.target.files.length > 0) {
-        //         this.photo = event.target.files[0];
-        //     } else {
-        //         this.photo = null;
-        //     }
-        //     console.log("Photo:", this.photo);
-        // },
     },
     mounted: async function () {
         await this.getCategories();
