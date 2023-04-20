@@ -1,5 +1,13 @@
 <template>
     <div class="container mx-auto">
+        <div class="flex justify-center mx-2 my-4">
+        <router-link
+            to="/ajouter-bouteille"
+            class="bg-vin_rouge rounded-md text-sm text-vin_blanc hover:text-white focus:outline-none px-4 py-2 mt-2 inline-block text-center w-full"
+        >
+            Ajouter une bouteille
+        </router-link>
+    </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full">
             <div class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg py-2 m-2 h-full"
                 v-for="bouteille in bouteilles" :key="bouteille.id">
@@ -26,21 +34,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-auto">
-                    <div class="pb-2 px-4 font-sans">
-                        <div class="flex justify-center">
-                            <button @click="ajouterAuCellier(bouteille)"
-                                class="bg-vin_rouge rounded-md w-full text-sm text-vin_blanc hover:text-white focus:outline-none px-2 py-2">Ajouter</button>
-                        </div>
-                        <div class="my-2"></div>
-                        <!--<div class="flex justify-center">
-                            <button
-                                class="bg-vin_rouge rounded-md w-full text-sm text-vin_blanc hover:text-white focus:outline-none px-2 py-2">Voir
-                                plus</button>
-                        </div> -->
+            </div>
+            <div class="mt-auto">
+                <div class="pb-2 px-4 font-sans">
+                    <div class="flex justify-center">
+                        <button
+                            @click="ajouterAuCellier(bouteille)"
+                            class="bg-vin_rouge rounded-md w-full text-sm text-vin_blanc hover:text-white focus:outline-none px-2 py-2"
+                        >
+                            Ajouter
+                        </button>
+                    </div>
+                    <div class="my-2"></div>
+                    <div class="flex justify-center">
+                        <button
+                            class="bg-vin_rouge rounded-md w-full text-sm text-vin_blanc hover:text-white focus:outline-none px-2 py-2"
+                        >
+                            Voir plus
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
 
             <div class="flex justify-center my-8">
                 <pagination :current-page="currentPage" :total-pages="totalPages" @page-changed="onPageChanged"
@@ -50,26 +65,23 @@
                     :link-class="'block px-3 py-2 rounded-full hover:bg-gray-100'" :active-class="'bg-vin_rouge text-white'"
                     :disabled-class="'opacity-50 cursor-not-allowed'" />
             </div>
-
         </div>
     </div>
 </template>
 
 <script>
-
-import axios from 'axios';
-import Paginate from 'vuejs-paginate';
-import BouteilleDataService from '@/services/BouteilleDataService';
-import BouteilleCellierDataServive from '@/services/BouteilleCellierDataService';
+import axios from "axios";
+import Paginate from "vuejs-paginate";
+import BouteilleDataService from "@/services/BouteilleDataService";
+import BouteilleCellierDataServive from "@/services/BouteilleCellierDataService";
 export default {
     components: {
-        Paginate
+        Paginate,
     },
     data() {
         return {
             bouteilles: [],
-
-        }
+        };
     },
     computed: {
         totalPages() {
@@ -77,7 +89,10 @@ export default {
         },
         paginatedBouteilles() {
             const startIndex = (this.currentPage - 1) * this.pageSize;
-            return this.bouteilles.slice(startIndex, startIndex + this.pageSize);
+            return this.bouteilles.slice(
+                startIndex,
+                startIndex + this.pageSize
+            );
         },
     },
 
@@ -99,13 +114,14 @@ export default {
         },
         async ajouterAuCellier(bouteille) {
             try {
+
                 const response = await BouteilleCellierDataServive.ajouterBouteilleAuCellier(1, bouteille.id)
+
                 console.log(response.data);
             } catch (error) {
                 console.log(error);
             }
         },
-
     },
-}
+};
 </script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bouteille;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BouteilleController extends Controller
 {
@@ -34,10 +35,37 @@ class BouteilleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        // Valider la bouteille
+        $request->validate([
+            'nom' => 'required',
+            'photo' => 'file|image|max:2048',
+            'categorie_id' => 'required',
+            'pays_id' => 'required',
+        ]);
+
+        // Vérifier si une photo a été envoyée, sinon utiliser une photo personnalisée
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('photos', 'local');
+        } else {
+            $path = 'ressources/assets/bouteille.webp';
+        }
+
+        // Créer une bouteille
+        $bouteilleData = $request->all();
+        $bouteilleData['photo'] = $path;
+        $bouteille = Bouteille::create($bouteilleData);
+
+        return response()->json($bouteille, 201);
     }
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * Store a newly created resource in storage.

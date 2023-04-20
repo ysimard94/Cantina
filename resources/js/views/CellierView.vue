@@ -1,5 +1,13 @@
 <template>
    <div class="container mx-auto px-2">
+       <div class="flex justify-center mx-2 my-4">
+        <router-link
+            to="/ajouter-bouteille"
+            class="bg-vin_rouge rounded-md text-sm text-vin_blanc hover:text-white focus:outline-none px-4 py-2 mt-2 inline-block text-center w-full"
+        >
+            Ajouter une bouteille
+        </router-link>
+    </div>
       <div class="bg-white shadow-md rounded my-6 overflow-x-auto">
         <header class="bg-vin_blanc text-vin_rouge py-2 px-4">
           <h1 class="text-2xl font-serif font-semibold">Mon Cellier</h1>
@@ -35,12 +43,12 @@ import CellierDataService from "@/services/CellierDataService.js";
 
 export default {
     components: {
-        'bouteille-card': BouteilleComponent
+        "bouteille-card": BouteilleComponent,
     },
     data() {
         return {
-            bouteilles: []
-        }
+            bouteilles: [],
+        };
     },
     mounted() {
         this.fetchBouteillesCellier();
@@ -55,14 +63,14 @@ export default {
             }
         },
         async supprimerBouteille(bouteilleId) {
-            console.log(bouteilleId)
+            console.log(bouteilleId);
             try {
                 await CellierDataService.supprimerBouteilleCellier(1, bouteilleId);
                 this.bouteilles = this.bouteilles.filter(bouteille => bouteille.id !== bouteilleId);
             } catch (error) {
                 console.log(error);
             }
-        }
+        },
     },
-}
+};
 </script>

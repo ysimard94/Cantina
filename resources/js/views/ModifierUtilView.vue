@@ -13,7 +13,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="mdp" class="block text-lg text-left font-bold text-vin-rouge">Ancien Mot de passe</label>
-                    <input type="password" v-model="mdb_courant" id="mdp" class="w-full rounded pt-2 pb-2 pl-1 pr-1">
+                    <input type="password" v-model="mdp_courant" id="mdp" class="w-full rounded pt-2 pb-2 pl-1 pr-1">
                 </div>
                 <div class="mb-4">
                     <label for="conf-mdp" class="block text-lg text-left font-bold text-vin-rouge">Nouveau Mot de
@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <button type="submit"
-                        class="mb-4 mt-4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5">S'inscrire</button>
+                        class="mb-4 mt-4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5">Modifier</button>
                 </div>
             </form>
         </div>
@@ -30,20 +30,21 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core'
-import { required, minLength, email } from '@vuelidate/validators'
 import UtilisateurDataService from "@/services/UtilisateurDataService";
 
 export default {
     name: "ModifierUtilView",
     async mounted () {
         const util = await this.getUtilisateur()
+        console.log(util.user)
+        this.nom = util.user.nom
+        this.courriel = util.user.courriel
     },
     data () {
         return {
             nom: "",
             courriel: "",
-            mdb_courant: "",
+            mdp_courant: "",
             mdp_nouveau: "",
         };
     },
@@ -69,7 +70,7 @@ export default {
                     {
                         nom: this.nom,
                         courriel: this.courriel,
-                        mdb_courant: this.mdb_courant,
+                        mdp_courant: this.mdp_courant,
                         mdp_nouveau: this.mdp_nouveau,
                     }
                 );
