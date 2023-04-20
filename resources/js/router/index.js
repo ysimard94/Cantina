@@ -16,6 +16,9 @@ const routes = [
         path: "/",
         name: "accueil",
         component: AccueilView,
+        meta: {
+            requiresAuth: true,
+        },
     },
     {
         path: "/connexion",
@@ -53,6 +56,9 @@ const routes = [
         path: "/catalogue",
         name: "catalogue.index",
         component: CatalogueView,
+        meta: {
+            requiresAuth: true,
+        },
     },
     {
         path: "/modifier/:id",
