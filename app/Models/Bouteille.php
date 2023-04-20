@@ -33,10 +33,8 @@ class Bouteille extends Model
         return $this->belongsTo(Categorie::class);
     }
 
-    public function celiers()
+    public function celliers()
     {
-        return $this->belongsToMany(Celier::class);
+        return $this->belongsToMany(Cellier::class);
     }
 }
-
-

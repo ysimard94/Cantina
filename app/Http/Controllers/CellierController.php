@@ -2,65 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Celier;
+use App\Models\Cellier;
 use Illuminate\Http\Request;
 
-class CelierController extends Controller
+class cellierController extends Controller
 {
     public function index()
     {
-        $celiers = Celier::all();
+        $celliers = Cellier::all();
 
-        return response()->json($celiers);
+        return response()->json($celliers);
     }
 
     public function store(Request $request)
     {
-        $celier = Celier::create([
+        $cellier = Cellier::create([
             'nom' => $request->input('nom'),
             'utilisateur_id' => $request->input('utilisateur_id')
         ]);
 
-        return response()->json($celier);
+        return response()->json($cellier);
     }
 
 
     public function show($id)
     {
-        $celier = Celier::findOrFail($id);
+        $cellier = Cellier::findOrFail($id);
 
-        return response()->json($celier);
+        return response()->json($cellier);
     }
 
     public function update(Request $request, $id)
     {
-        $celier = Celier::findOrFail($id);
+        $cellier = Cellier::findOrFail($id);
 
-        $celier->nom = $request->input('nom');
-        $celier->utilisateur_id = $request->input('utilisateur_id');
-        $celier->save();
+        $cellier->nom = $request->input('nom');
+        $cellier->utilisateur_id = $request->input('utilisateur_id');
+        $cellier->save();
 
-        return response()->json($celier);
+        return response()->json($cellier);
     }
 
     public function destroy($id)
     {
-        $celier = Celier::findOrFail($id);
+        $cellier = Cellier::findOrFail($id);
 
-        $celier->delete();
+        $cellier->delete();
 
-        return response()->json(['message' => 'Celier deleted successfully']);
+        return response()->json(['message' => 'cellier deleted successfully']);
     }
     public function getBouteilles($id)
     {
-        $cellier = Celier::find($id);
+        $cellier = Cellier::find($id);
         $bouteilles = $cellier->bouteilles()->with('pays', 'categorie')->get();;
         return response()->json($bouteilles);
     }
     public function supprimerBouteilleCellier($cellierId, $bouteilleId)
     {
         // Vérifie si le cellier existe
-        $cellier = Celier::find($cellierId);
+        $cellier = Cellier::find($cellierId);
         if (!$cellier) {
             return response()->json(['error' => 'Cellier non trouvé'], 404);
         }
