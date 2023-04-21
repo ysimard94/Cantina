@@ -6,12 +6,13 @@
             <div class="container mx-auto px-4">
                 <div class="flex flex-col items-center justify-center">
                     <h1 class="font-bold text-4xl sm:text-5xl lg:text-6xl mb-6">
-                        Discover the Future of Innovation
+                        Découvrez le futur de la dégustation de vin
                     </h1>
                     <p class="text-lg sm:text-xl lg:text-2xl mb-6 mx-auto">
-                        We're excited to bring you a cutting-edge product that
-                        will revolutionize the way you live, work, and play.
-                        Stay tuned for the big reveal!
+                        Nous sommes ravis de vous présenter un produit innovant
+                        qui révolutionnera la manière dont vous vivez,
+                        travaillez et vous amusez. Restez à l'affût pour la
+                        grande révélation!
                     </p>
                     <router-link
                         to="/catalogue"
@@ -30,37 +31,40 @@
                     <div class="card p-6 bg-white shadow-md rounded-lg">
                         <div class="card-body">
                             <h5 class="card-title font-semibold text-xl mb-4">
-                                Easy to Use
+                                Facile à utiliser
                             </h5>
                             <p class="card-text text-gray-600">
-                                Our e-commerce platform is designed for ease of
-                                use, allowing you to effortlessly browse and
-                                purchase products, even if you have no technical
-                                experience.
+                                Notre plateforme de commerce électronique est
+                                conçue pour être facile à utiliser, vous
+                                permettant de parcourir et d'acheter des
+                                produits en toute simplicité, même si vous
+                                n'avez aucune expérience technique.
                             </p>
                         </div>
                     </div>
                     <div class="card p-6 bg-white shadow-md rounded-lg">
                         <div class="card-body">
                             <h5 class="card-title font-semibold text-xl mb-4">
-                                Flexible Product Selection
+                                Sélection de produits flexible
                             </h5>
                             <p class="card-text text-gray-600">
-                                We are continuously expanding our product range
-                                to cater to your needs and preferences, ensuring
-                                a diverse and personalized shopping experience.
+                                Nous élargissons continuellement notre gamme de
+                                produits pour répondre à vos besoins et
+                                préférences, assurant une expérience d'achat
+                                diversifiée et personnalisée.
                             </p>
                         </div>
                     </div>
                     <div class="card p-6 bg-white shadow-md rounded-lg">
                         <div class="card-body">
                             <h5 class="card-title font-semibold text-xl mb-4">
-                                Affordable Options
+                                Options abordables
                             </h5>
                             <p class="card-text text-gray-600">
-                                We strive to provide high-quality products at
-                                competitive prices, making our platform
-                                accessible for customers with different budgets.
+                                Nous nous efforçons de proposer des produits de
+                                qualité à des prix compétitifs, rendant notre
+                                plateforme accessible aux clients ayant
+                                différents budgets.
                             </p>
                         </div>
                     </div>
@@ -69,7 +73,6 @@
         </section>
     </div>
 </template>
-
 <script>
 export default {
     mounted() {

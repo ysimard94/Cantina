@@ -36,7 +36,7 @@
 
                         <td class="flex flex-col text-center px-4 py-3">
                             <router-link
-                                v-if="bouteille.code_saq"
+                                v-if="!bouteille.code_saq"
                                 class="bg-vin_rouge hover:bg-gray-700 text-white font-bold py-2 px-4 rounded my-1"
                                 :to="{
                                     name: 'modifier-bouteille',

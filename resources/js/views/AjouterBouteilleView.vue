@@ -152,18 +152,15 @@ export default {
             nom: "",
             description: "",
             photo: null,
-            code_saq: null,
             prix: 0,
             note: "",
             nbr_notes: 0,
             pays_id: null,
             categorie_id: null,
-            url_saq: null,
             annee: null,
             message: "",
             pays: [],
             categories: [],
-            message: "",
         };
     },
 
@@ -197,13 +194,11 @@ export default {
                 console.log(this.photo);
                 formData.append("photo", this.photo);
             }
-            formData.append("code_saq", this.code_saq);
             formData.append("prix", this.prix);
             formData.append("note", this.note);
             formData.append("nbr_notes", this.nbr_notes);
             formData.append("pays_id", this.pays_id);
             formData.append("categorie_id", this.categorie_id);
-            formData.append("url_saq", this.url_saq);
             formData.append("annee", this.annee);
 
             // console.log(formData.entries());
@@ -211,7 +206,6 @@ export default {
             try {
                 const reponse = await BouteilleDataService.create(formData);
                 this.message = reponse.data.message;
-                // this.message = reponse.data.message;
             } catch (error) {
                 console.error(error);
             } finally {
