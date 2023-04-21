@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Utilisateur;
+use App\Models\Cellier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
@@ -49,6 +50,13 @@ class AuthController extends Controller
         $utilisateur->fill($request->all());
         $utilisateur->mdp = Hash::make($request->mdp);
         $utilisateur->save();
+
+        //Créer un celier pour l'utilisateur
+
+        $cellier = new Cellier;
+        $cellier->nom = "Cellier de " . $utilisateur->nom;
+        $cellier->utilisateur_id = $utilisateur->id;
+        $cellier->save();
 
         $token = JWTAuth::fromUser($utilisateur);
 
