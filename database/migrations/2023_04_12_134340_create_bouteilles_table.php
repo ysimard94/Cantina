@@ -16,13 +16,13 @@ return new class extends Migration
             $table->string('nom');
             $table->text('description');
             $table->string('photo');
-            $table->string('code_saq');
+            $table->string('code_saq')->nullable();
             $table->string('prix');
             $table->string('note');
             $table->string('nbr_notes');
             $table->unsignedBigInteger('pays_id');
             $table->unsignedBigInteger('categorie_id');
-            $table->string('url_saq');
+            $table->string('url_saq')->nullable();
             $table->string('annee')->nullable();
             $table->timestamps();
 
