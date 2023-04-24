@@ -16,13 +16,4 @@ class CategorieController extends Controller
         $categories = Categorie::all();
         return response()->json(['categories' => $categories]);
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Categorie $categorie)
-    {
-        return response()->json($categorie);
-    }
-
 }
