@@ -12,7 +12,7 @@
                             >
                                 <img
                                     class="max-w-[54px]"
-                                    src="@assets/vino-logo.png"
+                                    src="../../assets/vino-logo.png"
                                     alt="Vino Logo"
                                 />
                             </router-link>
