@@ -8,7 +8,11 @@
                 <h3 class="mb-4 text-vin-rouge font-bold text-xl">
                     Ajouter une bouteille
                 </h3>
-                <p v-if="message" class="block text-md text-green-700">
+                <!-- Erreurs serveur -->
+                <p v-if="erreurServeur" class="block text-md text-red-500">
+                    {{ erreurServeur }}
+                </p>
+                <p v-if="message" class="block text-md text-green-500">
                     {{ message }}
                 </p>
                 <div class="mb-4">
@@ -21,7 +25,16 @@
                         v-model="nom"
                         id="nom"
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                        :class="{
+                            'border border-red-500':
+                                v$.nom.$error && v$.nom.$dirty,
+                            'border border-green-500':
+                                !v$.nom.$error && v$.nom.$dirty,
+                        }"
                     />
+                    <p v-if="v$.nom.$error" class="block text-md text-red-500">
+                        Veillez entrer un nom valide
+                    </p>
                 </div>
                 <div class="mb-4">
                     <label
@@ -33,7 +46,19 @@
                         v-model="description"
                         id="description"
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                        :class="{
+                            'border border-red-500':
+                                v$.description.$error && v$.description.$dirty,
+                            'border border-green-500':
+                                !v$.description.$error && v$.description.$dirty,
+                        }"
                     ></textarea>
+                    <p
+                        v-if="v$.description.$error"
+                        class="block text-md text-red-500"
+                    >
+                        Veillez entrer une description
+                    </p>
                 </div>
                 <div class="mb-4">
                     <label
@@ -46,6 +71,12 @@
                         v-model="pays_id"
                         id="pays_id"
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                        :class="{
+                            'border border-red-500':
+                                v$.pays_id.$error && v$.pays_id.$dirty,
+                            'border border-green-500':
+                                !v$.pays_id.$error && v$.pays_id.$dirty,
+                        }"
                     >
                         <option disabled value="">Sélectionnez un pays</option>
                         <option
@@ -56,6 +87,12 @@
                             {{ paysItem.nom }}
                         </option>
                     </select>
+                    <p
+                        v-if="v$.pays_id.$error"
+                        class="block text-md text-red-500"
+                    >
+                        Veillez sélectionner un pays
+                    </p>
                 </div>
                 <div class="mb-4">
                     <label
@@ -68,6 +105,14 @@
                         v-model="categorie_id"
                         id="categorie_id"
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                        :class="{
+                            'border border-red-500':
+                                v$.categorie_id.$error &&
+                                v$.categorie_id.$dirty,
+                            'border border-green-500':
+                                !v$.categorie_id.$error &&
+                                v$.categorie_id.$dirty,
+                        }"
                     >
                         <option disabled value="">
                             Sélectionnez une catégorie
@@ -80,6 +125,12 @@
                             {{ categorie.nom }}
                         </option>
                     </select>
+                    <p
+                        v-if="v$.categorie_id.$error"
+                        class="block text-md text-red-500"
+                    >
+                        Veillez sélectionner une catégorie
+                    </p>
                 </div>
                 <div class="mb-4">
                     <label
@@ -91,7 +142,19 @@
                         v-model="annee"
                         id="annee"
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                        :class="{
+                            'border border-red-500':
+                                v$.annee.$error && v$.annee.$dirty,
+                            'border border-green-500':
+                                !v$.annee.$error && v$.annee.$dirty,
+                        }"
                     />
+                    <p
+                        v-if="v$.annee.$error"
+                        class="block text-md text-red-500"
+                    >
+                        Veillez entrer une année valide
+                    </p>
                 </div>
 
                 <div class="mb-4">
@@ -104,19 +167,37 @@
                         v-model="note"
                         id="annee"
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                        :class="{
+                            'border border-red-500':
+                                v$.note.$error && v$.note.$dirty,
+                            'border border-green-500':
+                                !v$.note.$error && v$.note.$dirty,
+                        }"
                     />
+                    <p v-if="v$.note.$error" class="block text-md text-red-500">
+                        Veillez entrer une note valide
+                    </p>
                 </div>
                 <div class="mb-4">
                     <label
                         for="annee"
                         class="block text-lg text-left font-bold text-vin-rouge"
-                        >prix (Optionel)</label
+                        >prix</label
                     >
                     <input
                         v-model="prix"
                         id="annee"
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                        :class="{
+                            'border border-red-500':
+                                v$.prix.$error && v$.prix.$dirty,
+                            'border border-green-500':
+                                !v$.prix.$error && v$.prix.$dirty,
+                        }"
                     />
+                    <p v-if="v$.prix.$error" class="block text-md text-red-500">
+                        Veillez entrer un prix valide
+                    </p>
                 </div>
 
                 <div>
@@ -134,8 +215,13 @@
 
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { required, minLength, integer, helpers } from "@vuelidate/validators";
-import axios from "axios";
+import {
+    required,
+    minLength,
+    integer,
+    helpers,
+    numeric,
+} from "@vuelidate/validators";
 
 import PaysDataService from "@/services/PaysDataService";
 import CategorieDataService from "@/services/CategorieDataService";
@@ -153,7 +239,7 @@ export default {
             description: "",
             photo: null,
             prix: 0,
-            note: "",
+            note: 0,
             nbr_notes: 0,
             pays_id: null,
             categorie_id: null,
@@ -164,7 +250,7 @@ export default {
         };
     },
 
-    validatins() {
+    validations() {
         return {
             nom: {
                 required,
@@ -178,16 +264,37 @@ export default {
                 minLength: minLength(2),
             },
             prix: {
-                numeric: helpers.regex("numeric", /^[0-9]+(\.[0-9]{1,2})?$/),
+                numeric,
             },
-            photo: {
-                fileSize: fileSize(2048 * 1024),
+            note: {
+                numeric,
+            },
+            nbr_notes: {
+                integer: integer,
+            },
+            pays_id: {
+                required,
+            },
+            categorie_id: {
+                required,
             },
         };
     },
     methods: {
         ajouterBouteille: async function () {
+            this.v$.$touch(); // Déclenche la validation
+
+            if (this.v$.$invalid) {
+                // Si le formulaire est invalide, arrêtez le processus de soumission
+                this.erreurServeur = "";
+                this.message = "";
+                return;
+            }
+
+            // Créer un objet FormData
             const formData = new FormData();
+
+            // Ajouter les données de la bouteille dans le FormData
             formData.append("nom", this.nom);
             formData.append("description", this.description);
             if (this.photo) {
@@ -201,15 +308,20 @@ export default {
             formData.append("categorie_id", this.categorie_id);
             formData.append("annee", this.annee);
 
-            // console.log(formData.entries());
-
             try {
+                this.$emit("loading:start");
+
+                // Appeler le service pour créer la bouteille
                 const reponse = await BouteilleDataService.create(formData);
+
+                // Afficher un message de succès
                 this.message = reponse.data.message;
-            } catch (error) {
-                console.error(error);
+            } catch (erreur) {
+                // Afficher un message d'erreur
+                this.erreurServeur = erreur.response.data.erreur;
             } finally {
-                // this.$emit("loading:end");
+                // Émettre un événement pour indiquer la fin du chargement
+                this.$emit("loading:end");
             }
         },
         getPays: async function () {

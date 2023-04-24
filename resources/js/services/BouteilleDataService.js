@@ -24,7 +24,9 @@ class BouteilleDataService {
         return await apiClient.get(`/celliers/${bouteilleId}/celliers`);
     }
     async ajouterBouteilleAuCellier(cellierId, bouteilleId) {
-        return await apiClient.post(`/celliers/${cellierId}/bouteilles/${bouteilleId}`);
+        return await apiClient.post(
+            `/celliers/${cellierId}/bouteilles/${bouteilleId}`
+        );
     }
 }
 
