@@ -25,6 +25,7 @@
         "vite-plugin-pwa": "^0.14.7",
         "vue-router": "^4.0.13",
         "vuejs-paginate": "^2.1.0",
+        "vuelidate": "^0.7.7",
         "vuex": "^4.1.0"
     }
 }

@@ -30,25 +30,24 @@ use App\Http\Controllers\UtilisateurController;
 
 Route::middleware('auth:api')->group(function () {
 
-    // à compléter
-
     Route::put('/utilisateur-edit/{utilisateur}', [UtilisateurController::class, 'update']);
     Route::get('/utilisateur-show/{utilisateur}', [UtilisateurController::class, 'show']);
 
     Route::get('/celliers/{id}/bouteilles', [CellierController::class, 'getBouteilles']);
 
-// route pour avoir supprimer une bouteille dans cellier
-Route::delete('/celliers/{cellierId}/bouteilles/{bouteilleId}', [CellierController::class, 'supprimerBouteilleCellier']);
+    // route pour avoir supprimer une bouteille dans cellier
+    Route::delete('/celliers/{cellierId}/bouteilles/{bouteilleId}', [CellierController::class, 'supprimerBouteilleCellier']);
 
-// route pour ajouter une bouteille dans une cellier
+    // Bouteilles 
+    Route::post('/bouteille', [BouteilleController::class, 'sauveBouteille']); // Sauvegarder une bouteille
+    Route::get('/bouteilles', [BouteilleController::class, 'getBouteilles']); // Obtenir toutes les bouteilles
+    Route::get('/bouteille/{bouteille}', [BouteilleController::class, 'showBouteille']); // Obtenir une bouteille
+    Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleController::class, 'ajoutBouteilleAuCellier']); // Ajouter une bouteille à un cellier
 
-    Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleController::class, 'ajoutAuCellier']);
-    Route::post('/bouteille', [BouteilleController::class, 'create']);
-    Route::get('/pays', [PaysController::class, 'index']);
-  
-    Route::get('/bouteille/{bouteille}', [BouteilleController::class, 'show']);
-    Route::get('/categorie', [CategorieController::class, 'index']);
-    Route::get('/bouteilles', [BouteilleController::class, 'index']);
+    // Pays
+    Route::get('/pays', [PaysController::class, 'index']); // Obtenir tous les pays
+    // Categories
+    Route::get('/categorie', [CategorieController::class, 'index']); // Obtenir toutes les catégories
 });
 
 

@@ -7,137 +7,157 @@ use App\Models\Cellier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Enregistre un nouvel utilisateur
      */
     public function sauvegarder(Request $request)
     {
-        // Changer le nom de la variable de confirmation de mot de passe
-        $request->merge(['mdp_confirmation' => $request->get('conf_mdp')]);
 
-        // Valider les données
-        $request->validate([
-            'nom' => 'required',
-            'courriel' => 'required|email',
-            'mdp' => 'required|min:3',
-            'mdp_confirmation' => 'required|same:mdp'
-        ]);
+       /* Pour personnalisé un message de validation on peut utiliser la manière suivante
+            $request->validate([
+                'nom_du_champ' => 'règles_1| règles_2| règles_3',
+            ],
+            [
+                'nom_du_champ.règles_1' => 'Message d\'erreur pour la règle 1',
+                'nom_du_champ.règles_2' => 'Message d\'erreur pour la règle 2',
+            ]);
 
-        // Créer l'utilisateur
-        $utilisateur = new Utilisateur;
+            Si le tableau d'erreur est vide, le message par défaut sera affiché à la place pour chaque champ concerné.
 
-        // Sauvegarder les données
-        $utilisateur->fill($request->all());
-        $utilisateur->mdp = Hash::make($request->mdp);
-        $utilisateur->save();
+            Afin de récupérer les messages d'erreurs dans vue, ajouter la ligne suivante dans le bloc catch
 
-        //Créer un celier pour l'utilisateur
+            catch (error) {
+                if (error.response && error.response.status === 422) {
+                    this.serverErrors = error.response.data.errors;
+                }
+            }
 
-        $cellier = new Cellier;
-        $cellier->nom = "Cellier de " . $utilisateur->nom;
-        $cellier->utilisateur_id = $utilisateur->id;
-        $cellier->save();
-
-        $token = JWTAuth::fromUser($utilisateur);
-
-        // Retourner une réponse
-        return response()->json([
-            'status' => 'success',
-            'user' => $utilisateur,
-            'token' => $token,
-
-        ], 201);
+            Si non, si on décide de ne pas personnaliser les messages d'erreurs et en afficher seulement un message générique, on peut utiliser la manière ci-dessous
+        */
+        try {
+            // Créer un validateur pour les données
+            $validateur = Validator::make($request->all(), [
+                'nom' => 'required',
+                'courriel' => 'required|email|unique:utilisateurs,courriel',
+                'mdp' => 'required|min:3',
+                'mdp_confirmation' => 'required|same:mdp',
+            ]);
+    
+            // Valider les données reçues avec le validateur
+            $validateur->validate();
+    
+            // Créer un nouveau utilisateur
+            $utilisateur = new Utilisateur;
+    
+            // Sauvegarder les données
+            $utilisateur->fill($request->all());
+            $utilisateur->mdp = Hash::make($request->mdp);
+            $utilisateur->save();
+    
+            // Créer un nouveau cellier pour l'utilisateur
+            $cellier = new Cellier;
+            $cellier->nom = "Cellier de " . $utilisateur->nom;
+            $cellier->utilisateur_id = $utilisateur->id;
+            $cellier->save();
+    
+            // Générer un token
+            $token = JWTAuth::fromUser($utilisateur);
+    
+            // Retourner une réponse avec le token
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Le compte a été créé avec succès.',
+                'user' => $utilisateur,
+                'token' => $token,
+            ], 201);
+    
+        } catch (ValidationException $e) {
+            $erreurs = $e->validator->errors();
+            if ($erreurs->has('courriel')) {
+                return response()->json(['erreur' => 'Un utilisateur avec cette adresse e-mail existe déjà.'], 422);
+            } else {
+                return response()->json(['erreur' => 'Les données sont invalide, veuillez remplir les champs correctement'], 422);
+            }
+        } catch (\Exception $e) {
+            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
+            error_log($e->getMessage());
+    
+            // Retourner un message d'erreur général au client
+            return response()->json(['erreur' => 'Nous nous excusons, une erreur s\'est produite sur le serveur. Veuillez réessayer plus tard.'], 500);
+        }
     }
 
     /**
      * Connecte un utilisateur
+     * 
      */
     public function authentifier(Request $request)
     {
-        // Valider les données
-        $request->validate([
-            'courriel' => 'required|email',
-            'mdp' => 'required|min:3'
-        ]);
-
-        // Chercher l'utilisateur
-        $utilisateur = Utilisateur::where('courriel', $request->courriel)->first();
-
-        // Vérifier si l'utilisateur existe
-        if (!$utilisateur) {
-            return response()->json(['code' => 'courriel_non_trouvé']);
+        try {
+            // Valider les données
+            $validateur = Validator::make($request->all(), [
+                'courriel' => 'required|email',
+                'mdp' => 'required|min:3'
+            ]);
+    
+            // Valider les données reçues avec le validateur
+            $validateur->validate();
+    
+            // Chercher l'utilisateur
+            $utilisateur = Utilisateur::where('courriel', $request->courriel)->first();
+    
+            // Vérifier si l'utilisateur existe
+            if (!$utilisateur) {
+                throw new \Exception('Adresse e-mail non trouvée.');
+            }
+            // Vérifier si le mot de passe est correct
+            if (!Hash::check($request->mdp, $utilisateur->mdp)) {
+                throw new \Exception('Mot de passe incorrect.');
+            }
+            $token = JWTAuth::fromUser($utilisateur);
+    
+            // Retourner une réponse
+            return response()->json([
+                'status' => 'success',
+                'utilisateur' => $utilisateur,
+                'token' => $token,
+            ], 201);
+    
+        } catch (ValidationException $e) {
+            return response()->json(['erreur' => 'Les données sont invalide, veuillez remplir les champs correctement'], 422);
+        } catch (\Exception $e) {
+            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
+            error_log($e->getMessage());
+    
+            // Retourner un message d'erreur général au client
+            return response()->json(['erreur' => $e->getMessage()], 422);
         }
-        // Vérifier si le mot de passe est correct
-        if (!Hash::check($request->mdp, $utilisateur->mdp)) {
-            return response()->json(['code' => 'mot_de_passe_incorrect']);
-        }
-        $token = JWTAuth::fromUser($utilisateur);
-        
-        // Retourner une réponse
-        return response()->json([
-            'status' => 'success',
-            'utilisateur' => $utilisateur,
-            'token' => $token,
-        ], 201);
     }
+    
 
+    /**
+     * Déconnecter l'utilisateur et renvoyer une réponse 
+     */ 
     public function deconnecter(Request $request)
     {
-        
+        try {
+            // Retourner une réponse
             return response()->json([
-                'message' => 'Déconnecter avec succès',
-            ], 400);
-    }
+                'message' => 'Déconnecté avec succès',
+            ], 200);
+        } catch (\Exception $e) {
+            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
+            error_log($e->getMessage());
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Utilisateur $utilisateur)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Utilisateur $utilisateur)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Utilisateur $utilisateur)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Utilisateur $utilisateur)
-    {
-        //
+            // Retourner un message d'erreur général au client
+            return response()->json(['erreur' => 'Nous nous excusons, une erreur s\'est produite sur le serveur lors de la déconnexion. Veuillez réessayer plus tard.'], 500);
+        }
     }
 }
