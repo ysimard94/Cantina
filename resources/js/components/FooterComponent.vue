@@ -35,7 +35,8 @@
                     <router-link :to="{ name: 'accueil' }">
                         <img
                             class="max-w-[70px]"
-                            src="@assets/vino-logo.png"
+                            src="../../assets/vino-logo.png"
+
                             alt="Vino logo"
                         />
                     </router-link>
