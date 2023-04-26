@@ -49,7 +49,7 @@ class BouteilleController extends Controller
      * @throws \Exception
      */
 
-    public function sauveBouteille(Request $request)
+    public function sauveBouteille(Request $request,  $cellierId)
     {
         try {
 
@@ -66,9 +66,9 @@ class BouteilleController extends Controller
                 throw new ValidationException($validator);
             }
 
-            // Si aucune photo n'a été envoyée, définir une phot par défaut
+            // Si aucune photo n'a été envoyée, définir une photo par défaut
             if ($request->hasFile('photo')) {
-                $path = $request->file('photo')->store('photos', 'local');
+                $path = "storage/".$request->file('photo')->store('photos', 'public');
             } else {
                 $path = 'https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166';
             }
@@ -78,8 +78,13 @@ class BouteilleController extends Controller
             $bouteilleData['photo'] = $path;
             $bouteille = Bouteille::create($bouteilleData);
 
+
             // Obtenir le cellier de l'utilisateur connecté
-            $cellier = Cellier::where('utilisateur_id', Auth::user()->id)->firstOrFail();
+            $cellier = Cellier::where('id', $cellierId)
+            ->where('utilisateur_id', Auth::user()->id)
+            ->firstOrFail();
+
+            // Attacher la bouteille au cellier
             $cellier->bouteilles()->attach($bouteille);
 
             // Retourner une réponse
