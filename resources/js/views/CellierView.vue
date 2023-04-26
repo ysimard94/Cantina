@@ -2,14 +2,15 @@
     <div class="container mx-auto px-2">
 
           <div class="flex items-center">
-        <label for="select-cellier" class="mr-4 font-medium text-gray-700">Sélectionner un cellier :</label>
+        <label for="select-cellier" class="mr-4 font-medium text-gray-700"> celliers :</label>
         <select id="select-cellier" v-model="selectedCellier" class="mr-4 p-2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
           <option disabled>-- Sélectionner un cellier --</option>
           <option v-for="(cellier, index) in celliers" :key="index" :value="cellier">
             {{ cellier.nom }}
           </option>
         </select>
-        <button @click.prevent="ajouterCellier" class="px-4 py-2 rounded-md bg-vin_rouge text-white hover:bg-vin_blanc focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <router-link to="/ajouter-cellier">
+        <button class="px-4 py-2 rounded-md bg-vin_rouge text-white hover:bg-vin_blanc focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -17,6 +18,7 @@
           </svg>
           <span class="sr-only">Ajouter un cellier</span>
         </button>
+    </router-link>
       </div>
 
 
@@ -112,15 +114,12 @@ export default {
     data() {
         return {
             bouteilles: [],
-            celliers: [
-                { nom: "Cellier 1" },
-                { nom: "Cellier 2" },
-                { nom: "Cellier 3" },
-            ],
+            celliers: [],
         };
     },
     mounted() {
         this.fetchBouteillesCellier();
+        this.fetchCelliers();
     },
     methods: {
         async fetchBouteillesCellier() {
@@ -141,6 +140,14 @@ export default {
                 this.bouteilles = this.bouteilles.filter(
                     (bouteille) => bouteille.id !== bouteilleId
                 );
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async fetchCelliers() {
+            try {
+                const response = await CellierDataService.getAll();
+                this.celliers = response.data;
             } catch (error) {
                 console.log(error);
             }
