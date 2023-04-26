@@ -35,7 +35,7 @@ const routes = [
         },
     },
     {
-        path: "/nouvutil",
+        path: "/utilisateur/créer",
         name: "nouvel-utilisateur",
         component: NewUserView,
     },
@@ -69,7 +69,7 @@ const routes = [
         },
     },
     {
-        path: "/ajouter-bouteille",
+        path: "/ajouter-bouteille/:cellierId",
         name: "ajouter-bouteille",
         component: AjouterBouteilleView,
         meta: {
@@ -84,11 +84,6 @@ const routes = [
             requiresAuth: true,
         },
         props: true,
-    },
-    {
-        path: "/:catchAll(.*)",
-        name: "NotFound",
-        component: PageNonTrouveView,
     },
 ];
 
