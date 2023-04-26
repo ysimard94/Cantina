@@ -30,4 +30,9 @@ export default defineConfig({
             "@assets": resolve(__dirname, "resources/assets"),
         },
     },
+    define: {
+        "import.meta.env.VITE_BASE_URL": JSON.stringify(
+            "http://localhost:8000/"
+        ),
+    },
 });

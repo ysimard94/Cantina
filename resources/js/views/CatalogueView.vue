@@ -9,7 +9,11 @@
                 :key="bouteille.id"
             >
                 <img
-                    :src="bouteille.photo"
+                    :src="
+                        bouteille.code_saq === null
+                            ? imageUrl(bouteille.photo)
+                            : bouteille.photo
+                    "
                     :alt="bouteille.nom"
                     class="w-1/3 mx-auto"
                 />
@@ -124,6 +128,10 @@ export default {
         console.log(this.bouteilles);
     },
     methods: {
+        imageUrl(photo) {
+            const baseUrl = import.meta.env.VITE_BASE_URL || "";
+            return `${baseUrl}${photo}`;
+        },
         async fetchBouteilles() {
             try {
                 const response = await BouteilleDataService.getAll();
