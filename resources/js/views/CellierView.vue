@@ -4,6 +4,7 @@
             <label for="select-cellier" class="mr-4 font-medium text-gray-700">
                 celliers :</label
             >
+
             <select
                 id="select-cellier"
                 @change="handleChangerCellier"
