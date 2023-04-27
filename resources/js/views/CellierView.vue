@@ -74,9 +74,9 @@
             <form @submit.prevent="" class="w-full">
                 <label for="rechercheCellier"></label>
                 <input type="text" id="rechercheCellier" v-model="rechercheCellier"
-                    class="w-full rounded pt-2 pb-2 pl-1 pr-1">
-                <span class="absolute right-0"><img src="@assets/search_FILL1_wght400_GRAD0_opsz40.svg" alt="Recherche"
-                        class="mr-4"></span>
+                    class="w-full rounded pt-2 pb-2 pl-1 pr-1" placeholder="Rechercher dans le cellier">
+                <span class="absolute right-0" @click=""><img src="@assets/search_FILL1_wght400_GRAD0_opsz40.svg"
+                        alt="Recherche" class="mr-4"></span>
             </form>
         </div>
 
