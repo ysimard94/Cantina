@@ -48,6 +48,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/bouteilles', [BouteilleController::class, 'getBouteilles']); // Obtenir toutes les bouteilles
     Route::get('/bouteille/{bouteille}', [BouteilleController::class, 'showBouteille']); // Obtenir une bouteille
+    Route::put('/bouteille/{bouteille}', [BouteilleController::class, 'updateBouteille']); // Modifier une bouteille
     Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleController::class, 'ajoutBouteilleAuCellier']); // Ajouter une bouteille à un cellier
 
     // Pays

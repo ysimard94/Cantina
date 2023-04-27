@@ -211,14 +211,14 @@ export default {
             formData.append("categorie_id", this.categorie_id);
             formData.append("url_saq", this.url_saq);
             formData.append("annee", this.annee);
+
+            console.log(formData);
             try {
-                const reponse = await BouteilleDataService.update(formData);
+                const reponse = await BouteilleDataService.update(this.id, formData);
                 this.message = reponse.data.message;
-                // this.message = reponse.data.message;
             } catch (error) {
                 console.error(error);
             } finally {
-                // this.$emit("loading:end");
             }
         },
         obtenirBouteille: async function (bouteilleId) {
