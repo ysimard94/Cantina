@@ -152,13 +152,27 @@ class BouteilleController extends Controller
                 'message' => 'Il n\'y a pas de bouteille correspondant'
             ]);
         };
-
-        // Validation des données reçues
-        $request->validate([
-            'nom' => 'required',
-            'description' => 'required',
-        ]);
-
+        
+        try
+        {
+            // Validation des données reçues
+            $request->validate([
+                'nom' => 'required|min:2',
+                'annee' => 'integer|max:' . date('Y'),
+                'description' => 'min:2',
+                'prix' => 'numeric',
+                'note' => 'numeric',
+                'nbr_notes' => 'integer',
+                'pays_id' => 'required',
+                'categorie_id' => 'required',
+            ]);
+        }
+        catch(\Exception $e)
+        {
+            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
+            Log::info($e->getMessage());
+        }
+        
         // Va mettre à jour les données des colonnes correspondantes avec celles de la requête
         $bouteille->fill($request->only($bouteille->getFillable()));
 
