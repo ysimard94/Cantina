@@ -20,6 +20,7 @@
     "dependencies": {
         "@vuelidate/core": "^2.0.2",
         "@vuelidate/validators": "^2.0.2",
+        "material-symbols": "^0.5.5",
         "vite-aliases": "^0.11.0",
         "vite-plugin-mock": "^2.9.6",
         "vite-plugin-pwa": "^0.14.7",
