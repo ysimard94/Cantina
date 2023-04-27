@@ -23,6 +23,9 @@ class BouteilleDataService {
     async update(id, data) {
         return await apiClient.put(`/bouteille/${id}`, data);
     }
+    async getBouteillesByCellierId(cellierId) {
+        return await apiClient.get(`/bouteilles/cellier/${cellierId}`);
+    }
     async getAllBouteilleCellier(bouteilleId) {
         return await apiClient.get(`/celliers/${bouteilleId}/celliers`);
     }
