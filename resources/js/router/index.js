@@ -9,6 +9,7 @@ import ModifierUtilView from "@/views/ModifierUtilView.vue";
 import AjouterBouteilleView from "@/views/AjouterBouteilleView.vue";
 import PageNonTrouveView from "@/views/PageNonTrouveView.vue";
 import ModifierBouteilleView from "@/views/ModifierBouteilleView.vue";
+import AjouterCellierView from "@/views/AjouterCellierView.vue"
 import store from "@/store";
 
 const routes = [
@@ -35,14 +36,22 @@ const routes = [
         },
     },
     {
-        path: "/nouvutil",
+        path: "/utilisateur/créer",
         name: "nouvel-utilisateur",
         component: NewUserView,
     },
     {
-        path: "/monCellier",
+        path: "/celliers",
         name: "monCellier",
         component: CellierView,
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: "/ajouter-cellier",
+        name: "ajouter-cellier",
+        component: AjouterCellierView,
         meta: {
             requiresAuth: true,
         },
@@ -69,7 +78,7 @@ const routes = [
         },
     },
     {
-        path: "/ajouter-bouteille",
+        path: "/ajouter-bouteille/:cellierId",
         name: "ajouter-bouteille",
         component: AjouterBouteilleView,
         meta: {
@@ -84,11 +93,6 @@ const routes = [
             requiresAuth: true,
         },
         props: true,
-    },
-    {
-        path: "/:catchAll(.*)",
-        name: "NotFound",
-        component: PageNonTrouveView,
     },
 ];
 

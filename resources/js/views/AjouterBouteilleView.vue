@@ -46,20 +46,25 @@
                         v-model="description"
                         id="description"
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                        :class="{
-                            'border border-red-500':
-                                v$.description.$error && v$.description.$dirty,
-                            'border border-green-500':
-                                !v$.description.$error && v$.description.$dirty,
-                        }"
                     ></textarea>
-                    <p
-                        v-if="v$.description.$error"
-                        class="block text-md text-red-500"
-                    >
-                        Veillez entrer une description
-                    </p>
                 </div>
+                <!-- add a phot here -->
+                <div class="mb-4">
+                    <label
+                        for="photo"
+                        class="block text-lg text-left font-bold text-vin-rouge"
+                        >Select an image:</label
+                    >
+                    <input
+                        @change="chargerPhoto"
+                        id="photo"
+                        type="file"
+                        accept="image/*"
+                        name="photo"
+                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                    />
+                </div>
+
                 <div class="mb-4">
                     <label
                         for="pays_id"
@@ -260,9 +265,6 @@ export default {
                 integer: integer,
                 maxYear: (value) => value <= new Date().getFullYear(),
             },
-            description: {
-                minLength: minLength(2),
-            },
             prix: {
                 numeric,
             },
@@ -312,7 +314,10 @@ export default {
                 this.$emit("loading:start");
 
                 // Appeler le service pour créer la bouteille
-                const reponse = await BouteilleDataService.create(formData);
+                const reponse = await BouteilleDataService.create(
+                    this.$route.params.cellierId,
+                    formData
+                );
 
                 // Afficher un message de succès
                 this.message = reponse.data.message;
@@ -323,6 +328,10 @@ export default {
                 // Émettre un événement pour indiquer la fin du chargement
                 this.$emit("loading:end");
             }
+        },
+        chargerPhoto(e) {
+            this.photo = e.target.files[0];
+            console.log(this.photo);
         },
         getPays: async function () {
             try {
@@ -348,6 +357,7 @@ export default {
     mounted: async function () {
         await this.getCategories();
         await this.getPays();
+        console.log("Selected cellier ID:", this.cellierId);
     },
 };
 </script>
