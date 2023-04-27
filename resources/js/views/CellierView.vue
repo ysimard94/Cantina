@@ -1,9 +1,12 @@
 <template>
     <div class="container mx-auto px-2">
         <div class="flex items-center mx-auto px-2">
+
             <label for="select-cellier" class="mr-4 font-medium text-gray-700">celliers</label>
             <select id="select-cellier" @change="handleChangerCellier" v-model="cellierActif"
                 class="mr-2 p-2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+
+           
                 <option disabled>-- Sélectionner un cellier --</option>
                 <option v-for="(cellier, index) in celliers" :key="index" :value="cellier">
                     {{ cellier.nom }}
@@ -24,6 +27,16 @@
             </button>
         </router-link>
         </div>
+        <div class="flex items-center mx-auto p-2">
+            <form @submit.prevent="" class="w-full">
+                <label for="rechercheCellier"></label>
+                <input type="text" id="rechercheCellier" v-model="rechercheCellier"
+                    class="w-full rounded pt-2 pb-2 pl-1 pr-1" placeholder="Rechercher dans le cellier">
+                <span class="absolute right-0" @click=""><img src="@assets/search_FILL1_wght400_GRAD0_opsz40.svg"
+                        alt="Recherche" class="mr-4"></span>
+            </form>
+        </div>
+
         <div class="flex items-center mx-auto p-2">
             <form @submit.prevent="" class="w-full">
                 <label for="rechercheCellier"></label>
