@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('bouteilles', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('photo');
             $table->string('code_saq')->nullable();
             $table->string('prix');
