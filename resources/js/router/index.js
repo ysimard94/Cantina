@@ -42,7 +42,7 @@ const routes = [
     },
     {
         path: "/celliers",
-        name: "monCellier",
+        name: "mes-celliers",
         component: CellierView,
         meta: {
             requiresAuth: true,
@@ -70,8 +70,8 @@ const routes = [
         },
     },
     {
-        path: "/modifier/:id",
-        name: "modifierUtil",
+        path: "/utilisateur/modifier",
+        name: "modifier-utilisateur",
         component: ModifierUtilView,
         meta: {
             requiresAuth: true,
