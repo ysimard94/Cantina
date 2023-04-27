@@ -12,7 +12,7 @@
                             >
                                 <img
                                     class="max-w-[54px]"
-                                    src="../../assets/vino-logo.png"
+                                    src="@assets/vino-logo.png"
                                     alt="Vino Logo"
                                 />
                             </router-link>
@@ -35,7 +35,7 @@
                             >
                             <router-link
                                 class="nav-link md:inline-flex items-center px-1 pt-1 font-medium leading-5 text-slate-100 hover:text-slate-400 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
-                                :to="{ name: 'monCellier' }"
+                                :to="{ name: 'mes-celliers' }"
                                 v-if="estConnecter"
                                 >Mes Celliers</router-link
                             >
@@ -142,7 +142,7 @@
                     >
                     <router-link
                         class="text-black text-center hover:bg-gray-200 border-b-2 border-gray-400 py-2"
-                        :to="{ name: 'monCellier' }"
+                        :to="{ name: 'mes-celliers' }"
                         v-if="estConnecter"
                         >Mes Celliers</router-link
                     >
