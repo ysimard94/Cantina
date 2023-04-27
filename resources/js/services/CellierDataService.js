@@ -1,29 +1,30 @@
-import http from "../http-common";
+import apiClient from "../http-common";
 
 class CellierDataService {
     async getAll() {
-        return await http.get(`/celliers`);
+        return await apiClient.get(`/celliers`);
     }
-    async create(data) {
-        return await http.post("/celliers", data);
+    async ajouter(data) {
+        return await apiClient.post("/celliers", data);
     }
 
+
     async get(id) {
-        return await http.get(`/celliers/${id}`);
+        return await apiClient.get(`/celliers/${id}`);
     }
 
     async delete(id) {
-        return await http.delete(`/celliers/${id}`);
+        return await apiClient.delete(`/celliers/${id}`);
     }
 
     async update(id, data) {
-        return await http.put(`/celliers/${id}`, data);
+        return await apiClient.put(`/celliers/${id}`, data);
     }
     async BouteillesCellier(cellierId) {
-        return await http.get(`/celliers/${cellierId}/bouteilles`);
+        return await apiClient.get(`/celliers/${cellierId}/bouteilles`);
     }
     async supprimerBouteilleCellier(cellierId, bouteilleId) {
-        return await http.delete(
+        return await apiClient.delete(
             `/celliers/${cellierId}/bouteilles/${bouteilleId}`
         );
     }
