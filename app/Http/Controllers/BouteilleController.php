@@ -172,12 +172,17 @@ class BouteilleController extends Controller
             // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
             Log::info($e->getMessage());
         }
-        
+
         // Va mettre à jour les données des colonnes correspondantes avec celles de la requête
         $bouteille->fill($request->only($bouteille->getFillable()));
 
         // Sauvegarde les nouvelles informations
         $bouteille->save();
+
+        // Retourne un message si la bouteille a été modifiée avec succès
+        return response()->json([
+            'message' => 'La bouteille a été modifiée avec succès'
+        ]);
     }
 
     /**
