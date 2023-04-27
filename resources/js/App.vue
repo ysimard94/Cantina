@@ -11,14 +11,17 @@
             </router-view>
             <!-- <transition name="fade" mode="out-in"> -->
             <!-- </transition> -->
+            <!-- Menu modal qui est montré qu'au clic du bouton dans le footer -->
+            <MenuComponent v-if="menuOuvert" @fermer-menu="menuOuvert = false"/>
         </main>
-        <FooterComponent />
+        <FooterComponent @toggle-menu="menuOuvert = !menuOuvert"/>
     </div>
 </template>
 
 <script>
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
+import MenuComponent from "@/components/MenuComponent.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import BouteilleDataService from "@/services/BouteilleDataService";
 
@@ -26,13 +29,15 @@ export default {
     name: "App",
     data () {
         return {
-            bouteillesSAQ: []
+            bouteillesSAQ: [],
+            menuOuvert: false,
         }
     },
     components: {
         HeaderComponent,
         FooterComponent,
         LoadingSpinner,
+        MenuComponent,
     },
     methods: {
         onLoadingStart () {
@@ -72,7 +77,8 @@ export default {
     opacity: 0;
 }
 main {
-    min-height: 81vh;
+    min-height: 100vh;
+    margin-bottom: 72px;
     display: flex;
     flex-direction: column;
 }

@@ -1,101 +1,24 @@
 <template>
-    <footer class="bg-vin-rouge bottom-0 w-full">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex justify-between my-5">
-                <div>
-                    <h5
-                        class="text-left font-bold text-lg text-vin-blanc font-serif"
-                    >
-                        Navigation
-                    </h5>
-                    <div
-                        class="flex flex-col font-sans text-left mt-3 text-slate-100 space-y-1"
-                    >
-                        <router-link
-                            class="text-slate-100 hover:text-slate-400"
-                            :to="{ name: 'accueil' }"
-                            v-if="estConnecter"
-                            >Accueil</router-link
-                        >
-                        <router-link
-                            class="text-slate-100 hover:text-slate-400"
-                            :to="{ name: 'catalogue.index' }"
-                            v-if="estConnecter"
-                            >Catalogue</router-link
-                        >
-                        <router-link
-                            class="text-slate-100 hover:text-slate-400"
-                            :to="{ name: 'saq-produits' }"
-                            v-if="estConnecter"
-                            >Obtenir produits SAQ</router-link
-                        >
-                    </div>
-                </div>
-                <div class="justify-center my-auto">
-                    <router-link :to="{ name: 'accueil' }">
-                        <img
-                            class="max-w-[70px]"
-                            src="../../assets/vino-logo.png"
-
-                            alt="Vino logo"
-                        />
-                    </router-link>
-                </div>
-                <div>
-                    <h5
-                        class="text-right font-bold text-lg text-vin-blanc font-serif"
-                    >
-                        Membre
-                    </h5>
-                    <div
-                        class="flex flex-col font-sans text-right mt-3 space-y-1"
-                    >
-                        <router-link
-                            class="text-slate-100 hover:text-slate-400"
-                            :to="{ name: 'connexion' }"
-                            v-if="!estConnecter"
-                            >Connexion</router-link
-                        >
-                        <router-link
-                            class="text-slate-100 hover:text-slate-400"
-                            :to="{ name: 'nouvel-utilisateur' }"
-                            v-if="!estConnecter"
-                            >Créer un compte</router-link
-                        >
-                        <router-link
-                            class="text-slate-100 hover:text-slate-400"
-                            :to="{ name: 'monCellier' }"
-                            v-if="estConnecter"
-                            >Mes Celliers</router-link
-                        >
-                        <router-link
-                            class="text-slate-100 hover:text-slate-400"
-                            :to="{ name: 'deconnexion' }"
-                            v-if="estConnecter"
-                            >Déconnecter</router-link
-                        >
-                        <router-link
-                            class="text-slate-100 hover:text-slate-400"
-                            :to="{
-                                name: 'modifierUtil',
-                                params: {
-                                    id: this.$store.state.session
-                                        .utilisateur_id,
-                                },
-                            }"
-                            v-if="estConnecter"
-                            >Modifier Profil</router-link
-                        >
-                    </div>
-                </div>
+    <footer class="bg-vin-rouge bottom-0 w-full fixed">
+        <div class="mx-auto z-50">
+            <!-- Si l'utilisateur est connecté, montrer le menu de navigation -->
+            <div class="flex justify-around" v-if="estConnecter">
+                <router-link class="w-full" :to="{ name: 'mes-celliers' }">
+                    <button class="material-symbols-outlined text-white text-5xl px-5 py-3 actif w-full">
+                        home
+                    </button>
+                </router-link>
+                <router-link class="w-full" :to="{ name: 'modifier-utilisateur' }">
+                    <button class="material-symbols-outlined text-white text-5xl px-5 py-3 w-full">
+                        account_circle
+                    </button>
+                </router-link>
+                <button class="material-symbols-outlined text-white text-5xl w-full" @click="afficherMenu">
+                    menu
+                </button>
             </div>
-            <div class="flex flex-col items-center justify-center">
-                <div class="text-white">
-                    <p class="text-center font-sans text-sm text-vin-blanc">
-                        © All rights reserved, VINO 2023
-                    </p>
-                </div>
-            </div>
+            <!-- Sinon montrer le logo -->
+            <img src="@assets/vino-logo.png" alt="Logo Vino" v-if="!estConnecter" class="w-[48px] py-3 m-auto">
         </div>
     </footer>
 </template>
@@ -109,9 +32,17 @@ export default {
             return this.$store.state.session.utilisateur_id !== undefined;
         },
     },
+    methods: {
+        afficherMenu() {
+            this.$emit('toggle-menu')
+        },
+    },
 };
 </script>
 
 <style scoped>
 /* Add any necessary styles here */
+.actif {
+    background-color: #5c1b38;
+}
 </style>
