@@ -51,7 +51,7 @@ class cellierController extends Controller
         $cellier = Cellier::findOrFail($id);
 
         $cellier->nom = $request->input('nom');
-        $cellier->utilisateur_id = $request->input('utilisateur_id');
+        $cellier->utilisateur_id =auth()->user()->id;
         $cellier->save();
 
         return response()->json($cellier);

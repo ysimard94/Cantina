@@ -1,30 +1,37 @@
 <template>
     <div class="container mx-auto px-2">
         <div class="flex items-center mx-auto px-2">
-            <label for="select-cellier" class="mr-4 font-medium text-gray-700">
-                celliers :</label>
-            <select
-                id="select-cellier"
-                @change="handleChangerCellier"
-                v-model="cellierActif"
-                class="mr-4 p-2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            >
+            <label for="select-cellier" class="mr-4 font-medium text-gray-700">celliers</label>
+            <select id="select-cellier" @change="handleChangerCellier" v-model="cellierActif"
+                class="mr-2 p-2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 <option disabled>-- Sélectionner un cellier --</option>
                 <option v-for="(cellier, index) in celliers" :key="index" :value="cellier">
                     {{ cellier.nom }}
                 </option>
             </select>
-            <router-link to="/ajouter-cellier">
-                <button
-                    class="px-4 py-2 rounded-md bg-vin_rouge text-white hover:bg-vin_blanc focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    <span class="sr-only">Ajouter un cellier</span>
-                </button>
-            </router-link>
+            <router-link :to="{ name: 'modifier-cellier', params: { id: cellierActif.id  } }">
+            <button class="w-9 px-2 py-1 rounded-md bg-vin_rouge text-white hover:bg-vin_blanc focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path>
+                </svg>
+            </button>
+        </router-link>
+        <router-link to="/ajouter-cellier/">
+            <button class="w-9 px-2 py-1 rounded-md bg-vin_rouge text-white hover:bg-vin_blanc focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mx-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+            </button>
+        </router-link>
+        </div>
+        <div class="flex items-center mx-auto p-2">
+            <form @submit.prevent="" class="w-full">
+                <label for="rechercheCellier"></label>
+                <input type="text" id="rechercheCellier" v-model="rechercheCellier"
+                    class="w-full rounded pt-2 pb-2 pl-1 pr-1" placeholder="Rechercher dans le cellier">
+                <span class="absolute right-0" @click=""><img src="@assets/search_FILL1_wght400_GRAD0_opsz40.svg"
+                        alt="Recherche" class="mr-4"></span>
+            </form>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full">
@@ -74,15 +81,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex items-center mx-auto p-2">
-            <form @submit.prevent="" class="w-full">
-                <label for="rechercheCellier"></label>
-                <input type="text" id="rechercheCellier" v-model="rechercheCellier"
-                    class="w-full rounded pt-2 pb-2 pl-1 pr-1" placeholder="Rechercher dans le cellier">
-                <span class="absolute right-0" @click=""><img src="@assets/search_FILL1_wght400_GRAD0_opsz40.svg"
-                        alt="Recherche" class="mr-4"></span>
-            </form>
-        </div>
+
 
         <router-link :to="{
                     name: 'ajouter-bouteille',
@@ -110,22 +109,22 @@ export default {
     components: {
         "bouteille-card": BouteilleComponent,
     },
-    data () {
+    data() {
         return {
             bouteilles: [],
             celliers: [],
             cellierActif: { id: 0, nom: "Aucun cellier" },
         };
     },
-    async mounted () {
+    async mounted() {
         await this.fetchCelliers();
         await this.fetchBouteillesCellier();
     },
     methods: {
-        handleChangerCellier () {
+        handleChangerCellier() {
             this.fetchBouteillesCellier();
         },
-        async fetchBouteillesCellier () {
+        async fetchBouteillesCellier() {
             try {
                 const response =
                     await BouteilleDataService.getBouteillesByCellierId(
@@ -137,7 +136,7 @@ export default {
                 console.log(error);
             }
         },
-        async supprimerBouteille (bouteilleId) {
+        async supprimerBouteille(bouteilleId) {
             console.log(bouteilleId);
             try {
                 await CellierDataService.supprimerBouteilleCellier(
@@ -151,7 +150,7 @@ export default {
                 console.log(error);
             }
         },
-        async fetchCelliers () {
+        async fetchCelliers() {
             try {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
