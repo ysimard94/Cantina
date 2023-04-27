@@ -46,19 +46,7 @@
                         v-model="description"
                         id="description"
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                        :class="{
-                            'border border-red-500':
-                                v$.description.$error && v$.description.$dirty,
-                            'border border-green-500':
-                                !v$.description.$error && v$.description.$dirty,
-                        }"
                     ></textarea>
-                    <p
-                        v-if="v$.description.$error"
-                        class="block text-md text-red-500"
-                    >
-                        Veillez entrer une description
-                    </p>
                 </div>
                 <!-- add a phot here -->
                 <div class="mb-4">
@@ -276,9 +264,6 @@ export default {
             annee: {
                 integer: integer,
                 maxYear: (value) => value <= new Date().getFullYear(),
-            },
-            description: {
-                minLength: minLength(2),
             },
             prix: {
                 numeric,

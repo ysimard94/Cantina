@@ -3,7 +3,7 @@
         <div class="bg-bg-rose m-4 p-3 shadow-md rounded">
             <form @submit.prevent="modifierBouteille" enctype="multipart/form-data">
                 <h3 class="mb-4 text-vin-rouge font-bold text-xl">
-                    Ajouter une bouteille
+                    Modifier votre bouteille
                 </h3>
                 <!-- Erreurs serveur -->
                 <p v-if="erreurServeur" class="block text-md text-red-500">
@@ -205,7 +205,7 @@ export default {
             }
 
             const formData = new FormData();
-            
+
             formData.append("nom", this.nom);
             formData.append("description", this.description);
             if (this.photo) {
