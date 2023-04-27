@@ -8,16 +8,15 @@ class CellierDataService {
         return await apiClient.post("/celliers", data);
     }
 
-
-    async get(id) {
+    async details(id) {
         return await apiClient.get(`/celliers/${id}`);
     }
 
-    async delete(id) {
+    async supprimer(id) {
         return await apiClient.delete(`/celliers/${id}`);
     }
 
-    async update(id, data) {
+    async modifier(id, data) {
         return await apiClient.put(`/celliers/${id}`, data);
     }
     async BouteillesCellier(cellierId) {

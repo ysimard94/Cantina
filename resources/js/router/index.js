@@ -9,6 +9,7 @@ import ModifierUtilView from "@/views/ModifierUtilView.vue";
 import AjouterBouteilleView from "@/views/AjouterBouteilleView.vue";
 import PageNonTrouveView from "@/views/PageNonTrouveView.vue";
 import ModifierBouteilleView from "@/views/ModifierBouteilleView.vue";
+import ModifierCellierView from "@/views/ModifierCellierView.vue";
 import AjouterCellierView from "@/views/AjouterCellierView.vue"
 import store from "@/store";
 
@@ -56,6 +57,16 @@ const routes = [
             requiresAuth: true,
         },
     },
+    {
+        path: "/modifier-cellier/:id",
+        name: "modifier-cellier",
+        component: ModifierCellierView,
+        meta: {
+            requiresAuth: true,
+        },
+        props: true,
+    },
+
     {
         path: "/saq-produits",
         name: "saq-produits",
