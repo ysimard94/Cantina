@@ -26,7 +26,7 @@ export default {
     name: "App",
     data () {
         return {
-            bouteilles: []
+            bouteillesSAQ: []
         }
     },
     components: {
@@ -44,7 +44,7 @@ export default {
         async fetchBouteilles () {
             try {
                 const response = await BouteilleDataService.getAll();
-                this.bouteilles = response.data;
+                this.bouteillesSAQ = response.data;
             } catch (error) {
                 console.log(error.response);
             }
