@@ -142,6 +142,31 @@ class BouteilleController extends Controller
             ], 500);
         }
     }
+    /**
+     * Obtenir toutes les bouteilles d'un cellier
+     */
+    public function getBouteillesByCellierId(Cellier $cellier)
+    {
+        try {
+            // Obtenir les bouteilles appartenant au cellier passé en paramètre
+            $bouteilles = $cellier->bouteilles()->with('categorie', 'pays')->get();
+
+            // Renvoyer la réponse avec les bouteilles
+            return response()->json([
+                'status' => 'success',
+                'bouteilles' => $bouteilles
+            ], 200);
+
+        } catch (\Exception $e) {
+            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
+            error_log($e->getMessage());
+
+            return response()->json([
+                'status' => 'échec',
+                'erreur' => 'Nous nous excusons, une erreur s\'est produite sur le serveur. Veuillez réessayer plus tard.'
+            ], 500);
+        }
+    }
 
     /**
      * Obtenir une bouteille par son id

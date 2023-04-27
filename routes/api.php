@@ -40,9 +40,11 @@ Route::middleware('auth:api')->group(function () {
     // route pour avoir supprimer une bouteille dans cellier
     Route::delete('/celliers/{cellierId}/bouteilles/{bouteilleId}', [CellierController::class, 'supprimerBouteilleCellier']);
 
+    // Obtenir les bouteilles d'un cellier
+    Route::get('/bouteilles/cellier/{cellier}', [BouteilleController::class, 'getBouteillesByCellierId']);
 
     // Bouteilles
-    Route::post('/bouteille', [BouteilleController::class, 'sauveBouteille']); // Sauvegarder une bouteille
+    Route::post('/bouteille/{cellierId}', [BouteilleController::class, 'sauveBouteille']); // Sauvegarder une bouteille
 
     Route::get('/bouteilles', [BouteilleController::class, 'getBouteilles']); // Obtenir toutes les bouteilles
     Route::get('/bouteille/{bouteille}', [BouteilleController::class, 'showBouteille']); // Obtenir une bouteille
