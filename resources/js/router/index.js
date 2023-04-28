@@ -10,7 +10,7 @@ import AjouterBouteilleView from "@/views/AjouterBouteilleView.vue";
 import PageNonTrouveView from "@/views/PageNonTrouveView.vue";
 import ModifierBouteilleView from "@/views/ModifierBouteilleView.vue";
 import ModifierCellierView from "@/views/ModifierCellierView.vue";
-import AjouterCellierView from "@/views/AjouterCellierView.vue"
+
 import store from "@/store";
 
 const routes = [
@@ -49,14 +49,7 @@ const routes = [
             requiresAuth: true,
         },
     },
-    {
-        path: "/ajouter-cellier",
-        name: "ajouter-cellier",
-        component: AjouterCellierView,
-        meta: {
-            requiresAuth: true,
-        },
-    },
+
     {
         path: "/modifier-cellier/:id",
         name: "modifier-cellier",
