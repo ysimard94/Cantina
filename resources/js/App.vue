@@ -12,9 +12,9 @@
             <!-- <transition name="fade" mode="out-in"> -->
             <!-- </transition> -->
             <!-- Menu modal qui est montré qu'au clic du bouton dans le footer -->
-            <MenuComponent v-if="menuOuvert" @fermer-menu="menuOuvert = false"/>
+            <MenuComponent :menu-ouvert="menuOuvert" @fermer-menu="menuOuvert = false" @reinitialiser-page="pageActive = -1"/>
         </main>
-        <FooterComponent @toggle-menu="menuOuvert = !menuOuvert"/>
+        <FooterComponent :page-active="pageActive" @toggle-menu="menuOuvert = !menuOuvert" @fermer-menu="menuOuvert = false"/>
     </div>
 </template>
 
@@ -31,6 +31,7 @@ export default {
         return {
             bouteillesSAQ: [],
             menuOuvert: false,
+            pageActive: -1,
         }
     },
     components: {
