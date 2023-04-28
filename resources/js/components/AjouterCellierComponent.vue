@@ -37,7 +37,7 @@ export default {
         ajouterCellier() {
             CellierDataService.ajouter(this.cellier)
                 .then(response => {
-                    console.log(response)
+                    this.$emit('nouveau-cellier',this.cellier)
                     this.succesMessage = 'Le cellier a été ajouté avec succès.'
 
                 })

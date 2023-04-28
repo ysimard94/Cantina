@@ -26,8 +26,8 @@
 
         </div>
         <div v-if="showAjouterCellier" class="md:col-span-3 mt-4">
-              <AjouterCellierComponent @close="showAjouterCellier = false" />
-     
+              <AjouterCellierComponent @close="showAjouterCellier = false" @nouveau-cellier="ajoutCellier"/>
+
             </div>
         </div>
          <FiltreComponent :bouteilles="bouteilles" />
@@ -210,7 +210,9 @@ export default {
                 console.log(error);
             }
         },
-
+        ajoutCellier(nouveaucellier) {
+            this.celliers.push(nouveaucellier)
+        }
     },
 };
 </script>
