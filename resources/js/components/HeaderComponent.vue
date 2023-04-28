@@ -22,7 +22,7 @@
                                     search
                                 </button>
                             </label>
-                            <ul class="absolute mt-3 bg-white w-full rounded shadow z-10">
+                            <ul class="absolute mt-3 bg-white w-full rounded shadow z-10 transform transition-all duration-300" :class="{ 'transform -translate-y-1 opacity-0': rechercheVide, 'transform translate-y-0 opacity-100': !rechercheVide }">
                                 <li class=" mx-4 flex" v-for="(bouteille, index) in bouteilles">
                                     <a href="#" class="pt-2 w-full text-left" :class="{ 'border-b-2': index !== bouteilles.length - 1 }">{{ bouteille.nom }}</a>
                                 </li>
@@ -45,7 +45,7 @@ export default {
             menuMobile: false,
             valeurRecherche: "",
             tempsRecherche: null,
-            rechercheVide: false,
+            rechercheVide: true,
             bouteilles: [],
         };
     },
@@ -55,9 +55,11 @@ export default {
         },
         async recherche() {
             clearTimeout(this.tempsRecherche);
+
             this.tempsRecherche = setTimeout(async () => {
                 if (this.valeurRecherche.length >= 3) {
                     console.log(this.valeurRecherche);
+                    this.rechercheVide = false;
 
                     try {
                         const reponse = await SaqProduitsDataService.getBouteilles(this.valeurRecherche);
@@ -69,8 +71,12 @@ export default {
                     }
                 }
             }, 500);
+            
             if (this.valeurRecherche.length < 3) {
-                this.bouteilles = [];
+                this.rechercheVide = true;
+                this.tempsRecherche = setTimeout(() => {
+                    this.bouteilles = [];
+                }, 500);
             }
         },
     },
