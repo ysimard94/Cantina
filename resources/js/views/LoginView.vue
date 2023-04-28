@@ -8,61 +8,40 @@
                     {{ erreurServeur }}
                 </p>
                 <div class="mb-4">
-                    <label
-                        for="courriel"
-                        class="block text-lg text-left font-bold text-vin-rouge"
-                        >Courriel</label
-                    >
-                    <input
-                        type="text"
-                        v-model="courriel"
-                        id="courriel"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                        :class="{
+                    <label for="courriel" class="block text-lg text-left font-bold text-vin-rouge">Courriel</label>
+                    <input type="text" v-model="courriel" id="courriel" class="w-full rounded pt-2 pb-2 pl-1 pr-1" :class="{
                             'border border-red-500':
                                 v$.courriel.$error && v$.courriel.$dirty,
                             'border border-green-500':
                                 !v$.courriel.$error && v$.courriel.$dirty,
-                        }"
-                    />
-                    <p
-                        v-if="v$.courriel.$error"
-                        class="block text-md text-red-500"
-                    >
+                        }" />
+                    <p v-if="v$.courriel.$error" class="block text-md text-red-500">
                         Veillez entrer un courriel valide
                     </p>
                 </div>
                 <div class="mb-4">
-                    <label
-                        for="mdp"
-                        class="block text-lg text-left font-bold text-vin-rouge"
-                        >Mot de passe</label
-                    >
-                    <input
-                        type="password"
-                        v-model="mdp"
-                        id="mdp"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                        :class="{
+                    <label for="mdp" class="block text-lg text-left font-bold text-vin-rouge">Mot de passe</label>
+                    <input type="password" v-model="mdp" id="mdp" class="w-full rounded pt-2 pb-2 pl-1 pr-1" :class="{
                             'border border-red-500':
                                 v$.mdp.$error && v$.mdp.$dirty,
                             'border border-green-500':
                                 !v$.mdp.$error && v$.mdp.$dirty,
-                        }"
-                    />
+                        }" />
                     <p v-if="v$.mdp.$error" class="block text-md text-red-500">
                         Veillez entrer un mot de passe valide
                     </p>
                 </div>
                 <div>
-                    <button
-                        type="submit"
-                        class="mb-4 mt4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5"
-                    >
+                    <button type="submit" class="mb-4 mt4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5">
                         Se Connecter
                     </button>
                 </div>
             </form>
+        </div>
+        <div>
+            <p>Pas de compte? <router-link :to="{ name: 'creer-utilisateur' }" class="underline text-blue-600">Inscris
+                    toi!</router-link>
+            </p>
         </div>
     </section>
 </template>
@@ -73,12 +52,12 @@ import { required, minLength, email } from "@vuelidate/validators";
 import AuthDataService from "@/services/AuthDataService";
 export default {
     name: "LoginView",
-    setup() {
+    setup () {
         return {
             v$: useVuelidate(),
         };
     },
-    data() {
+    data () {
         return {
             courriel: "",
             mdp: "",
@@ -86,7 +65,7 @@ export default {
             erreurServeur: "",
         };
     },
-    validations() {
+    validations () {
         return {
             courriel: { required, email },
             mdp: { minLength: minLength(3) },
@@ -115,7 +94,7 @@ export default {
                 console.log(reponse.data.session);
                 localStorage.setItem("jwt-token", reponse.data.token);
 
-                this.$router.push({ name: "accueil" });
+                this.$router.push({ name: "mes-celliers" });
             } catch (error) {
                 console.error("Error fetching data:", error);
 
