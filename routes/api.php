@@ -62,6 +62,7 @@ Route::middleware('auth:api')->group(function () {
 
 
 Route::get('/saq-produits', [SAQController::class, 'index']);
+Route::get('/saq-produits/{bouteille}', [SAQController::class, 'getBouteilles']);
 
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
 
