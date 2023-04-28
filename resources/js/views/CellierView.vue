@@ -1,54 +1,111 @@
 <template>
     <div class="container mx-auto px-2">
-
-         <div class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-2 px-2 py-4 bg-bg-rose">
-            <label for="select-cellier" class="md:col-span-1 font-medium text-gray-700 text-left">Mes celliers</label>
+        <div
+            class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-2 px-2 py-4 bg-bg-rose"
+        >
+            <label
+                for="select-cellier"
+                class="md:col-span-1 font-medium text-gray-700 text-left"
+                >Mes celliers</label
+            >
             <div class="md:col-span-2 flex justify-between items-center">
-                <select id="select-cellier" @change="handleChangerCellier" v-model="cellierActif"
-                    class="mr-2 p-2 font-semibold w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <select
+                    id="select-cellier"
+                    @change="handleChangerCellier"
+                    v-model="cellierActif"
+                    class="mr-2 p-2 font-semibold w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                >
                     <option disabled>-- Sélectionner un cellier --</option>
-                    <option v-for="(cellier, index) in celliers" :key="index" :value="cellier">{{ cellier.nom }}</option>
+                    <option
+                        v-for="(cellier, index) in celliers"
+                        :key="index"
+                        :value="cellier"
+                    >
+                        {{ cellier.nom }}
+                    </option>
                 </select>
                 <div class="flex">
-                    <router-link :to="{ name: 'modifier-cellier', params: { id: cellierActif.id } }">
+                    <router-link
+                        :to="{
+                            name: 'modifier-cellier',
+                            params: { id: cellierActif.id },
+                        }"
+                    >
                         <button
-                            class="material-symbols-outlined w-9 px-2 py-1  font-semibold text-vin-blanc  " @click="showAjouterCellier = true">
+                            class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-blanc"
+                            @click="showAjouterCellier = true"
+                        >
                             edit
                         </button>
                     </router-link>
 
-                        <button
-                            class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge" @click="showAjouterCellier = true">
-                            add
-                        </button>
-
+                    <button
+                        class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
+                        @click="showAjouterCellier = true"
+                    >
+                        add
+                    </button>
                 </div>
-
-        </div>
-        <div v-if="showAjouterCellier" class="md:col-span-3 mt-4">
-              <AjouterCellierComponent @close="showAjouterCellier = false" />
-     
+            </div>
+            <div v-if="showAjouterCellier" class="md:col-span-3 mt-4">
+                <AjouterCellierComponent @close="showAjouterCellier = false" />
             </div>
         </div>
-         <FiltreComponent :bouteilles="bouteilles" />
         <div class="flex items-center mx-auto p-2">
             <form @submit.prevent="" class="w-full">
                 <label for="rechercheCellier" class="relative">
-                    <input type="text" id="rechercheCellier" v-model="rechercheCellier"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-10" placeholder="Rechercher dans le cellier">
-                    <buttons class="absolute right-0 pl-2" @click=""><span
-                            class="material-symbols-outlined text-4xl font-medium">
+                    <input
+                        type="text"
+                        id="rechercheCellier"
+                        v-model="rechercheCellier"
+                        class="w-full rounded pt-2 pb-2 pl-1 pr-10"
+                        placeholder="Rechercher dans le cellier"
+                    />
+                    <buttons class="absolute right-0 pl-2" @click=""
+                        ><span
+                            class="material-symbols-outlined text-4xl font-medium"
+                        >
                             search
-                        </span></buttons>
+                        </span></buttons
+                    >
                 </label>
             </form>
         </div>
+
+        <!-- Section pour filtre et tri -->
+        <div class="md:col-span-2 flex flex-col justify-between items-center">
+            <button
+                class="mr-auto rounded pt-2 pb-2 pl-1 pr-10"
+                @click="estOuvertFiltre = !estOuvertFiltre"
+            >
+                <span class="material-symbols-outlined text-4xl font-medium"
+                    >tune</span
+                >
+            </button>
+            <transition
+                enter-active-class="transition duration-500 ease-in-out transform"
+                enter-from-class="-translate-x-full"
+                enter-to-class="translate-x-0"
+                leave-active-class="transition duration-500 ease-in-out transform"
+                leave-from-class="translate-x-0"
+                leave-to-class="-translate-x-full"
+            >
+                <FiltreComponent
+                    v-if="estOuvertFiltre"
+                    @filtrer-bouteilles="filtrerBouteilles"
+                    @fermer-filtre="fermerFiltre"
+                    :bouteilles="bouteilles"
+                    class="w-full fixed inset-0 mb-15 z-50"
+                />
+            </transition>
+        </div>
+
         <div
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full"
         >
             <div
                 class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg py-2 m-2 h-full"
-                v-for="bouteille in bouteilles"
+                v-for="bouteille in bouteillesAffiches"
                 :key="bouteille.id"
             >
                 <img
@@ -149,38 +206,55 @@ export default {
     components: {
         "bouteille-card": BouteilleComponent,
         FiltreComponent,
-        AjouterCellierComponent
+        AjouterCellierComponent,
     },
-    data () {
+    data() {
         return {
             bouteilles: [],
+            filteredBouteilles: [],
             celliers: [],
             cellierActif: { id: 0, nom: "Aucun cellier" },
             showAjouterCellier: false,
+            estOuvertFiltre: false,
         };
     },
-    async mounted () {
+    async mounted() {
         await this.fetchCelliers();
         await this.fetchBouteillesCellier();
     },
+    computed: {
+        bouteillesAffiches() {
+            return this.filteredBouteilles.length > 0
+                ? this.filteredBouteilles
+                : this.bouteilles;
+        },
+    },
     methods: {
-        handleChangerCellier () {
+        // Appliquer le filtre pour afficher toutes les bouteilles filtrées
+        filtrerBouteilles(filteredBouteilles) {
+            this.filteredBouteilles = filteredBouteilles;
+        },
+        montrerFiltre() {
+            this.estOuvertFiltre = true;
+        },
+        fermerFiltre() {
+            this.estOuvertFiltre = false;
+        },
+        handleChangerCellier() {
             this.fetchBouteillesCellier();
         },
-        async fetchBouteillesCellier () {
+        async fetchBouteillesCellier() {
             try {
                 const response =
                     await BouteilleDataService.getBouteillesByCellierId(
                         this.cellierActif.id
                     );
                 this.bouteilles = response.data.bouteilles;
-                console.log(this.bouteilles);
             } catch (error) {
                 console.log(error);
             }
         },
-        async supprimerBouteille (bouteilleId) {
-            console.log(bouteilleId);
+        async supprimerBouteille(bouteilleId) {
             try {
                 await CellierDataService.supprimerBouteilleCellier(
                     1,
@@ -193,7 +267,7 @@ export default {
                 console.log(error);
             }
         },
-        async fetchCelliers () {
+        async fetchCelliers() {
             try {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
@@ -202,7 +276,6 @@ export default {
                 console.log(error);
             }
         },
-
     },
 };
 </script>
