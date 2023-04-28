@@ -15,8 +15,8 @@ import store from "@/store";
 
 const routes = [
     {
-        path: "/",
-        name: "accueil",
+        path: "/a-propos",
+        name: "a-propos",
         component: AccueilView,
         meta: {
             requiresAuth: true,
@@ -38,7 +38,7 @@ const routes = [
     },
     {
         path: "/utilisateur/créer",
-        name: "nouvel-utilisateur",
+        name: "creer-utilisateur",
         component: NewUserView,
     },
     {

@@ -34,22 +34,15 @@
         <div class="flex items-center mx-auto p-2">
             <form @submit.prevent="" class="w-full">
                 <label for="rechercheCellier" class="relative">
-                    <input
-                        type="text"
-                        id="rechercheCellier"
-                        v-model="rechercheCellier"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                        placeholder="Rechercher dans le cellier"
-                    />
-                    <span class="absolute right-0" @click=""
-                        ><img
-                            src="@assets/search_FILL1_wght400_GRAD0_opsz40.svg"
-                            alt="Recherche"
-                    /></span>
+                    <input type="text" id="rechercheCellier" v-model="rechercheCellier"
+                        class="w-full rounded pt-2 pb-2 pl-1 pr-10" placeholder="Rechercher dans le cellier">
+                    <buttons class="absolute right-0 pl-2" @click=""><span
+                            class="material-symbols-outlined text-4xl font-medium">
+                            search
+                        </span></buttons>
                 </label>
             </form>
         </div>
-
         <div
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full"
         >
@@ -63,7 +56,6 @@
                     :alt="bouteille.nom"
                     class="w-1/3 mx-auto"
                 />
-
                 <div class="px-4 pt-4 flex flex-col justify-between">
                     <h4
                         class="text-lg font-serif font-semibold text-vin-rouge text-left h-[67px] leading-tight"
@@ -159,7 +151,7 @@ export default {
         FiltreComponent,
         AjouterCellierComponent
     },
-    data() {
+    data () {
         return {
             bouteilles: [],
             celliers: [],
@@ -167,15 +159,15 @@ export default {
             showAjouterCellier: false,
         };
     },
-    async mounted() {
+    async mounted () {
         await this.fetchCelliers();
         await this.fetchBouteillesCellier();
     },
     methods: {
-        handleChangerCellier() {
+        handleChangerCellier () {
             this.fetchBouteillesCellier();
         },
-        async fetchBouteillesCellier() {
+        async fetchBouteillesCellier () {
             try {
                 const response =
                     await BouteilleDataService.getBouteillesByCellierId(
@@ -187,7 +179,7 @@ export default {
                 console.log(error);
             }
         },
-        async supprimerBouteille(bouteilleId) {
+        async supprimerBouteille (bouteilleId) {
             console.log(bouteilleId);
             try {
                 await CellierDataService.supprimerBouteilleCellier(
@@ -201,7 +193,7 @@ export default {
                 console.log(error);
             }
         },
-        async fetchCelliers() {
+        async fetchCelliers () {
             try {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
