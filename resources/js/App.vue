@@ -12,9 +12,18 @@
             <!-- <transition name="fade" mode="out-in"> -->
             <!-- </transition> -->
             <!-- Menu modal qui est montré qu'au clic du bouton dans le footer -->
-            <MenuComponent :menu-ouvert="menuOuvert" @fermer-menu="menuOuvert = false" @reinitialiser-page="pageActive = -1"/>
+            <MenuComponent 
+                :menu-ouvert="menuOuvert" 
+                @fermer-menu="menuOuvert = false" 
+                @reinitialiser-page="pageActive = -1"
+            />
         </main>
-        <FooterComponent :page-active="pageActive" @toggle-menu="menuOuvert = !menuOuvert" @fermer-menu="menuOuvert = false"/>
+        <FooterComponent 
+            :page-active="pageActive" 
+            @toggle-menu="menuOuvert = !menuOuvert" 
+            @fermer-menu="menuOuvert = false" 
+            @changer-page-active="pageActive = $event" 
+        />
     </div>
 </template>
 

@@ -6,20 +6,20 @@
                 <router-link class="w-full" :to="{ name: 'mes-celliers' }">
                     <button :class="{ 'actif': pageActive === 0 }"
                         class="material-symbols-outlined text-white text-5xl px-5 py-3 w-full"
-                        @click="fermerMenu(); pageActive = 0">
+                        @click="fermerMenu(); changerPageActive(0)">
                         home
                     </button>
                 </router-link>
                 <router-link class="w-full" :to=" { name: 'modifier-utilisateur' } ">
                     <button :class=" { 'actif': pageActive === 1 } "
                         class="material-symbols-outlined text-white text-5xl px-5 py-3 w-full"
-                        @click=" fermerMenu(); pageActive = 1 ">
+                        @click=" fermerMenu(); changerPageActive(1) ">
                         account_circle
                     </button>
                 </router-link>
                 <!-- Si la page active est déjà celle-ci, le status de pageActive est réinitialisée à sa valeur initiale -->
                 <button :class=" { 'actif': pageActive === 2 } " class="material-symbols-outlined text-white text-5xl w-full"
-                    @click="afficherMenu(); pageActive = pageActive === 2 ? -1 : 2 ">
+                    @click="afficherMenu(); changerPageActive(pageActive === 2 ? -1 : 2) ">
                     menu
                 </button>
             </div>
@@ -47,6 +47,10 @@ export default {
         },
         fermerMenu() {
             this.$emit("fermer-menu");
+        },
+        changerPageActive(page) {
+            console.log(page)
+            this.$emit("changer-page-active", page);
         },
     },
 };
