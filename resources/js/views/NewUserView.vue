@@ -3,7 +3,7 @@
         <div class="bg-bg-rose m-4 p-3 shadow-md rounded">
             <form @submit.prevent="soumettre">
                 <h3 class="mb-4 text-vin-rouge font-bold text-xl">
-                    Nouvelle Utilisateur
+                    Créer un compte
                 </h3>
                 <!-- Erreurs serveur -->
                 <p v-if="erreurServeur" class="block text-md text-red-500">
@@ -119,6 +119,10 @@
                     </button>
                 </div>
             </form>
+        </div>
+        <div>
+            <p>Vous avez déjà un compte? <router-link :to="{ name: 'connexion' }" class="underline text-blue-600">Connectez-vous!</router-link>
+            </p>
         </div>
     </section>
 </template>

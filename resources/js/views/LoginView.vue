@@ -39,7 +39,7 @@
             </form>
         </div>
         <div>
-            <p>Pas de compte? <router-link :to="{ name: 'nouvel-utilisateur' }" class="underline text-blue-600">Inscris
+            <p>Pas de compte? <router-link :to="{ name: 'creer-utilisateur' }" class="underline text-blue-600">Inscris
                     toi!</router-link>
             </p>
         </div>
@@ -94,7 +94,7 @@ export default {
                 console.log(reponse.data.session);
                 localStorage.setItem("jwt-token", reponse.data.token);
 
-                this.$router.push({ name: "accueil" });
+                this.$router.push({ name: "mes-celliers" });
             } catch (error) {
                 console.error("Error fetching data:", error);
 
