@@ -20,7 +20,7 @@
                     {{ cellier.nom }}
                 </option>
             </select>
-            <router-link
+              <router-link
                 :to="{
                     name: 'modifier-cellier',
                     params: { id: cellierActif.id },
@@ -33,13 +33,13 @@
                         class="w-6 h-6"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="1.5"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                     >
                         <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
+                              stroke-width="2"
                             d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
                         ></path>
                     </svg>
@@ -69,22 +69,15 @@
         <div class="flex items-center mx-auto p-2">
             <form @submit.prevent="" class="w-full">
                 <label for="rechercheCellier" class="relative">
-                    <input
-                        type="text"
-                        id="rechercheCellier"
-                        v-model="rechercheCellier"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                        placeholder="Rechercher dans le cellier"
-                    />
-                    <span class="absolute right-0" @click=""
-                        ><img
-                            src="@assets/search_FILL1_wght400_GRAD0_opsz40.svg"
-                            alt="Recherche"
-                    /></span>
+                    <input type="text" id="rechercheCellier" v-model="rechercheCellier"
+                        class="w-full rounded pt-2 pb-2 pl-1 pr-10" placeholder="Rechercher dans le cellier">
+                    <buttons class="absolute right-0 pl-2" @click=""><span
+                            class="material-symbols-outlined text-4xl font-medium">
+                            search
+                        </span></buttons>
                 </label>
             </form>
         </div>
-
         <div
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full"
         >
@@ -98,7 +91,6 @@
                     :alt="bouteille.nom"
                     class="w-1/3 mx-auto"
                 />
-
                 <div class="px-4 pt-4 flex flex-col justify-between">
                     <h4
                         class="text-lg font-serif font-semibold text-vin-rouge text-left h-[67px] leading-tight"
@@ -192,22 +184,22 @@ export default {
         "bouteille-card": BouteilleComponent,
         FiltreComponent,
     },
-    data() {
+    data () {
         return {
             bouteilles: [],
             celliers: [],
             cellierActif: { id: 0, nom: "Aucun cellier" },
         };
     },
-    async mounted() {
+    async mounted () {
         await this.fetchCelliers();
         await this.fetchBouteillesCellier();
     },
     methods: {
-        handleChangerCellier() {
+        handleChangerCellier () {
             this.fetchBouteillesCellier();
         },
-        async fetchBouteillesCellier() {
+        async fetchBouteillesCellier () {
             try {
                 const response =
                     await BouteilleDataService.getBouteillesByCellierId(
@@ -219,7 +211,7 @@ export default {
                 console.log(error);
             }
         },
-        async supprimerBouteille(bouteilleId) {
+        async supprimerBouteille (bouteilleId) {
             console.log(bouteilleId);
             try {
                 await CellierDataService.supprimerBouteilleCellier(
@@ -233,7 +225,7 @@ export default {
                 console.log(error);
             }
         },
-        async fetchCelliers() {
+        async fetchCelliers () {
             try {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
