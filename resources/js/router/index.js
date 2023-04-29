@@ -10,6 +10,7 @@ import AjouterBouteilleView from "@/views/AjouterBouteilleView.vue";
 import PageNonTrouveView from "@/views/PageNonTrouveView.vue";
 import ModifierBouteilleView from "@/views/ModifierBouteilleView.vue";
 import ModifierCellierView from "@/views/ModifierCellierView.vue";
+import ResultatView from "@/views/ResultatView.vue";
 
 import store from "@/store";
 
@@ -98,6 +99,15 @@ const routes = [
         },
         props: true,
     },
+    {
+        path: "/resultats/:valeur",
+        name: "resultat-recherche",
+        component: ResultatView,
+        meta: {
+            requiresAuth: true,
+        },
+        props: true,
+    }
 ];
 
 const router = createRouter({

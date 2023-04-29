@@ -1,15 +1,5 @@
 <template>
-    <button
-        @click="montrerFiltre"
-        class="px-2 py-1 rounded-md bg-vin_rouge text-white hover:bg-vin_blanc focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-    >
-        <i class="material-icons"> tune </i>
-    </button>
-    <!-- Filtre latéral -->
-    <aside
-        v-if="estOuvertFiltre"
-        class="fixed inset-0 z-50 overflow-hidden flex"
-    >
+    <aside>
         <div class="relative w-full h-full bg-white overflow-y-scroll">
             <div class="px-4 py-4">
                 <header class="flex justify-between items-center">
@@ -39,17 +29,23 @@
                         <h4 class="text-vin-rouge text-md font-semibold">
                             Sources
                         </h4>
-                        <button @click="showSource = !showSource">
-                            <i class="material-icons text-3xl text-vin-rouge">{{
-                                expandIcon
-                            }}</i>
+
+                        <button
+                            @click="showSource = !showSource"
+                            class="text-vin-rouge flex items-center justify-center"
+                        >
+                            <i
+                                class="ml-2 material-icons text-3xl text-vin-rou rouge"
+                            >
+                                {{ showSource ? "expand_less" : "expand_more" }}
+                            </i>
                         </button>
                     </div>
                     <div v-show="showSource" class="flex gap-2 my-4">
                         <div
                             v-for="(source, index) in sources"
-                            :key="index"
-                            @click="toggleSource(index)"
+                            :key="source.id"
+                            @click="toggleSource(source)"
                             :class="[
                                 'flex',
                                 'gap-2',
@@ -60,20 +56,21 @@
                                 'px-4',
                                 'rounded-full',
                                 'cursor-pointer',
-
-                                selectedSources.includes(index)
-                                    ? 'bg-vin-rouge hover:bg-vin-rouge'
-                                    : 'bg-gray-200 hover:bg-gray-300',
-                                selectedSources.includes(index)
-                                    ? 'text-white'
-                                    : 'text-vin-rouge',
+                                selectedSources.some(
+                                    (sourceItem) => sourceItem.id === source.id
+                                )
+                                    ? 'bg-vin-rouge hover:bg-vin-rouge text-white'
+                                    : 'bg-gray-200 hover:bg-gray-300 text-vin-rouge',
                             ]"
                         >
-                            <span>{{ source }}</span>
+                            <span>{{ source.nom }}</span>
                             <span
                                 class="material-icons text-xl"
                                 :class="
-                                    selectedSources.includes(index)
+                                    selectedSources.some(
+                                        (sourceItem) =>
+                                            sourceItem.id === source.id
+                                    )
                                         ? 'text-white'
                                         : 'text-vin-rouge'
                                 "
@@ -116,8 +113,8 @@
                         >
                             <div
                                 v-for="(categorie, index) in categories"
-                                :key="index"
-                                @click="toggleCategorie(index)"
+                                :key="categorie.id"
+                                @click="toggleCategorie(categorie)"
                                 :class="[
                                     'flex',
                                     'gap-2',
@@ -129,19 +126,23 @@
                                     'rounded-full',
                                     'cursor-pointer',
 
-                                    selectedCategories.includes(index)
-                                        ? 'bg-vin-rouge hover:bg-vin-rouge'
-                                        : 'bg-gray-200 hover:bg-gray-300',
-                                    selectedCategories.includes(index)
-                                        ? 'text-white'
-                                        : 'text-vin-rouge',
+                                    selectedCategories.some(
+                                        (categorieItem) =>
+                                            categorieItem.id === categorie.id
+                                    )
+                                        ? 'bg-vin-rouge hover:bg-vin-rouge text-white'
+                                        : 'bg-gray-200 hover:bg-gray-300 text-vin-rouge',
                                 ]"
                             >
                                 <span>{{ categorie.nom }}</span>
                                 <span
                                     class="material-icons text-xl"
                                     :class="
-                                        selectedCategories.includes(index)
+                                        selectedCategories.some(
+                                            (categorieItem) =>
+                                                categorieItem.id ===
+                                                categorie.id
+                                        )
                                             ? 'text-white'
                                             : 'text-vin-rouge'
                                     "
@@ -161,26 +162,21 @@
                             Pays
                         </h4>
                         <button
-                            @click="showToutPays = !showToutPays"
+                            @click="showPays = !showPays"
                             class="text-vin-rouge flex items-center justify-center"
                         >
-                            {{ showToutPays ? "Voir moins" : "Voir Tout" }}
                             <i
                                 class="ml-2 material-icons text-3xl text-vin-rou rouge"
                             >
-                                {{
-                                    showToutPays ? "expand_less" : "expand_more"
-                                }}
+                                {{ !showPays ? "expand_less" : "expand_more" }}
                             </i>
                         </button>
                     </div>
-                    <div class="flex flex-wrap gap-4 my-4">
+                    <div v-show="!showPays" class="flex flex-wrap gap-4 my-4">
                         <div
-                            v-for="(paysItem, index) in pays
-                                ? pays
-                                : pays.slice(0, 6)"
-                            :key="index"
-                            @click="togglePays(index)"
+                            v-for="(oPays, index) in pays"
+                            :key="oPays.id"
+                            @click="togglePays(oPays)"
                             :class="[
                                 'flex',
                                 'gap-2',
@@ -192,19 +188,20 @@
                                 'rounded-full',
                                 'cursor-pointer',
 
-                                selectedPays.includes(index)
-                                    ? 'bg-vin-rouge hover:bg-vin-rouge'
-                                    : 'bg-gray-200 hover:bg-gray-300',
-                                selectedPays.includes(index)
-                                    ? 'text-white'
-                                    : 'text-vin-rouge',
+                                selectedPays.some(
+                                    (PaysItem) => PaysItem.id === oPays.id
+                                )
+                                    ? 'bg-vin-rouge hover:bg-vin-rouge text-white'
+                                    : 'bg-gray-200 hover:bg-gray-300 text-vin-rouge',
                             ]"
                         >
-                            <span>{{ paysItem }}</span>
+                            <span>{{ oPays.nom }}</span>
                             <span
                                 class="material-icons text-xl"
                                 :class="
-                                    selectedPays.includes(index)
+                                    selectedPays.some(
+                                        (PaysItem) => PaysItem.id === oPays.id
+                                    )
                                         ? 'text-white'
                                         : 'text-vin-rouge'
                                 "
@@ -262,8 +259,8 @@
                             <label class="mr-4" for="prixMin">Min </label>
                             <input
                                 type="range"
-                                :min="defaultMin"
-                                :max="defaultMax"
+                                :min="calcPrixMin"
+                                :max="calcPrixMax"
                                 step="5"
                                 v-model="prixMin"
                             />
@@ -272,8 +269,8 @@
                             <label class="mr-4" for="prixMax">Max </label>
                             <input
                                 type="range"
-                                :min="defaultMin"
-                                :max="defaultMax"
+                                :min="calcPrixMin"
+                                :max="calcPrixMax"
                                 step="5"
                                 v-model="prixMax"
                             />
@@ -339,14 +336,16 @@
                 <!-- Validation -->
                 <div class="mb-8">
                     <button
+                        @click="handleValiderFiltre"
                         class="w-full bg-vin-rouge text-white py-2 px-4 rounded-full hover:bg-vin-rouge"
                     >
-                        Voir ({{ resultatFiltre }}) résultats
+                        Voir ({{ filteredBouteilles.length }}) résultats
                     </button>
                 </div>
             </div>
         </div>
     </aside>
+    <!-- </transition> -->
 </template>
 
 <script>
@@ -362,44 +361,133 @@ export default {
     },
     data() {
         return {
-            estOuvertFiltre: false,
+            filteredBouteilles: [],
             categories: [],
             selectedCategories: [],
             pays: [],
             selectedPays: [],
-            sources: ["SAQ", "Personnalisée"],
+            sources: [
+                { id: 1, nom: "SAQ" },
+                { id: 2, nom: "Personnalisée" },
+            ],
             selectedSources: [],
-            showToutPays: false,
             showCategorieFiltre: false,
-            prixMin: "0",
-            prixMax: "0",
-            resultatFiltre: 0,
-            nbrEtoileFiltrer: 4,
+            prixMin: 0,
+            prixMax: Infinity,
+            nbrEtoileFiltrer: 0,
             showSource: true,
             showCategories: true,
+            showPays: false,
             showPrix: true,
             showEtoiles: true,
-            defaultMax: 1000,
-            defaultMin: 0,
         };
     },
     computed: {
         inputPrixMinWidth() {
-            return `${this.prixMin.length * 12}px`;
+            return `${this.prixMin.toString().length * 12}px`;
         },
         inputPrixMaxWidth() {
-            return `${this.prixMax.length * 12}px`;
+            return `${this.prixMax.toString().length * 12}px`;
         },
-        expandIcon() {
-            return this.showSource ? "expand_less" : "expand_more";
+        calcPrixMin() {
+            return Math.min(
+                ...this.bouteilles.map((bouteille) => bouteille.prix)
+            );
+        },
+        calcPrixMax() {
+            return Math.max(
+                ...this.bouteilles.map((bouteille) => bouteille.prix)
+            );
+        },
+        filteredItems() {
+            return this.bouteilles.filter((bouteille) => {
+                console.log("PrixBouteille:", bouteille.prix);
+                console.log("PrixMin:", this.prixMin);
+                console.log("PrixMax:", this.prixMax);
+
+                const estCategorieSelectionnee =
+                    this.selectedCategories.length === 0 ||
+                    this.selectedCategories.some(
+                        (categorieItem) =>
+                            categorieItem.id === bouteille.categorie.id
+                    );
+
+                const estPaysSelectionne =
+                    this.selectedPays.length === 0 ||
+                    this.selectedPays.some(
+                        (paysItem) => paysItem.id === bouteille.pays.id
+                    );
+
+                const estSourceSelectionnee =
+                    this.selectedSources.length === 0 ||
+                    this.selectedSources.some((sourceItem) =>
+                        sourceItem.id === 1
+                            ? bouteille.code_saq !== null
+                            : sourceItem.id === 2 && bouteille.code_saq === null
+                    );
+
+                const estPrixInclus =
+                    bouteille.prix >= this.prixMin &&
+                    bouteille.prix <= this.prixMax;
+
+                return (
+                    estCategorieSelectionnee &&
+                    estPaysSelectionne &&
+                    estSourceSelectionnee &&
+                    estPrixInclus &&
+                    Math.floor((bouteille.note * 5) / 100) >=
+                        this.nbrEtoileFiltrer
+                );
+            });
         },
     },
     watch: {
-        prixMin(newVal) {
-            this.prixMax = newVal;
+        selectedCategories: {
+            handler: function (newVal, oldVal) {
+                this.updateFiltredBouteille();
+            },
+            deep: true,
+        },
+        selectedPays: {
+            handler: function (newVal, oldVal) {
+                this.updateFiltredBouteille();
+            },
+            deep: true,
+        },
+        selectedSources: {
+            handler: function (newVal, oldVal) {
+                this.updateFiltredBouteille();
+            },
+            deep: true,
+        },
+        prixMin: {
+            handler: function (newVal, oldVal) {
+                this.updateFiltredBouteille();
+            },
+        },
+        prixMax: {
+            handler: function (newVal, oldVal) {
+                this.updateFiltredBouteille();
+            },
+        },
+        nbrEtoileFiltrer: {
+            handler: function (newVal, oldVal) {
+                this.updateFiltredBouteille();
+            },
         },
     },
     methods: {
+        handleValiderFiltre() {
+            this.filtrer();
+            this.fermerFiltre();
+        },
+        filtrer() {
+            this.$emit("filtrer-bouteilles", this.filteredBouteilles);
+        },
+        updateFiltredBouteille() {
+            this.filteredBouteilles = this.filteredItems;
+        },
+        // Fetch les catégories
         fetchCategories: async function () {
             try {
                 const reponse = await CategorieDataService.getAll();
@@ -409,48 +497,62 @@ export default {
             } finally {
             }
         },
+        // Extraire les pays de la liste de bouteilles
         extrairePays: function (bouteilles) {
-            const paysSet = new Set(
-                bouteilles.map((bouteille) => bouteille.pays.nom)
+            // On utilise reduce pour créer un tableau de pays unique
+            return bouteilles.reduce((accumulateur, bouteille) => {
+                // On vérifie si le pays existe déjà dans le tableau
+                const estExist = accumulateur.find(
+                    (item) => item.id === bouteille.pays.id
+                );
+                // Si le pays n'existe pas, on l'ajoute au tableau
+                if (!estExist) {
+                    accumulateur.push({
+                        nom: bouteille.pays.nom,
+                        id: bouteille.pays.id,
+                    });
+                }
+                // On retourne le tableau
+                return accumulateur;
+            }, []); // On initialise le tableau avec un tableau vide
+        },
+
+        toggleCategorie(oCategorie) {
+            const selectedIndex = this.selectedCategories.findIndex(
+                (categorie) => categorie.id === oCategorie.id
             );
-            return Array.from(paysSet);
-        },
-        async montrerFiltre() {
-            this.estOuvertFiltre = true;
-            await this.fetchCategories();
-            this.pays = this.extrairePays(this.bouteilles);
-            console.log(this.categories);
-        },
-        toggleCategorie(index) {
-            const selectedIndex = this.selectedCategories.indexOf(index);
             if (selectedIndex >= 0) {
                 this.selectedCategories.splice(selectedIndex, 1);
             } else {
-                this.selectedCategories.push(index);
+                this.selectedCategories.push(oCategorie);
             }
-            console.log(this.selectedCategories);
         },
-        toggleSource(index) {
-            const selectedIndex = this.selectedSources.indexOf(index);
+        toggleSource(oSource) {
+            const selectedIndex = this.selectedSources.findIndex(
+                (source) => source.id === oSource.id
+            );
+
             if (selectedIndex >= 0) {
                 this.selectedSources.splice(selectedIndex, 1);
             } else {
-                this.selectedSources.push(index);
+                this.selectedSources.push(oSource);
             }
-            console.log(this.selectedSources);
         },
-        togglePays(index) {
-            const selectedIndex = this.selectedPays.indexOf(index);
+
+        togglePays(oPays) {
+            const selectedIndex = this.selectedPays.findIndex(
+                (pays) => pays.id === oPays.id
+            );
+
             if (selectedIndex >= 0) {
                 this.selectedPays.splice(selectedIndex, 1);
             } else {
-                this.selectedPays.push(index);
+                this.selectedPays.push(oPays);
             }
-            console.log(this.selectedPays);
         },
 
         fermerFiltre() {
-            this.estOuvertFiltre = false;
+            this.$emit("fermer-filtre");
         },
         applyFilters() {
             this.estOuvertFiltre = false;
@@ -459,6 +561,12 @@ export default {
         resetFilters() {
             // ... réinitialisez les filtres ...
         },
+    },
+    mounted() {
+        this.fetchCategories();
+        this.pays = this.extrairePays(this.bouteilles);
+        this.prixMin = this.calcPrixMin;
+        this.prixMax = this.calcPrixMax;
     },
 };
 </script>
