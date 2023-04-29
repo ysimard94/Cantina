@@ -68,10 +68,7 @@ class SAQController extends Controller
 
     public function getBouteilles($valeur)
     {
-        Log::info($valeur);
-        
         $bouteilles = Bouteille::where('nom','LIKE', '%' . $valeur . '%')->take(5)->get();
-        Log::info($bouteilles);
 
         return response()->json($bouteilles);
     }
