@@ -34,6 +34,9 @@ class BouteilleDataService {
             `/celliers/${cellierId}/bouteilles/${bouteilleId}`
         );
     }
+    async getResultatsBouteilles(valeur) {
+        return await apiClient.get(`/resultats/${valeur}`);
+    }
 }
 
 export default new BouteilleDataService();

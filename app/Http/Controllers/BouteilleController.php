@@ -213,9 +213,13 @@ class BouteilleController extends Controller
     /**
      * Obtenir une bouteille par son id
      */
-    public function showBouteille(Bouteille $bouteille)
+    public function getResultatsBouteilles($valeur)
     {
+        // Va chercher la bouteille correspondant à l'id envoyé
+        $bouteilles = Bouteille::where('nom','LIKE', '%' . $valeur . '%')->whereNotNull('code_saq')->with('categorie', 'pays')->take(5)->get();
 
-        return response()->json($bouteille);
+        Log::info($valeur);
+
+        return response()->json($bouteilles);
     }
 }
