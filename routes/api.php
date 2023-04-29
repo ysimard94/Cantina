@@ -50,10 +50,11 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/bouteille/{cellierId}', [BouteilleController::class, 'sauveBouteille']); // Sauvegarder une bouteille
 
     Route::get('/bouteilles', [BouteilleController::class, 'getBouteilles']); // Obtenir toutes les bouteilles
-    Route::get('/bouteille/{bouteille}', [BouteilleController::class, 'showBouteille']); // Obtenir une bouteille
     Route::put('/bouteille/{bouteille}', [BouteilleController::class, 'updateBouteille']); // Modifier une bouteille
     Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleController::class, 'ajoutBouteilleAuCellier']); // Ajouter une bouteille à un cellier
-
+    
+    // Résultats de recherche
+    Route::get('/resultats/{valeur}', [BouteilleController::class, 'getResultatsBouteilles']); // Obtenir une bouteille
     // Pays
     Route::get('/pays', [PaysController::class, 'index']); // Obtenir tous les pays
     // Categories
