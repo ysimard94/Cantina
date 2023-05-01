@@ -1,28 +1,26 @@
 <template>
     <aside>
         <div class="relative w-full h-full bg-white overflow-y-scroll">
-            <div class="px-4 py-4">
-                <header class="flex justify-between items-center">
-                    <button>
-                        <i
-                            @click="fermerFiltre"
-                            class="material-icons text-3xl text-vin-rouge"
-                        >
-                            chevron_left
-                        </i>
-                    </button>
+            <header class="flex justify-between items-center px-4 py-4">
+                <button>
+                    <i
+                        @click="fermerFiltre"
+                        class="material-icons text-3xl text-vin-rouge"
+                    >
+                        chevron_left
+                    </i>
+                </button>
 
-                    <h3 class="text-xl font-semibold text-vin-rouge">
-                        Filtrer
-                    </h3>
-                    <button>
-                        <span class="text-vin-rouge" @click="resetFilters"
-                            >Réinitialiser</span
-                        >
-                    </button>
-                </header>
-                <!-- Barre de séparation  -->
-                <div class="border-t border-gray-300 my-2 mb-4"></div>
+                <h3 class="text-xl font-semibold text-vin-rouge">Filtrer</h3>
+                <button>
+                    <span class="text-vin-rouge" @click="reinitialiserFiltre"
+                        >Réinitialiser</span
+                    >
+                </button>
+            </header>
+            <!-- Barre de séparation  -->
+            <div class="border-t border-gray-300"></div>
+            <div class="px-4 py-4">
                 <!-- Source -->
                 <div class="mb-6">
                     <div class="flex justify-between items-center">
@@ -108,48 +106,42 @@
                         class="flex flex-wrap gap-4 my-4"
                     >
                         <div
-                            v-show="showCategories"
-                            class="flex flex-wrap gap-4 my-4"
-                        >
-                            <div
-                                v-for="(categorie, index) in categories"
-                                :key="categorie.id"
-                                @click="toggleCategorie(categorie)"
-                                :class="[
-                                    'flex',
-                                    'gap-2',
-                                    'items-center',
-                                    'justify-center',
-                                    'text-md',
-                                    'py-1',
-                                    'px-4',
-                                    'rounded-full',
-                                    'cursor-pointer',
+                            v-for="(categorie, index) in categories"
+                            :key="categorie.id"
+                            @click="toggleCategorie(categorie)"
+                            :class="[
+                                'flex',
+                                'gap-2',
+                                'items-center',
+                                'justify-center',
+                                'text-md',
+                                'py-1',
+                                'px-4',
+                                'rounded-full',
+                                'cursor-pointer',
 
+                                selectedCategories.some(
+                                    (categorieItem) =>
+                                        categorieItem.id === categorie.id
+                                )
+                                    ? 'bg-vin-rouge hover:bg-vin-rouge text-white'
+                                    : 'bg-gray-200 hover:bg-gray-300 text-vin-rouge',
+                            ]"
+                        >
+                            <span>{{ categorie.nom }}</span>
+                            <span
+                                class="material-icons text-xl"
+                                :class="
                                     selectedCategories.some(
                                         (categorieItem) =>
                                             categorieItem.id === categorie.id
                                     )
-                                        ? 'bg-vin-rouge hover:bg-vin-rouge text-white'
-                                        : 'bg-gray-200 hover:bg-gray-300 text-vin-rouge',
-                                ]"
+                                        ? 'text-white'
+                                        : 'text-vin-rouge'
+                                "
                             >
-                                <span>{{ categorie.nom }}</span>
-                                <span
-                                    class="material-icons text-xl"
-                                    :class="
-                                        selectedCategories.some(
-                                            (categorieItem) =>
-                                                categorieItem.id ===
-                                                categorie.id
-                                        )
-                                            ? 'text-white'
-                                            : 'text-vin-rouge'
-                                    "
-                                >
-                                    check
-                                </span>
-                            </div>
+                                check
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -336,8 +328,14 @@
                 <!-- Validation -->
                 <div class="mb-8">
                     <button
+                        :disabled="filteredBouteilles.length === 0"
                         @click="handleValiderFiltre"
-                        class="w-full bg-vin-rouge text-white py-2 px-4 rounded-full hover:bg-vin-rouge"
+                        class="w-full text-white py-2 px-4 rounded-full"
+                        :class="
+                            filteredBouteilles.length === 0
+                                ? 'bg-gray-500'
+                                : 'bg-vin-rouge  hover:bg-vin-rouge'
+                        "
                     >
                         Voir ({{ filteredBouteilles.length }}) résultats
                     </button>
@@ -362,6 +360,7 @@ export default {
     data() {
         return {
             filteredBouteilles: [],
+            domFilteredBouteilles: [],
             categories: [],
             selectedCategories: [],
             pays: [],
@@ -383,12 +382,14 @@ export default {
         };
     },
     computed: {
+        // ajuster la largeur des inputs de prix
         inputPrixMinWidth() {
             return `${this.prixMin.toString().length * 12}px`;
         },
         inputPrixMaxWidth() {
             return `${this.prixMax.toString().length * 12}px`;
         },
+        // Retourne le prix minimum et maximum des bouteilles
         calcPrixMin() {
             return Math.min(
                 ...this.bouteilles.map((bouteille) => bouteille.prix)
@@ -401,10 +402,6 @@ export default {
         },
         filteredItems() {
             return this.bouteilles.filter((bouteille) => {
-                console.log("PrixBouteille:", bouteille.prix);
-                console.log("PrixMin:", this.prixMin);
-                console.log("PrixMax:", this.prixMax);
-
                 const estCategorieSelectionnee =
                     this.selectedCategories.length === 0 ||
                     this.selectedCategories.some(
@@ -442,6 +439,13 @@ export default {
         },
     },
     watch: {
+        bouteilles(newVal, oldVal) {
+            if (newVal !== null && newVal !== oldVal) {
+                this.pays = this.extrairePays(newVal);
+                this.prixMax = this.calcPrixMax;
+                this.prixMin = this.calcPrixMin;
+            }
+        },
         selectedCategories: {
             handler: function (newVal, oldVal) {
                 this.updateFiltredBouteille();
@@ -479,9 +483,10 @@ export default {
     methods: {
         handleValiderFiltre() {
             this.filtrer();
-            this.fermerFiltre();
+            this.$emit("fermer-filtre");
         },
         filtrer() {
+            // Émettre l'événement filtrer-bouteilles
             this.$emit("filtrer-bouteilles", this.filteredBouteilles);
         },
         updateFiltredBouteille() {
@@ -552,21 +557,24 @@ export default {
         },
 
         fermerFiltre() {
+            // this.reinitialiserFiltre();
             this.$emit("fermer-filtre");
         },
-        applyFilters() {
-            this.estOuvertFiltre = false;
-            // ... appliquez les filtres ...
-        },
-        resetFilters() {
-            // ... réinitialisez les filtres ...
+        reinitialiserFiltre() {
+            this.filteredBouteilles = this.bouteilles;
+            this.selectedCategories = [];
+            this.selectedPays = [];
+            this.selectedSources = [];
+            this.prixMin = this.calcPrixMin;
+            this.prixMax = this.calcPrixMax;
+            this.nbrEtoileFiltrer = 0;
+            this.filtrer();
         },
     },
     mounted() {
         this.fetchCategories();
-        this.pays = this.extrairePays(this.bouteilles);
-        this.prixMin = this.calcPrixMin;
-        this.prixMax = this.calcPrixMax;
+
+        console.log(this.bouteilles);
     },
 };
 </script>
