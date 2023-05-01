@@ -25,14 +25,10 @@
                     </option>
                 </select>
                 <div class="flex">
-                    <button
-                        class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
-                        @click="showAjouterCellier = true"
-                    ></button>
-                    <button
-                        class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
-                        @click="handleEditButton"
-                    >
+
+                    <button class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
+                        @click="handleEditButton">
+
                         edit
                     </button>
                     <button
@@ -50,14 +46,17 @@
                 />
             </div>
             <div v-if="showModifierCellier" class="md:col-span-3 mt-4">
-                <ModifierCellierComponent
-                    :cellier="cellierActif"
-                    @close="showModifierCellier = false"
-                    @cellier-modifie="mettreAJourCellier"
-                    @cellier-supprime="supprimerCellier"
-                />
+
+                <ModifierCellierComponent :cellier="cellierActif" @close="showModifierCellier = false"
+                    @cellier-modifie="mettreAJourCellier" @cellier-supprime="supprimerCellier" />
             </div>
         </div>
+
+
+       
+
+               
+       
 
         <div class="flex items-center mx-auto p-2">
             <form @submit.prevent="" class="w-full">
@@ -78,6 +77,7 @@
                             search
                         </span></buttons
                     >
+
                 </label>
             </form>
         </div>
@@ -110,76 +110,20 @@
             </transition>
         </div>
 
-        <div
-            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full"
-        >
-            <div
-                class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg py-2 m-2 h-full"
-                v-for="bouteille in bouteillesAffiches"
-                :key="bouteille.id"
-            >
-                <img
-                    :src="bouteille.photo"
-                    :alt="bouteille.nom"
-                    class="w-1/3 mx-auto"
-                />
-                <div class="px-4 pt-4 flex flex-col justify-between">
-                    <h4
-                        class="text-lg font-serif font-semibold text-vin-rouge text-left h-[67px] leading-tight"
-                    >
-                        {{ bouteille.nom }}
-                    </h4>
-                    <div class="mt-4 flex justify-between items-center">
-                        <div class="font-sans text-gray-700">
-                            <div class="font-medium text-left">
-                                {{ bouteille.pays.nom }}
-                            </div>
-                            <div class="font-medium text-left">
-                                {{ bouteille.categorie.nom }}
-                            </div>
-                        </div>
-                        <div>
-                            <div
-                                class="text-gray-700 font-medium mr-2 text-right"
-                            >
-                                Note
-                            </div>
-                            <div class="flex items-center">
-                                <div
-                                    class="text-gray-600 font-medium text-right"
-                                >
-                                    {{ bouteille.note }}%({{
-                                        bouteille.nbr_notes
-                                    }}
-                                    avis)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="mt-auto">
-                    <div class="pb-2 px-4 font-sans">
-                        <div class="flex justify-center">
-                            <button
-                                @click="supprimerBouteille(bouteille.id)"
-                                class="bg-vin_rouge rounded-md w-full text-sm text-vin_blanc hover:text-white focus:outline-none px-2 py-2"
-                            >
-                                supprimer
-                            </button>
-                        </div>
-                        <div class="my-2"></div>
-                    </div>
-                </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full">
+
+            <BouteilleComponent v-if="bouteillesAffiches && bouteillesAffiches.length > 0" :bouteilles="bouteillesAffiches" />
+            <div v-else class="flex items-center justify-center h-full">
+                <p class="text-gray-500">Aucune bouteille dans ce cellier.</p>
             </div>
         </div>
 
-        <router-link
-            :to="{
+        <router-link :to="{
                 name: 'ajouter-bouteille',
                 params: { cellierId: cellierActif.id },
-            }"
-        >
+            }">
+
             <div class="fixed bottom-[72px] right-0 mb-8 mr-8">
                 <button
                     class="bg-vin_blanc hover:bg-gray-700 text-white font-bold py-4 px-4 rounded-full"
@@ -215,7 +159,7 @@ import ModifierCellierComponent from "@/components/ModifierCellierComponent.vue"
 
 export default {
     components: {
-        "bouteille-card": BouteilleComponent,
+        BouteilleComponent,
         FiltreComponent,
         AjouterCellierComponent,
         ModifierCellierComponent,
@@ -257,6 +201,7 @@ export default {
         },
         handleChangerCellier() {
             this.fetchBouteillesCellier();
+
         },
         async fetchBouteillesCellier() {
             try {
@@ -265,6 +210,7 @@ export default {
                         this.cellierActif.id
                     );
                 this.bouteilles = response.data.bouteilles;
+                console.log(this.cellierActif)
             } catch (error) {
                 console.log(error);
             }
@@ -287,10 +233,13 @@ export default {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
                 this.cellierActif = this.celliers[0];
+                console.log(this.cellierActif)
             } catch (error) {
                 console.log(error);
             }
         },
+
+
         //Applique le résultat de la recherche avec les filtres ou non dans le celliers
         rechercheBouteillesCellier() {
             try {
@@ -349,6 +298,12 @@ export default {
                     return cellier;
                 }
             });
+
+
+            if (this.cellierActif && this.cellierActif.id === cellierModifie.id) {
+                this.cellierActif = cellierModifie;
+            }
+
             this.cellierSelectionne = null;
         },
         supprimerCellier() {
@@ -357,7 +312,9 @@ export default {
             );
             this.cellierActif = this.celliers[0];
             this.afficherBouteilles();
+
         },
     },
+
 };
 </script>

@@ -14,10 +14,10 @@
                 class="material-symbols-outlined w-9  font-semibold text-white rounded-full bg-green-500 hover:bg-green-700">
                 done
             </button>
-             <button class="material-symbols-outlined w-9 font-semibold text-white rounded-full bg-red-500 hover:bg-red-700"
-                    @click="annulerAjout">
-                    clear
-                </button>
+            <button class="material-symbols-outlined w-9 font-semibold text-white rounded-full bg-red-500 hover:bg-red-700"
+                @click="annulerAjout">
+                clear
+            </button>
         </form>
     </div>
 </template>
@@ -29,31 +29,39 @@ import CellierDataService from '@/services/CellierDataService.js'
 
 export default {
     name: 'AjouterCellierComponent',
+
     data() {
         return {
             cellier: {
                 nom: '',
+
+
             },
             succesMessage: null
         }
     },
     methods: {
-      async  ajouterCellier() {
-          await  CellierDataService.ajouter(this.cellier)
-                .then(response => {
-                    this.$emit('nouveau-cellier', this.cellier)
-                    this.succesMessage = 'Le cellier a été ajouté avec succès.'
 
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+       async ajouterCellier() {
+            try {
+                if (!this.cellier.nom) {
+                    // Si le champ nom est vide, afficher un message d'erreur et arrêter la méthode
+                   this.succesMessage="Le champ 'Nom du cellier' ne peut pas être vide.";
+                    return;
+                }
 
+                const response = await CellierDataService.ajouter(this.cellier);
+                const nouveauCellier = { id: response.data.id, ...this.cellier };
+                this.$emit('nouveau-cellier', nouveauCellier);
+                this.succesMessage = 'Le cellier a été ajouté avec succès.';
+                window.location.reload();
+            } catch (error) {
+                console.log(error);
+            }
         },
+
         annulerAjout() {
-
-            this.$emit('close')
-
+            this.$emit('close');
         },
     }
 }
