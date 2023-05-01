@@ -4,14 +4,7 @@ const store = createStore({
     state: {
         isLoading: false,
         session: JSON.parse(sessionStorage.getItem("session")) || {},
-        cellierFiltreValeurs: {
-            selectedCategories: [],
-            selectedPays: [],
-            selectedSources: [],
-            selectedPrixMin: 0,
-            selectedPrixMax: 0,
-            selectedNbrEtoiles: 0,
-        },
+        cellierFiltreValeurs: {},
     },
     mutations: {
         setLoading(state, value) {
@@ -21,8 +14,8 @@ const store = createStore({
             state.session[key] = value;
             sessionStorage.setItem("session", JSON.stringify(state.session));
         },
-        setCellierFiltreValeurs(state, key, value) {
-            state.cellierFiltreValeurs[key] = value;
+        setCellierFiltreValeurs(state, value) {
+            state.cellierFiltreValeurs = value;
         },
         resetSession(state) {
             state.session = {};
@@ -41,8 +34,8 @@ const store = createStore({
         setSession({ commit }, key, value) {
             commit("setLoading", key, value);
         },
-        setCellierFiltreValeurs({ commit }, key, value) {
-            commit("setCellierFiltreValeurs", key, value);
+        setCellierFiltreValeurs({ commit }, value) {
+            commit("setCellierFiltreValeurs", value);
         },
         resetSession({ commit }) {
             commit("resetSession");
