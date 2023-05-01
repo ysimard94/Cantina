@@ -41,7 +41,7 @@ class BouteilleController extends Controller
 
     /**
      * Sauvegarder une bouteille
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
@@ -113,7 +113,7 @@ class BouteilleController extends Controller
 
     /**
      * Ajouter une bouteille au cellier de l'utilisateur
-     * 
+     *
      */
     public function ajoutBouteilleAuCellier($cellierId, $bouteilleId)
     {
@@ -122,10 +122,10 @@ class BouteilleController extends Controller
             $cellier = Cellier::where('utilisateur_id', Auth::user()->id)->firstOrFail();
             $bouteille = Bouteille::findOrFail($bouteilleId);
 
-            // Attacher la bouteille au cellier 
+            // Attacher la bouteille au cellier
             $cellier->bouteilles()->attach($bouteille);
 
-            // Renvoyer un message de succès 
+            // Renvoyer un message de succès
             return response()->json(['message' => 'Bouteille ajoutée au cellier avec succès.']);
         } catch (\Exception $e) {
 
@@ -145,7 +145,7 @@ class BouteilleController extends Controller
     {
         try {
             // Obtenir les bouteilles appartenant au cellier passé en paramètre
-            $bouteilles = $cellier->bouteilles()->with('categorie', 'pays')->get();
+            $bouteilles = $cellier->bouteilles()->with('categorie', 'pays')->withPivot('quantite')->get();
 
             // Renvoyer la réponse avec les bouteilles
             return response()->json([
@@ -171,13 +171,13 @@ class BouteilleController extends Controller
         $bouteille = Bouteille::find($bouteilleId);
 
         // S'il ne trouve rien, retourne un message d'erreur
-        if(!$bouteille) 
+        if(!$bouteille)
         {
             return response()->json([
                 'message' => 'Il n\'y a pas de bouteille correspondant'
             ]);
         };
-        
+
         try
         {
             // Validation des données reçues

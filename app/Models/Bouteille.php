@@ -35,6 +35,8 @@ class Bouteille extends Model
 
     public function celliers()
     {
-        return $this->belongsToMany(Cellier::class);
+        return $this->belongsToMany(Cellier::class)
+                    ->withPivot('quantite')
+                    ->withTimestamps();
     }
 }
