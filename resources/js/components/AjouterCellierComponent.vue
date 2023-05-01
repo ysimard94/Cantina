@@ -14,6 +14,10 @@
                 class="material-symbols-outlined w-9  font-semibold text-white rounded-full bg-green-500 hover:bg-green-700">
                 done
             </button>
+             <button class="material-symbols-outlined w-9 font-semibold text-white rounded-full bg-red-500 hover:bg-red-700"
+                    @click="annulerAjout">
+                    clear
+                </button>
         </form>
     </div>
 </template>
@@ -34,10 +38,10 @@ export default {
         }
     },
     methods: {
-        ajouterCellier() {
-            CellierDataService.ajouter(this.cellier)
+      async  ajouterCellier() {
+          await  CellierDataService.ajouter(this.cellier)
                 .then(response => {
-                    console.log(response)
+                    this.$emit('nouveau-cellier', this.cellier)
                     this.succesMessage = 'Le cellier a été ajouté avec succès.'
 
                 })
@@ -45,7 +49,12 @@ export default {
                     console.log(error)
                 })
 
-        }
+        },
+        annulerAjout() {
+
+            this.$emit('close')
+
+        },
     }
 }
 </script>

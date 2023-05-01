@@ -11,26 +11,27 @@
                     </option>
                 </select>
                 <div class="flex">
-                    <router-link :to="{
-                            name: 'modifier-cellier',
-                            params: { id: cellierActif.id },
-                        }">
-                        <button class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-blanc"
-                            @click="showAjouterCellier = true">
-                            edit
-                        </button>
-                    </router-link>
-
                     <button class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
                         @click="showAjouterCellier = true">
+                    <button class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
+                        @click="handleEditButton ">
+                        edit
+                    </button>
+                    <button class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
+                        @click="handleAddButton">
                         add
                     </button>
                 </div>
             </div>
             <div v-if="showAjouterCellier" class="md:col-span-3 mt-4">
-                <AjouterCellierComponent @close="showAjouterCellier = false" />
+                <AjouterCellierComponent @close="showAjouterCellier = false" @nouveau-cellier="ajoutCellier" />
+            </div>
+            <div v-if="showModifierCellier" class="md:col-span-3 mt-4">
+                <ModifierCellierComponent :cellier="cellierActif" @close="showModifierCellier =false"  @cellier-modifie="mettreAJourCellier" @cellier-supprime="supprimerCellier" />
             </div>
         </div>
+
+
         <div class="flex items-center mx-auto p-2">
             <form @submit.prevent="" class="w-full">
                 <label for="rechercheCellier" class="relative">
@@ -115,6 +116,7 @@
                         xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+
                     </svg>
                 </button>
             </div>
@@ -129,12 +131,15 @@ import FiltreComponent from "@/components/FiltreComponent.vue";
 import BouteilleDataService from "@/services/BouteilleDataService.js";
 import CellierDataService from "@/services/CellierDataService.js";
 import AjouterCellierComponent from "@/components/AjouterCellierComponent.vue";
+import ModifierCellierComponent from "@/components/ModifierCellierComponent.vue";
+
 
 export default {
     components: {
         "bouteille-card": BouteilleComponent,
         FiltreComponent,
         AjouterCellierComponent,
+        ModifierCellierComponent,
     },
     data () {
         return {
@@ -145,6 +150,7 @@ export default {
             showAjouterCellier: false,
             estOuvertFiltre: false,
             rechercheCellier: '',
+            showModifierCellier: false
         };
     },
     async mounted () {
@@ -222,6 +228,35 @@ export default {
             } catch (error) {
                 console.log(error)
             }
+
+       async ajoutCellier(nouveaucellier) {
+            this.celliers.push(nouveaucellier)
+        },
+       handleAddButton() {
+            this.showModifierCellier = false;
+            this.showAjouterCellier = true;
+        },
+        handleEditButton() {
+            this.showAjouterCellier = false;
+            this.showModifierCellier = true;
+        },
+         mettreAJourCellier(cellierModifie) {
+            this.celliers = this.celliers.map((cellier) => {
+                if (cellier.id === cellierModifie.id) {
+                    return cellierModifie;
+                } else {
+                    return cellier;
+                }
+            });
+            this.cellierSelectionne = null;
+        },
+        supprimerCellier() {
+               this.celliers = this.celliers.filter(
+                (c) => c.id !== this.cellierActif.id
+            );
+            this.cellierActif = this.celliers[0];
+            this.afficherBouteilles();
+
         }
     },
 };
