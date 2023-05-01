@@ -101,7 +101,7 @@
                 leave-to-class="-translate-x-full"
             >
                 <FiltreComponent
-                    v-if="estOuvertFiltre"
+                    v-show="estOuvertFiltre"
                     @filtrer-bouteilles="filtrerBouteilles"
                     @fermer-filtre="fermerFiltre"
                     :bouteilles="bouteilles"
@@ -242,6 +242,7 @@ export default {
                 ? this.filteredBouteilles
                 : this.bouteilles;
         },
+        // ...mapGetters({ cellierFiltreValeurs: "cellierFiltreValeurs" }),
     },
     methods: {
         // Appliquer le filtre pour afficher toutes les bouteilles filtrées
