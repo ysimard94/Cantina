@@ -1,34 +1,100 @@
 <template>
-    <div class="bg-bg_rose overflow-hidden shadow rounded-lg px-2 py-2 m-4">
-        <img src="../../assets/vin.png" alt="Bottle image" class="w-16 h-32 object-cover mx-auto ">
-        <div class="px-4 py-4">
-            <h4 class="text-lg font-semibold text-vin_rouge text-left">11th Hour Cellars Pinot Noir</h4>
-            <div class="mt-4 flex justify-between items-center">
-                <div>
-                    <div class="text-black font-medium text-left">Portugal</div>
-                    <div class="text-black font-medium text-left">Vin rouge</div>
-                </div>
-                <div>
-                     <div class="text-gray-700 font-medium mr-2 text-right">Note </div>
-                    <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M18.604,7.285c-0.21-0.651-0.84-1.104-1.538-1.104l-5.244-0.038L10.542,1.65c-0.357-0.72-1.402-0.72-1.758,0L7.634,6.143L2.39,6.181c-0.698,0-1.329,0.453-1.539,1.104c-0.21,0.652-0.033,1.366,0.484,1.776l3.813,3.416l-1.105,5.491c-0.105,0.518,0.121,1.039,0.556,1.311c0.436,0.272,0.974,0.246,1.368-0.07l4.722-2.871l4.724,2.872c0.163,0.099,0.341,0.147,0.518,0.147c0.334,0,0.661-0.148,0.883-0.427c0.435-0.272,0.661-0.793,0.556-1.311l-1.105-5.491l3.813-3.416C18.638,8.65,18.814,7.936,18.604,7.285z"/>
-                        </svg>
-                        <div class="text-gray-400 font-medium text-right">4.5</div>
-      </div>
+    <div class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg  h-full" v-for="bouteille in bouteilles"
+        :key="bouteille.id">
+        <div class="flex items-start">
+            <div class="w-1/3">
+                <div class="relative ">
+                    <div class="text-center text-white font-bold" :class="categorieBgColor(bouteille.categorie.nom)">
+                        {{ bouteille.categorie.nom }}
+                    </div>
+                    <img :src="bouteille.photo" :alt="bouteille.nom" class="w-2/3 mt-4 mb-4 mx-auto " />
+
                 </div>
             </div>
-        </div>
-        <div class="px-4 py-3 ">
-            <div class="flex justify-center">
-            <button class="bg-vin_rouge rounded-md w-full text-sm text-vin_blanc hover:text-white focus:outline-none px-2 py-2" >Voir Details</button>
-          </div>
-          <div class="my-2"></div>
-            <div class="flex justify-center">
-            <button class="bg-vin_rouge rounded-md w-full text-sm text-vin_blanc hover:text-white focus:outline-none px-2 py-2" >Supprimer</button>
-          </div>
+            <div class="px-4 pt-4 w-2/3">
+                <h4 class="text-lg font-serif font-semibold text-vin-rouge text-left h-[67px] leading-tight">
+                    {{ bouteille.nom }}
+                </h4>
+                <div class="flex justify-between items-center">
+                    <div class="font-sans text-gray-700">
+                        <div class="font-medium text-left">
+                            {{ bouteille.pays.nom }}
+                        </div>
+                        <div class="font-medium text-left">
+                            Qté:{{  bouteille.pivot.quantite }}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-gray-700 font-medium mr-2 text-right">
+                            Note
+                        </div>
+                        <div class="flex items-center">
+                            <div class="text-gray-600 font-medium text-right">
+                               ({{ bouteille.nbr_notes }} avis)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-auto">
+                    <div class="pb-2 px-4 font-sans flex justify-center mt-2">
+                        <button
+                            class="material-symbols-outlined w-20 h-10 rounded-lg  text-white font-semibold bg-vin-blanc mr-2">
+                            edit
+                        </button>
+                        <div class="w-2"></div>
+                        <button
+                            class="material-symbols-outlined w-20 h-10 rounded-lg  text-white font-semibold bg-vin-rouge ml-2">
+                            delete
+                        </button>
+                    </div>
 
+
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
+
+
+<script>
+import CellierDataService from "@/services/CellierDataService.js";
+export default {
+
+    name: 'BouteilleComponent',
+    props: {
+        bouteilles: {
+            type: Object,
+            required: true,
+        },
+    },
+
+    methods: {
+        async supprimerBouteille(bouteilleId) {
+            try {
+                await CellierDataService.supprimerBouteilleCellier(
+                    this.cellierActif.id,
+                    bouteilleId
+                );
+                this.bouteilles = this.bouteilles.filter(
+                    (bouteille) => bouteille.id !== bouteilleId
+                );
+            } catch (error) {
+                console.log(error);
+            }
+        },
+         categorieBgColor(categorieNom) {
+            switch (categorieNom) {
+                case "Vin rouge":
+                    return "bg-vin-rouge";
+                case "Vin blanc":
+                    return "bg-vin-blanc";
+                case "Vin rosé":
+                    return "bg-[#863D3D]";
+                default:
+                    return "bg-gray-500";
+            }
+        },
+    }
+}
+</script>

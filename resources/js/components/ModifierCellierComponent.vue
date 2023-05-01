@@ -13,8 +13,7 @@
                 @click="annulerModification">
                 clear
             </button>
-            <button type="button"
-                class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
+            <button type="button" class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
                 @click="supprimerCellier">
                 delete
             </button>
@@ -40,39 +39,40 @@ export default {
         }
     },
     methods: {
-        chargerCellier() {
-            CellierDataService.details(this.cellier.id)
-                .then(response => {
-                    this.cellier = response.data
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        },
-        modifierCellier() {
-            const cellier = { nom: this.nouveauNom }
-            CellierDataService.modifier(this.cellier.id, cellier)
-                .then(response => {
-                    console.log(response)
-                    this.successMessage = 'Le cellier a été modifié avec succès.'
-                    this.$emit('cellier-modifie', response.data)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        },
-       async supprimerCellier() {
+        async chargerCellier() {
+            try {
 
-             await CellierDataService.supprimer(this.cellier.id)
-                    .then(response => {
-                        console.log(response)
-                       this.successMessage = 'Le cellier a été supprimé avec succès.'
-                       this.$emit('cellier-supprime')
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                const response = await CellierDataService.details(this.cellier.id)
+                this.cellier = response.data
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async modifierCellier() {
+            if (!this.nouveauNom.trim()) {
+                this.successMessage='Le nom du cellier ne peut pas être vide.';
+                return;
+            }
+            try {
 
+                const cellier = { nom: this.nouveauNom }
+                const response = await CellierDataService.modifier(this.cellier.id, cellier)
+                console.log(response)
+                this.successMessage = 'Le cellier a été modifié avec succès.'
+                this.$emit('cellier-modifie', response.data)
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async supprimerCellier() {
+            try {
+                const response = await CellierDataService.supprimer(this.cellier.id)
+                console.log(response)
+                this.successMessage = 'Le cellier a été supprimé avec succès.'
+                this.$emit('cellier-supprime')
+            } catch (error) {
+                console.log(error)
+            }
         },
         annulerModification() {
             this.nouveauNom = this.cellier.nom;
@@ -80,8 +80,8 @@ export default {
         }
     },
 
-    created() {
-        this.chargerCellier()
+    async created() {
+        await this.chargerCellier()
     },
     watch: {
         cellier: function (nouvelleValeur) {
