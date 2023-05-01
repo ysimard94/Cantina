@@ -50,6 +50,14 @@ const routes = [
             requiresAuth: true,
         },
     },
+    {
+        path: "/",
+        name: "accueil",
+        component: CellierView,
+        meta: {
+            requiresAuth: true,
+        },
+    },
 
 
     {
@@ -98,7 +106,12 @@ const routes = [
             requiresAuth: true,
         },
         props: true,
-    }
+    },
+    {
+        path: "/:pathMatch(.*)*",
+        name: "NotFound",
+        component: PageNonTrouveView,
+    },
 ];
 
 const router = createRouter({
