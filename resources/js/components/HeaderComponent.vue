@@ -28,11 +28,15 @@
                                 </button>
                             </label>
                             <ul class="absolute mt-3 bg-white w-full rounded shadow z-10 transform transition-all duration-300" :class="{ 'transform -translate-y-1 opacity-0': rechercheVide, 'transform translate-y-0 opacity-100': !rechercheVide }">
-                                <li class=" mx-4 flex" v-for="(bouteille, index) in bouteilles">
-                                    <!-- <a href="#" class="pt-2 w-full text-left" :class="{ 'border-b-2': index !== bouteilles.length - 1 }">{{ bouteille.nom }} </a> -->
+                                <li 
+                                    class=" mx-4 flex" 
+                                    
+                                    v-for="(bouteille, index) in bouteilles" 
+                                    >
                                     <router-link 
                                         :to="{ name: 'resultat-recherche', params: { valeur: bouteille.nom } }"
-                                        @click="this.rechercheVide = true, this.valeurRecherche = ''">
+                                        @click="reinitialiserRecherche()"
+                                        class="pt-1">
                                         {{ bouteille.nom }}
                                     </router-link>
                                 </li>
@@ -68,19 +72,15 @@ export default {
 
             this.tempsRecherche = setTimeout(async () => {
                 if (this.valeurRecherche.length >= 3) {
-                    console.log(this.valeurRecherche)
                     this.rechercheVide = false
-
                     try {
                         const reponse = await SaqProduitsDataService.getBouteilles(this.valeurRecherche)
                         this.bouteilles = reponse.data
-                        console.log(this.bouteilles)
                     } catch (e) {
                         console.log(e)
                     }
                 }
             }, 500);
-
             if (this.valeurRecherche.length < 3) {
                 this.rechercheVide = true
                 this.tempsRecherche = setTimeout(() => {
@@ -88,10 +88,16 @@ export default {
                 }, 500)
             }
         },
+        reinitialiserRecherche() {
+            this.rechercheVide = true
+            this.valeurRecherche = ""
+            this.tempsRecherche = setTimeout(() => {
+                this.bouteilles = []
+            }, 500)
+        },
     },
     computed: {
         estConnecter() {
-            console.log(this.$store.state.session.utilisateur_id)
             return this.$store.state.session.utilisateur_id !== undefined
         },
     },
