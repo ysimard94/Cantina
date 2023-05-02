@@ -53,10 +53,10 @@
         </div>
 
 
-       
 
-               
-       
+
+
+
 
         <div class="flex items-center mx-auto p-2">
             <form @submit.prevent="" class="w-full">
@@ -113,7 +113,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full">
 
-            <BouteilleComponent v-if="bouteillesAffiches && bouteillesAffiches.length > 0" :bouteilles="bouteillesAffiches" />
+            <BouteilleComponent v-if="bouteillesAffiches && bouteillesAffiches.length > 0" :bouteilles="bouteillesAffiches" :cellierId="cellierActif.id" />
             <div v-else class="flex items-center justify-center h-full">
                 <p class="text-gray-500">Aucune bouteille dans ce cellier.</p>
             </div>
