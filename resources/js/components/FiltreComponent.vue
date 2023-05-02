@@ -403,14 +403,22 @@ export default {
         },
         // Retourne le prix minimum et maximum des bouteilles
         calcPrixMin() {
-            return Math.min(
-                ...this.bouteilles.map((bouteille) => bouteille.prix)
-            );
+            if (this.bouteilles.length > 0) {
+                return Math.min(
+                    ...this.bouteilles.map((bouteille) => bouteille.prix)
+                );
+            } else {
+                return 0;
+            }
         },
         calcPrixMax() {
-            return Math.max(
-                ...this.bouteilles.map((bouteille) => bouteille.prix)
-            );
+            if (this.bouteilles.length > 0) {
+                return Math.max(
+                    ...this.bouteilles.map((bouteille) => bouteille.prix)
+                );
+            } else {
+                return 0;
+            }
         },
         filteredItems() {
             return this.bouteilles.filter((bouteille) => {
