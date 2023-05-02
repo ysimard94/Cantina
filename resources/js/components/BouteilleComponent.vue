@@ -21,7 +21,7 @@
                             {{ bouteille.pays.nom }}
                         </div>
                         <div class="font-medium text-left">
-                            Qté:{{  bouteille.pivot.quantite }}
+                            Qté:{{ bouteille.pivot.quantite }}
                         </div>
                     </div>
                     <div>
@@ -30,17 +30,20 @@
                         </div>
                         <div class="flex items-center">
                             <div class="text-gray-600 font-medium text-right">
-                               ({{ bouteille.nbr_notes }} avis)
+                                ({{ bouteille.nbr_notes }} avis)
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="mt-auto">
                     <div class="pb-2 px-4 font-sans flex justify-center mt-2">
-                        <button
+                        <button v-if="!bouteille.code_saq"
                             class="material-symbols-outlined w-20 h-10 rounded-lg  text-white font-semibold bg-vin-blanc mr-2">
                             edit
                         </button>
+                        <div v-if="bouteille.code_saq">
+                            <img src="@assets/saq.svg" alt="SAQ Icon" class="w-20 h-10 rounded-lg  text-white font-semibold  mr-2" />
+                        </div>
                         <div class="w-2"></div>
                         <button
                             class="material-symbols-outlined w-20 h-10 rounded-lg  text-white font-semibold bg-vin-rouge ml-2">
@@ -83,7 +86,7 @@ export default {
                 console.log(error);
             }
         },
-         categorieBgColor(categorieNom) {
+        categorieBgColor(categorieNom) {
             switch (categorieNom) {
                 case "Vin rouge":
                     return "bg-vin-rouge";
