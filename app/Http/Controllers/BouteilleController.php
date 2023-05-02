@@ -211,11 +211,11 @@ class BouteilleController extends Controller
     }
 
     /**
-     * Obtenir une bouteille par son id
+     * Obtenir une bouteille par son nom
      */
     public function getResultatsBouteilles($valeur)
     {
-        // Va chercher la bouteille correspondant à l'id envoyé
+        // Va chercher la bouteille correspondant à le nom envoyé
         $bouteilles = Bouteille::where('nom','LIKE', '%' . $valeur . '%')->whereNotNull('code_saq')->with('categorie', 'pays')->take(5)->get();
 
         Log::info($valeur);
