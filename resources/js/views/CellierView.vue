@@ -58,7 +58,7 @@
                 les suivre facilement
             </p>
         </div>
-        <div v-else class="flex flex-col items-center justify-center h-full">
+        <div v-else class="flex flex-col items-center justify-center h-full px-2">
             <div v-if="bouteillesAffiches && bouteillesAffiches.length > 0">
                 <!-- Section pour filtre et tri -->
                 <div class="md:col-span-2 flex justify-between items-center">
@@ -85,11 +85,9 @@
                     </button>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full">
-                    <BouteilleComponent v-if="bouteillesAffiches && bouteillesAffiches.length > 0"
+                    <BouteilleComponent
                         :bouteilles="bouteillesAffiches" :cellierId="cellierActif.id" />
-                    <div v-else class="flex items-center justify-center h-full">
-                        <p class="text-gray-500">Aucune bouteille dans ce cellier.</p>
-                    </div>
+
                 </div>
             </div>
             <div v-else class="w-full flex flex-col items-center justify-center h-full">
