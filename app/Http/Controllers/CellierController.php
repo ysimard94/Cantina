@@ -11,8 +11,9 @@ class cellierController extends Controller
 {
     public function index()
     {
-        $celliers = Cellier::where('utilisateur_id', Auth::user()->id)->get();
-
+        $celliers = Cellier::where('utilisateur_id', Auth::user()->id)
+                ->orderBy('updated_at', 'desc')
+                ->get();
     return response()->json($celliers);
     }
 
