@@ -117,7 +117,7 @@
 
                 <div>
                     <button type="submit" class="mb-4 mt-4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5">
-                        Ajouter
+                        modifier
                     </button>
                 </div>
             </form>

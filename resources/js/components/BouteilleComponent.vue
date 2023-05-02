@@ -37,6 +37,7 @@
                         </div>
                     </div>
                     <div>
+
                         <div class="pb-2 font-sans flex justify-end mt-2">
                             <button v-if="!bouteille.code_saq"
                                 class="material-symbols-outlined w-10 h-10 rounded-lg  text-white font-semibold bg-vin-blanc mr-2">
@@ -49,8 +50,43 @@
                                 class="material-symbols-outlined w-10 h-10 rounded-lg  text-white font-semibold bg-vin-rouge ml-2">
                                 delete
                             </button>
+                        <div class="text-gray-700 font-medium mr-2 text-right">
+                            <div class="flex items-center">
+                                <template v-for="i in 5" :key="i">
+                                    <svg :class="{ 'text-yellow-500': (bouteille.note / 20) >= i }"
+                                        class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path
+                                            d="M10 15.95L4.43 19.7a.5.5 0 0 1-.74-.53l.98-5.71L.21 8.53a.5.5 0 0 1 .28-.85l5.75-.83L9.1 2.27a.5.5 0 0 1 .9 0l2.87 5.8 5.75.83a.5.5 0 0 1 .28.85l-4.45 4.35 1 5.71a.5.5 0 0 1-.74.53L10 15.95z" />
+                                    </svg>
+                                </template>
+                            </div>
                         </div>
+                        <!--<div class="flex items-center">Note
+                        </div> #}-->
                     </div>
+                </div>
+                <div class="mt-auto">
+                    <div class="pb-2 px-4 font-sans flex justify-center mt-2">
+                        <router-link :to="{ name: 'modifier-bouteille', params: { id: bouteille.id } }">
+
+                            <button v-if="!bouteille.code_saq"
+                                class="material-symbols-outlined w-20 h-10 rounded-lg  text-white font-semibold bg-vin-blanc mr-2">
+                                edit
+                            </button>
+                        </router-link>
+                        <div v-if="bouteille.code_saq">
+                            <img src="@assets/saq.svg" alt="SAQ Icon"
+                                class="w-20 h-10 rounded-lg  text-white font-semibold  mr-2" />
+                        </div>
+                        <div class="w-2"></div>
+                        <button
+                            class="material-symbols-outlined w-20 h-10 rounded-lg  text-white font-semibold bg-vin-rouge ml-2"
+                            @click="supprimerBouteille(bouteille.id)">
+                            delete
+                        </button>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -68,19 +104,19 @@ export default {
         bouteilles: {
             type: Object,
             required: true,
+            default: () => []
+        },
+        cellierId: {
+            type: Number,
+            required: true,
         },
     },
 
     methods: {
         async supprimerBouteille(bouteilleId) {
             try {
-                await CellierDataService.supprimerBouteilleCellier(
-                    this.cellierActif.id,
-                    bouteilleId
-                );
-                this.bouteilles = this.bouteilles.filter(
-                    (bouteille) => bouteille.id !== bouteilleId
-                );
+                await CellierDataService.supprimerBouteilleCellier(this.cellierId, bouteilleId);
+                this.bouteilles.splice(this.bouteilles.findIndex(b => b.id === bouteilleId), 1);
             } catch (error) {
                 console.log(error);
             }
