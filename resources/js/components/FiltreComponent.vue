@@ -261,7 +261,7 @@
                             <label class="mr-4" for="prixMax">Max </label>
                             <input
                                 type="range"
-                                :min="calcPrixMin"
+                                :min="prixMin"
                                 :max="calcPrixMax"
                                 step="5"
                                 v-model="prixMax"
@@ -348,6 +348,7 @@
 
 <script>
 import CategorieDataService from "@/services/CategorieDataService.js";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
     name: "FiltreComponent",
@@ -360,7 +361,6 @@ export default {
     data() {
         return {
             filteredBouteilles: [],
-            domFilteredBouteilles: [],
             categories: [],
             selectedCategories: [],
             pays: [],
@@ -382,6 +382,18 @@ export default {
         };
     },
     computed: {
+        adjustedPrixMax: {
+            get() {
+                return this.prixMax;
+            },
+            set(newValue) {
+                if (newValue < this.prixMin) {
+                    this.prixMax = this.prixMin;
+                } else {
+                    this.prixMax = newValue;
+                }
+            },
+        },
         // ajuster la largeur des inputs de prix
         inputPrixMinWidth() {
             return `${this.prixMin.toString().length * 12}px`;
@@ -391,14 +403,22 @@ export default {
         },
         // Retourne le prix minimum et maximum des bouteilles
         calcPrixMin() {
-            return Math.min(
-                ...this.bouteilles.map((bouteille) => bouteille.prix)
-            );
+            if (this.bouteilles.length > 0) {
+                return Math.min(
+                    ...this.bouteilles.map((bouteille) => bouteille.prix)
+                );
+            } else {
+                return 0;
+            }
         },
         calcPrixMax() {
-            return Math.max(
-                ...this.bouteilles.map((bouteille) => bouteille.prix)
-            );
+            if (this.bouteilles.length > 0) {
+                return Math.max(
+                    ...this.bouteilles.map((bouteille) => bouteille.prix)
+                );
+            } else {
+                return 0;
+            }
         },
         filteredItems() {
             return this.bouteilles.filter((bouteille) => {
@@ -424,8 +444,8 @@ export default {
                     );
 
                 const estPrixInclus =
-                    bouteille.prix >= this.prixMin &&
-                    bouteille.prix <= this.prixMax;
+                    parseInt(bouteille.prix) >= this.prixMin &&
+                    parseInt(bouteille.prix) <= this.prixMax;
 
                 return (
                     estCategorieSelectionnee &&
@@ -439,13 +459,6 @@ export default {
         },
     },
     watch: {
-        bouteilles(newVal, oldVal) {
-            if (newVal !== null && newVal !== oldVal) {
-                this.pays = this.extrairePays(newVal);
-                this.prixMax = this.calcPrixMax;
-                this.prixMin = this.calcPrixMin;
-            }
-        },
         selectedCategories: {
             handler: function (newVal, oldVal) {
                 this.updateFiltredBouteille();
@@ -482,11 +495,18 @@ export default {
     },
     methods: {
         handleValiderFiltre() {
+            this.setCellierFiltreValeurs({
+                storeSelectedCategories: this.selectedCategories,
+                storeSelectedPays: this.selectedPays,
+                storeSelectedSources: this.selectedSources,
+                storeSelectedPrixMin: this.prixMin,
+                storeSelectedPrixMax: this.prixMax,
+                storeSelectedNbrEtoileFiltrer: this.nbrEtoileFiltrer,
+            });
             this.filtrer();
             this.$emit("fermer-filtre");
         },
         filtrer() {
-            // Émettre l'événement filtrer-bouteilles
             this.$emit("filtrer-bouteilles", this.filteredBouteilles);
         },
         updateFiltredBouteille() {
@@ -523,6 +543,9 @@ export default {
         },
 
         toggleCategorie(oCategorie) {
+            console.log(
+                this.$store.state.cellierFiltreValeurs.storeSelectedCategories
+            );
             const selectedIndex = this.selectedCategories.findIndex(
                 (categorie) => categorie.id === oCategorie.id
             );
@@ -531,6 +554,9 @@ export default {
             } else {
                 this.selectedCategories.push(oCategorie);
             }
+            console.log(
+                this.$store.state.cellierFiltreValeurs.storeSelectedCategories
+            );
         },
         toggleSource(oSource) {
             const selectedIndex = this.selectedSources.findIndex(
@@ -557,7 +583,7 @@ export default {
         },
 
         fermerFiltre() {
-            // this.reinitialiserFiltre();
+            console.log(this.$store.state.cellierFiltreValeurs);
             this.$emit("fermer-filtre");
         },
         reinitialiserFiltre() {
@@ -568,13 +594,66 @@ export default {
             this.prixMin = this.calcPrixMin;
             this.prixMax = this.calcPrixMax;
             this.nbrEtoileFiltrer = 0;
-            this.filtrer();
         },
+        ...mapMutations(["setCellierFiltreValeurs"]),
     },
     mounted() {
         this.fetchCategories();
+        this.pays = this.extrairePays(this.bouteilles);
+        this.selectedCategories = this.$store.getters.cellierFiltreValeurs
+            .storeSelectedCategories
+            ? JSON.parse(
+                  JSON.stringify(
+                      this.$store.getters.cellierFiltreValeurs
+                          .storeSelectedCategories
+                  )
+              )
+            : [];
+        this.selectedPays = this.$store.getters.cellierFiltreValeurs
+            .storeSelectedPays
+            ? JSON.parse(
+                  JSON.stringify(
+                      this.$store.getters.cellierFiltreValeurs.storeSelectedPays
+                  )
+              )
+            : [];
+        this.selectedSources = this.$store.getters.cellierFiltreValeurs
+            .storeSelectedSources
+            ? JSON.parse(
+                  JSON.stringify(
+                      this.$store.getters.cellierFiltreValeurs
+                          .storeSelectedSources
+                  )
+              )
+            : [];
+        this.prixMin = this.$store.getters.cellierFiltreValeurs
+            .storeSelectedPrixMin
+            ? JSON.parse(
+                  JSON.stringify(
+                      this.$store.getters.cellierFiltreValeurs
+                          .storeSelectedPrixMin
+                  )
+              )
+            : this.calcPrixMin;
+        this.prixMax = this.$store.getters.cellierFiltreValeurs
+            .storeSelectedPrixMax
+            ? JSON.parse(
+                  JSON.stringify(
+                      this.$store.getters.cellierFiltreValeurs
+                          .storeSelectedPrixMax
+                  )
+              )
+            : this.calcPrixMax;
 
-        console.log(this.bouteilles);
+        this.nbrEtoileFiltrer = this.$store.getters.cellierFiltreValeurs
+            .storeSelectedNbrEtoileFiltrer
+            ? JSON.parse(
+                  JSON.stringify(
+                      this.$store.getters.cellierFiltreValeurs
+                          .storeSelectedNbrEtoileFiltrer
+                  )
+              )
+            : 0;
     },
 };
 </script>
