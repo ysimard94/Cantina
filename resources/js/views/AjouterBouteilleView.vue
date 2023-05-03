@@ -1,10 +1,20 @@
 <template>
-    <section class="mt-12">
-        <div class="bg-bg-rose m-4 p-3 shadow-md rounded">
+    <section class="m-4 mt-6">
+        <div class="mb-4 flex justify-start">
+            <button
+                @click="$router.go(-1)"
+                class="bg-vin_blanc hover:bg-gray-700 text-white font-bold rounded-full cursor-pointer"
+            >
+                <i class="material-symbols-outlined py-4 px-4"> arrow_back </i>
+            </button>
+        </div>
+
+        <div class="bg-bg-rose p-3 shadow-md rounded">
             <form
                 @submit.prevent="ajouterBouteille"
                 enctype="multipart/form-data"
             >
+                <!-- Titre -->
                 <h3 class="mb-4 text-vin-rouge font-bold text-xl">
                     Ajouter une bouteille
                 </h3>
@@ -12,9 +22,11 @@
                 <p v-if="erreurServeur" class="block text-md text-red-500">
                     {{ erreurServeur }}
                 </p>
+                <!-- Erreurs de validation client -->
                 <p v-if="message" class="block text-md text-green-500">
                     {{ message }}
                 </p>
+                <!-- Nom -->
                 <div class="mb-4">
                     <label
                         for="nom"
@@ -36,107 +48,86 @@
                         Veillez entrer un nom valide
                     </p>
                 </div>
-                <div class="mb-4">
-                    <label
-                        for="description"
-                        class="block text-lg text-left font-bold text-vin-rouge"
-                        >Description</label
-                    >
-                    <textarea
-                        v-model="description"
-                        id="description"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                    ></textarea>
-                </div>
-                <!-- add a phot here -->
-                <div class="mb-4">
-                    <label
-                        for="photo"
-                        class="block text-lg text-left font-bold text-vin-rouge"
-                        >Select an image:</label
-                    >
-                    <input
-                        @change="chargerPhoto"
-                        id="photo"
-                        type="file"
-                        accept="image/*"
-                        name="photo"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                    />
-                </div>
-
-                <div class="mb-4">
-                    <label
-                        for="pays_id"
-                        class="block text-lg text-left font-bold text-vin-rouge"
-                    >
-                        Pays
-                    </label>
-                    <select
-                        v-model="pays_id"
-                        id="pays_id"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                        :class="{
-                            'border border-red-500':
-                                v$.pays_id.$error && v$.pays_id.$dirty,
-                            'border border-green-500':
-                                !v$.pays_id.$error && v$.pays_id.$dirty,
-                        }"
-                    >
-                        <option disabled value="">Sélectionnez un pays</option>
-                        <option
-                            v-for="paysItem in pays"
-                            :key="paysItem.id"
-                            :value="paysItem.id"
+                <!-- Pays  - Catégories -->
+                <div class="flex gap-2 items-center">
+                    <!-- Pays -->
+                    <div class="mb-4 flex-1">
+                        <label
+                            for="pays_id"
+                            class="block text-lg text-left font-bold text-vin-rouge"
                         >
-                            {{ paysItem.nom }}
-                        </option>
-                    </select>
-                    <p
-                        v-if="v$.pays_id.$error"
-                        class="block text-md text-red-500"
-                    >
-                        Veillez sélectionner un pays
-                    </p>
-                </div>
-                <div class="mb-4">
-                    <label
-                        for="categorie_id"
-                        class="block text-lg text-left font-bold text-vin-rouge"
-                    >
-                        Catégorie
-                    </label>
-                    <select
-                        v-model="categorie_id"
-                        id="categorie_id"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                        :class="{
-                            'border border-red-500':
-                                v$.categorie_id.$error &&
-                                v$.categorie_id.$dirty,
-                            'border border-green-500':
-                                !v$.categorie_id.$error &&
-                                v$.categorie_id.$dirty,
-                        }"
-                    >
-                        <option disabled value="">
-                            Sélectionnez une catégorie
-                        </option>
-                        <option
-                            v-for="categorie in categories"
-                            :key="categorie.id"
-                            :value="categorie.id"
+                            Pays
+                        </label>
+                        <select
+                            v-model="pays_id"
+                            id="pays_id"
+                            class="w-full rounded py-2 px-1 bg-white"
+                            :class="{
+                                'border border-red-500':
+                                    v$.pays_id.$error && v$.pays_id.$dirty,
+                                'border border-green-500':
+                                    !v$.pays_id.$error && v$.pays_id.$dirty,
+                            }"
                         >
-                            {{ categorie.nom }}
-                        </option>
-                    </select>
-                    <p
-                        v-if="v$.categorie_id.$error"
-                        class="block text-md text-red-500"
-                    >
-                        Veillez sélectionner une catégorie
-                    </p>
+                            <option disabled value="">
+                                Sélectionnez un pays
+                            </option>
+                            <option
+                                v-for="paysItem in pays"
+                                :key="paysItem.id"
+                                :value="paysItem.id"
+                            >
+                                {{ paysItem.nom }}
+                            </option>
+                        </select>
+                        <p
+                            v-if="v$.pays_id.$error"
+                            class="block text-md text-red-500"
+                        >
+                            Veillez sélectionner un pays
+                        </p>
+                    </div>
+                    <!-- Catégories -->
+                    <div class="mb-4 flex-1">
+                        <label
+                            for="categorie_id"
+                            class="block text-lg text-left font-bold text-vin-rouge"
+                        >
+                            Catégorie
+                        </label>
+                        <select
+                            v-model="categorie_id"
+                            id="categorie_id"
+                            class="w-full rounded py-2 px-1 bg-white"
+                            :class="{
+                                'border border-red-500':
+                                    v$.categorie_id.$error &&
+                                    v$.categorie_id.$dirty,
+                                'border border-green-500':
+                                    !v$.categorie_id.$error &&
+                                    v$.categorie_id.$dirty,
+                            }"
+                        >
+                            <option disabled value="">
+                                Sélectionnez une catégorie
+                            </option>
+                            <option
+                                v-for="categorie in categories"
+                                :key="categorie.id"
+                                :value="categorie.id"
+                            >
+                                {{ categorie.nom }}
+                            </option>
+                        </select>
+                        <p
+                            v-if="v$.categorie_id.$error"
+                            class="block text-md text-red-500"
+                        >
+                            Veillez sélectionner une catégorie
+                        </p>
+                    </div>
                 </div>
+                <!-- Année -->
                 <div class="mb-4">
                     <label
                         for="annee"
@@ -146,7 +137,7 @@
                     <input
                         v-model="annee"
                         id="annee"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                        class="w-full rounded py-2 px-1"
                         :class="{
                             'border border-red-500':
                                 v$.annee.$error && v$.annee.$dirty,
@@ -161,50 +152,95 @@
                         Veillez entrer une année valide
                     </p>
                 </div>
-
+                <!-- Description -->
                 <div class="mb-4">
                     <label
-                        for="annee"
+                        for="description"
                         class="block text-lg text-left font-bold text-vin-rouge"
-                        >Note (%)</label
+                        >Description</label
                     >
-                    <input
-                        v-model="note"
-                        id="annee"
+                    <textarea
+                        v-model="description"
+                        id="description"
                         class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                        :class="{
-                            'border border-red-500':
-                                v$.note.$error && v$.note.$dirty,
-                            'border border-green-500':
-                                !v$.note.$error && v$.note.$dirty,
-                        }"
-                    />
-                    <p v-if="v$.note.$error" class="block text-md text-red-500">
-                        Veillez entrer une note valide
-                    </p>
-                </div>
-                <div class="mb-4">
-                    <label
-                        for="annee"
-                        class="block text-lg text-left font-bold text-vin-rouge"
-                        >prix</label
-                    >
-                    <input
-                        v-model="prix"
-                        id="annee"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                        :class="{
-                            'border border-red-500':
-                                v$.prix.$error && v$.prix.$dirty,
-                            'border border-green-500':
-                                !v$.prix.$error && v$.prix.$dirty,
-                        }"
-                    />
-                    <p v-if="v$.prix.$error" class="block text-md text-red-500">
-                        Veillez entrer un prix valide
-                    </p>
+                    ></textarea>
                 </div>
 
+                <!-- Image -->
+                <div class="mb-4">
+                    <label
+                        for="photo"
+                        class="block text-lg text-left font-bold text-vin-rouge"
+                        >Select an image:</label
+                    >
+                    <input
+                        @change="chargerPhoto"
+                        id="photo"
+                        type="file"
+                        accept="image/*"
+                        name="photo"
+                        class="w-full rounded pt-2 pb-2 pl-1 pr-1 bg-white"
+                    />
+                </div>
+                <!-- Année - Notes - Prix -->
+                <div class="flex gap-2 items-center">
+                    <!-- Notes -->
+                    <div class="mb-4">
+                        <label
+                            for="note"
+                            class="block text-lg text-left font-bold text-vin-rouge"
+                            >Note (%)</label
+                        >
+                        <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            v-model="note"
+                            id="note"
+                            class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                            :class="{
+                                'border border-red-500':
+                                    v$.note.$error && v$.note.$dirty,
+                                'border border-green-500':
+                                    !v$.note.$error && v$.note.$dirty,
+                            }"
+                        />
+                        <p
+                            v-if="v$.note.$error"
+                            class="block text-md text-red-500"
+                        >
+                            Veillez entrer une note valide
+                        </p>
+                    </div>
+                    <!-- Prix -->
+                    <div class="mb-4">
+                        <label
+                            for="prix"
+                            class="block text-lg text-left font-bold text-vin-rouge"
+                            >prix</label
+                        >
+                        <input
+                            type="number"
+                            v-model="prix"
+                            id="prix"
+                            class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                            :class="{
+                                'border border-red-500':
+                                    v$.prix.$error && v$.prix.$dirty,
+                                'border border-green-500':
+                                    !v$.prix.$error && v$.prix.$dirty,
+                            }"
+                        />
+                        <p
+                            v-if="v$.prix.$error"
+                            class="block text-md text-red-500"
+                        >
+                            Veillez entrer un prix valide
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Validation -->
                 <div>
                     <button
                         type="submit"
@@ -320,7 +356,11 @@ export default {
                 );
 
                 // Afficher un message de succès
-                this.message = reponse.data.message;
+                // this.message = reponse.data.message;
+                this.$router.push({
+                    name: "mes-celliers",
+                    query: { message: reponse.data.message },
+                });
             } catch (erreur) {
                 // Afficher un message d'erreur
                 this.erreurServeur = erreur.response.data.erreur;
