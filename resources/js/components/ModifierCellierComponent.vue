@@ -1,8 +1,9 @@
 <template>
     <div class="flex flex-col items-start space-y-4">
-        <div v-if="successMessage" class="bg-green-100 text-green-700 p-2 mt-4 rounded">
-            {{ successMessage }}
-        </div>
+       <div v-if="errorMessage" class="bg-red-100 text-red-700 p-2 mt-4 rounded">
+                {{ errorMessage }}
+            </div>
+
         <form @submit.prevent="modifierCellier" class="flex items-center space-x-2">
             <input type="text" class="w-full border border-gray-300 rounded-md py-2 px-3" v-model="nouveauNom" />
             <button type="submit"
@@ -35,7 +36,8 @@ export default {
     data() {
         return {
             nouveauNom: this.cellier.nom,
-            successMessage: null
+            successMessage: null,
+            errorMessage: null
         }
     },
     methods: {
@@ -50,7 +52,7 @@ export default {
         },
         async modifierCellier() {
             if (!this.nouveauNom.trim()) {
-                this.successMessage='Le nom du cellier ne peut pas être vide.';
+                this.errorMessage ='Le nom du cellier ne peut pas être vide.';
                 return;
             }
             try {
@@ -60,6 +62,13 @@ export default {
                 console.log(response)
                 this.successMessage = 'Le cellier a été modifié avec succès.'
                 this.$emit('cellier-modifie', response.data)
+                 this.$router.push({
+                    name: 'mes-celliers',
+                    query: {
+                        message: this.successMessage
+                    }
+                 })
+                 this.$emit('close');
             } catch (error) {
                 console.log(error)
             }
@@ -69,8 +78,17 @@ export default {
                 const response = await CellierDataService.supprimer(this.cellier.id)
                 console.log(response)
                 this.successMessage = 'Le cellier a été supprimé avec succès.'
+                this.$router.push({
+                    name: 'mes-celliers',
+                    query: {
+                        message: this.successMessage
+                    }
+                })
+                this.$emit('close');
                 this.$emit('cellier-supprime')
-                window.location.reload();
+
+
+
             } catch (error) {
                 console.log(error)
             }
