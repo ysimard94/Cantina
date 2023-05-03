@@ -1,7 +1,6 @@
 <template>
     <div class="container mx-auto px-2">
-
-         <!-- <div
+        <!-- <div
             class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-2 items-center mx-2 px-2 py-4 bg-bg-rose"
         >
            <label
@@ -28,17 +27,21 @@
                     <span> close </span>
                 </button>
             </div>
+            <!-- </div> -->
+            <!-- Panneaux des celliers  -->
+            <!-- <div
+                class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-2 px-2 py-4 bg-bg-rose"
+            >
+                <label
+                    for="select-cellier"
+                    class="md:col-span-1 font-medium text-gray-700 text-left"
+                    >Mes celliers</label
+                >
+                -->
         </div>
-        <!-- Panneaux des celliers  -->
-        <!-- <div
+        <div
             class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-2 px-2 py-4 bg-bg-rose"
         >
-            <label
-                for="select-cellier"
-                class="md:col-span-1 font-medium text-gray-700 text-left"
-                >Mes celliers</label
-            >
-            -->
             <div class="md:col-span-2 flex justify-between items-center">
                 <select
                     id="select-cellier"
@@ -86,23 +89,24 @@
                 />
             </div>
         </div>
+        <!-- recherche dans le cellier -->
         <div class="flex items-center mx-auto p-2">
             <form @submit.prevent="" class="w-full">
                 <label class="relative flex items-center">
-                    <input 
-                        v-model="rechercheCellier" 
-                        type="text" 
+                    <input
+                        v-model="rechercheCellier"
+                        type="text"
                         class="w-full py-1 pl-2 pr-[32px] rounded"
                         placeholder="Rechercher dans le cellier"
-                    >
-                    <button 
+                    />
+                    <button
                         class="material-symbols-outlined absolute right-0 p-1"
                         @click="rechercheBouteillesCellier"
-                        >
+                    >
                         search
                     </button>
 
-       <!-- <div class="flex items-center mx-auto p-2">
+                    <!-- <div class="flex items-center mx-auto p-2">
             <form @submit.prevent="" class="w-full">
                 <label for="rechercheCellier" class="relative">
                     <input
@@ -122,7 +126,6 @@
                         </span></buttons
                     >
                     -->
-
                 </label>
             </form>
         </div>
@@ -156,7 +159,6 @@
                 <div class="md:col-span-2 flex justify-between items-center">
                     <button
                         class="mr-auto rounded pt-1 pb-1 pl-1 pr-10"
-
                         @click="estOuvertFiltre = !estOuvertFiltre"
                     >
                         <span
@@ -199,11 +201,13 @@
                     </button>
                 </div>
 
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 h-full">
+                <div
+                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 h-full"
+                >
                     <BouteilleComponent
-                        :bouteilles="bouteillesAffiches" :cellierId="cellierActif.id" />
-
+                        :bouteilles="bouteillesAffiches"
+                        :cellierId="cellierActif.id"
+                    />
                 </div>
             </div>
             <div
