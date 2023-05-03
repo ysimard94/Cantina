@@ -105,27 +105,6 @@
                     >
                         search
                     </button>
-
-                    <!-- <div class="flex items-center mx-auto p-2">
-            <form @submit.prevent="" class="w-full">
-                <label for="rechercheCellier" class="relative">
-                    <input
-                        type="text"
-                        id="rechercheCellier"
-                        v-model="rechercheCellier"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-10"
-                        placeholder="Rechercher dans le cellier"
-                    />
-                    <buttons
-                        class="absolute right-0 pl-2"
-                        @click="rechercheBouteillesCellier"
-                        ><span
-                            class="material-symbols-outlined text-4xl font-medium"
-                        >
-                            search
-                        </span></buttons
-                    >
-                    -->
                 </label>
             </form>
         </div>
@@ -184,10 +163,17 @@
                     </transition>
                     <button
                         class="rounded"
-                        @click="reinitialisationBouteilles()"
+                        @click="
+                            reinitialisationBouteilles();
+                            rotation();
+                        "
                     >
                         <span
                             class="material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1"
+                            :class="{
+                                'rotate-[360deg] ease-in-out duration-500':
+                                    estRotation,
+                            }"
                         >
                             refresh
                         </span>
@@ -283,6 +269,7 @@ export default {
             showModifierCellier: false,
             estAjouterCellier: false,
             estPopupOuvert: false,
+            estRotation: false,
         };
     },
     async mounted() {
@@ -405,6 +392,12 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+        rotation() {
+            this.estRotation = true;
+            setTimeout(() => {
+                this.estRotation = false;
+            }, 500);
         },
 
         //Applique le résultat de la recherche avec les filtres ou non dans le celliers
