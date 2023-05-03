@@ -1,5 +1,15 @@
 <template>
     <div class="container mx-auto px-2">
+
+         <!-- <div
+            class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-2 items-center mx-2 px-2 py-4 bg-bg-rose"
+        >
+           <label
+                for="select-cellier"
+                class="md:col-span-1 text-sm text-gray-700 text-left"
+                >Mes celliers</label
+            > -->
+
         <!-- Message de succès -->
         <div v-if="estSuccessPopup" class="m-6">
             <div
@@ -20,7 +30,7 @@
             </div>
         </div>
         <!-- Panneaux des celliers  -->
-        <div
+        <!-- <div
             class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-2 px-2 py-4 bg-bg-rose"
         >
             <label
@@ -28,6 +38,7 @@
                 class="md:col-span-1 font-medium text-gray-700 text-left"
                 >Mes celliers</label
             >
+            -->
             <div class="md:col-span-2 flex justify-between items-center">
                 <select
                     id="select-cellier"
@@ -75,8 +86,23 @@
                 />
             </div>
         </div>
-
         <div class="flex items-center mx-auto p-2">
+            <form @submit.prevent="" class="w-full">
+                <label class="relative flex items-center">
+                    <input 
+                        v-model="rechercheCellier" 
+                        type="text" 
+                        class="w-full py-1 pl-2 pr-[32px] rounded"
+                        placeholder="Rechercher dans le cellier"
+                    >
+                    <button 
+                        class="material-symbols-outlined absolute right-0 p-1"
+                        @click="rechercheBouteillesCellier"
+                        >
+                        search
+                    </button>
+
+       <!-- <div class="flex items-center mx-auto p-2">
             <form @submit.prevent="" class="w-full">
                 <label for="rechercheCellier" class="relative">
                     <input
@@ -95,6 +121,8 @@
                             search
                         </span></buttons
                     >
+                    -->
+
                 </label>
             </form>
         </div>
@@ -118,6 +146,7 @@
                 les suivre facilement
             </p>
         </div>
+
         <div
             v-else
             class="flex flex-col items-center justify-center h-full px-2"
@@ -126,7 +155,8 @@
                 <!-- Section pour filtre et tri -->
                 <div class="md:col-span-2 flex justify-between items-center">
                     <button
-                        class="mr-auto rounded pt-2 pb-2 pl-1 pr-10"
+                        class="mr-auto rounded pt-1 pb-1 pl-1 pr-10"
+
                         @click="estOuvertFiltre = !estOuvertFiltre"
                     >
                         <span
@@ -168,13 +198,12 @@
                         </span>
                     </button>
                 </div>
-                <div
-                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 h-full"
-                >
+
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 h-full">
                     <BouteilleComponent
-                        :bouteilles="bouteillesAffiches"
-                        :cellierId="cellierActif.id"
-                    />
+                        :bouteilles="bouteillesAffiches" :cellierId="cellierActif.id" />
+
                 </div>
             </div>
             <div
