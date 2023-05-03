@@ -51,6 +51,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/bouteilles', [BouteilleController::class, 'getBouteilles']); // Obtenir toutes les bouteilles
     Route::put('/bouteille/{bouteille}', [BouteilleController::class, 'updateBouteille']); // Modifier une bouteille
+    Route::delete('/bouteille/{bouteille}', [BouteilleController::class, 'destroyBouteille']); // Supprimer une bouteille
     Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}', [BouteilleController::class, 'ajoutBouteilleAuCellier']); // Ajouter une bouteille à un cellier
     
     // Résultats de recherche

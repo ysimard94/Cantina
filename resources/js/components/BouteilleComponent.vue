@@ -96,6 +96,7 @@
                         <div class="pb-2 font-sans flex justify-end mt-2">
                             <button
                                 v-if="!bouteille.code_saq"
+                                @click="modifierBouteille(bouteille)"
                                 class="material-symbols-outlined w-10 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2"
                             >
                                 edit
@@ -107,6 +108,7 @@
                                 <img src="@assets/saq.svg" alt="SAQ Icon" />
                             </div>
                             <button
+                                @click="supprimerBouteille(bouteille)"
                                 class="material-symbols-outlined w-10 h-10 rounded-lg text-white font-semibold bg-vin-rouge ml-2"
                             >
                                 delete
@@ -170,20 +172,6 @@ export default {
     },
 
     methods: {
-        async supprimerBouteille(bouteilleId) {
-            try {
-                await CellierDataService.supprimerBouteilleCellier(
-                    this.cellierId,
-                    bouteilleId
-                );
-                this.bouteilles.splice(
-                    this.bouteilles.findIndex((b) => b.id === bouteilleId),
-                    1
-                );
-            } catch (error) {
-                console.log(error);
-            }
-        },
         categorieBgColor(categorieNom) {
             switch (categorieNom) {
                 case "Vin rouge":
@@ -195,6 +183,13 @@ export default {
                 default:
                     return "bg-gray-500";
             }
+        },
+        async modifierBouteille(bouteille) {
+            this.$emit("bouteille-supprime", bouteille);
+        },
+
+        async supprimerBouteille(bouteille) {
+            this.$emit("bouteille-supprime", bouteille);
         },
     },
 };
