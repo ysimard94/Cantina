@@ -34,11 +34,15 @@ class cellierController extends Controller
 
         $cellier->save();
 
-        return response()->json(['success' => 'Le cellier a été ajouté avec succès!']);
+        return response()->json($cellier);
 
 
     }
-
+    public function getById($id)
+    {
+        $cellier = Cellier::findOrFail($id);
+        return response()->json($cellier);
+    }
 
     public function show($id)
     {
@@ -86,7 +90,7 @@ class cellierController extends Controller
         // Remove the bouteille from the cellier
         $cellier->bouteilles()->detach($bouteilleId);
 
-        return response()->json(['success' => 'Bouteille supprimée du cellier'], 200);
+        return response()->json($cellier);
     }
 
 }
