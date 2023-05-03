@@ -1,26 +1,10 @@
 <template>
-    <!-- <div class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg h-full" v-for="bouteille in bouteilles"
+    <div class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg h-full" v-for="bouteille in bouteilles"
         :key="bouteille.id">
         <div class="flex items-start">
             <div class="w-1/3">
                 <div class="relative ">
-                    <div class="text-center text-white font-bold font-sans" :class="categorieBgColor(bouteille.categorie.nom)">
-                  
-                    
-                    -->
-
-    <div
-        class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg h-full"
-        v-for="bouteille in bouteilles"
-        :key="bouteille.id"
-    >
-        <div class="flex items-start">
-            <div class="w-1/3">
-                <div class="relative">
-                    <div
-                        class="text-center text-white font-bold"
-                        :class="categorieBgColor(bouteille.categorie.nom)"
-                    >
+                    <div class="text-center text-white font-bolder font-sans" :class="categorieBgColor(bouteille.categorie.nom)">
                         {{ bouteille.categorie.nom }}
                     </div>
                     <img
@@ -31,7 +15,7 @@
                 </div>
             </div>
 
-            <div class="px-4 pt-3 w-2/3 flex flex-col h-full">
+            <div class="px-4 pt-2 w-2/3 flex flex-col h-full">
                 <h4
                     class="font-serif text-[15px] font-semibold text-vin-rouge text-left h-[67px] leading-tight"
                 >
@@ -51,19 +35,12 @@
                                 <div class="text-gray-700 font-medium mr-2">
                                     <div class="flex items-center">
                                         <template v-for="i in 5" :key="i">
-                                            <svg
-                                                :class="{
-                                                    'text-yellow-500':
-                                                        bouteille.note / 20 >=
-                                                        i,
-                                                }"
-                                                class="w-4 h-4 fill-current"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                            >
+                                            <svg :class="{ 'text-vin-blanc': bouteille.note / 20 >= i, }"
+                                                class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24">
                                                 <path
-                                                    d="M10 15.95L4.43 19.7a.5.5 0 0 1-.74-.53l.98-5.71L.21 8.53a.5.5 0 0 1 .28-.85l5.75-.83L9.1 2.27a.5.5 0 0 1 .9 0l2.87 5.8 5.75.83a.5.5 0 0 1 .28.85l-4.45 4.35 1 5.71a.5.5 0 0 1-.74.53L10 15.95z"
-                                                />
+                                                    d="M12 2 L15.09 8.09 L23 9.54 L17.91 15.5 L19.64 23.54 L12 20.59 L4.36 23.54 L6.09 15.5 L1 9.54 L8.91 8.09 L12 2 Z" />
+
                                             </svg>
                                         </template>
                                     </div>
@@ -72,21 +49,14 @@
                         </div>
                     </div>
                     <div>
-                        <div class="pb-2 font-sans flex justify-end mt-2">
-                            <router-link
+                        <div class="pb-2 font-sans flex justify-end mt-1">
+                            <button
                                 v-if="!bouteille.code_saq"
-                                :to="{
-                                    name: 'modifier-bouteille',
-                                    params: { id: bouteille.id },
-                                }"
+                                @click="modifierBouteille(bouteille)"
+                                class="material-symbols-outlined w-10 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2"
                             >
-                                <button
-                                    class="material-symbols-outlined w-10 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2"
-                                >
-                                    edit
-                                </button>
-                            </router-link>
-
+                                edit
+                            </button>
                             <div
                                 v-if="bouteille.code_saq"
                                 class="w-[32px] my-auto mr-2"
@@ -122,7 +92,6 @@ export default {
             required: true,
         },
     },
-
     methods: {
         categorieBgColor(categorieNom) {
             switch (categorieNom) {
@@ -139,7 +108,6 @@ export default {
         async modifierBouteille(bouteille) {
             this.$emit("bouteille-supprime", bouteille);
         },
-
         async supprimerBouteille(bouteille) {
             this.$emit("bouteille-supprime", bouteille);
         },

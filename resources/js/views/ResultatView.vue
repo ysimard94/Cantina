@@ -1,27 +1,38 @@
 <template>
     <div class="container mx-auto">
-        <div v-for="bouteille in bouteilles">
+        <div v-for="bouteille in bouteilles" :key="bouteille.id">
             <div class="bg-bg_rose overflow-hidden shadow rounded-lg px-2 py-2 m-4">
+                
                 <img :src="bouteille.photo" alt="Bottle image" class="w-16 h-32 object-cover mx-auto ">
                 <div class="px-4 py-4">
-                    <h4 class="text-lg font-semibold text-vin_rouge text-left">{{ bouteille.nom }}</h4>
-                    <div class="mt-4 flex justify-between items-center">
-                        <div>
+                    <h4 class="text-lg font-semibold text-vin_rouge text-left font-serif">{{ bouteille.nom }}</h4>
+                    <div class="text-left font-serif font-bold mt-2 text-lg">$ {{ bouteille.prix }}</div>
+                    <div class="mt-2 flex justify-between items-center">
+                        <div class="font-sans">
                             <div class="text-black font-medium text-left">{{ bouteille.pays.nom }}</div>
                             <div class="text-black font-medium text-left">{{ bouteille.categorie.nom }}</div>
                         </div>
-                        <div>
-                            <div class="text-gray-700 font-medium mr-2 text-right">Note </div>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-1"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M18.604,7.285c-0.21-0.651-0.84-1.104-1.538-1.104l-5.244-0.038L10.542,1.65c-0.357-0.72-1.402-0.72-1.758,0L7.634,6.143L2.39,6.181c-0.698,0-1.329,0.453-1.539,1.104c-0.21,0.652-0.033,1.366,0.484,1.776l3.813,3.416l-1.105,5.491c-0.105,0.518,0.121,1.039,0.556,1.311c0.436,0.272,0.974,0.246,1.368-0.07l4.722-2.871l4.724,2.872c0.163,0.099,0.341,0.147,0.518,0.147c0.334,0,0.661-0.148,0.883-0.427c0.435-0.272,0.661-0.793,0.556-1.311l-1.105-5.491l3.813-3.416C18.638,8.65,18.814,7.936,18.604,7.285z" />
+                        <div class="flex mb-auto">
+                            <template v-for="i in 5" :key="i">
+                                <svg :class="{ 'text-vin-blanc': bouteille.note / 20 >= i, }" class="w-4 h-4 fill-current"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2 L15.09 8.09 L23 9.54 L17.91 15.5 L19.64 23.54 L12 20.59 L4.36 23.54 L6.09 15.5 L1 9.54 L8.91 8.09 L12 2 Z" />
                                 </svg>
-                                <div class="text-gray-400 font-medium text-right">4.5</div>
-                            </div>
+                            </template>
                         </div>
                     </div>
+                </div>
+                <p class="block text-md text-green-600">{{ bouteille.message }}</p>
+                <div class="flex justify-between items-center mx-3 mb-3 hover:text-geen-600">
+                    <select id="select-cellier"
+                        class="p-2 font-sans w-full rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <option disabled class="font-black">-- Sélectionner un cellier --</option>
+                        <option v-for="(cellier) in celliers" :value="cellier.id" :key="cellier.id">{{ cellier.nom }}
+                        </option>
+                    </select>
+                    <button class="material-symbols-outlined text-4xl ml-2 add-button"
+                        @click="ajouterBouteille(bouteille.id, $event)">add</button>
                 </div>
             </div>
         </div>
@@ -29,12 +40,15 @@
 </template>
 <script>
 import BouteilleDataService from "@/services/BouteilleDataService.js";
+import CellierDataService from "@/services/CellierDataService.js";
 
 export default {
     name: "ResultatView",
     data() {
         return {
             bouteilles: [],
+            celliers: [],
+            message: "",
         };
     },
     methods: {
@@ -47,8 +61,40 @@ export default {
                 console.log(e)
             }
         },
+        async fetchCelliers() {
+            try {
+                const response = await CellierDataService.getAll();
+                this.celliers = response.data;
+                // Si il est existe au moins un cellier, on mis le premier comme cellier actif
+                if (this.celliers.length > 0) {
+                    this.cellierActif = this.celliers[0];
+                }
+                console.log(this.celliers)
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        handleChangerCellier() {
+            console.log(this.cellierActif)
+        },
+        async ajouterBouteille(bouteilleId, event) {
+            let cellierId = event.target.parentNode.querySelector("#select-cellier").value;
+            console.log(bouteilleId, cellierId)
+            try {
+                const response = await BouteilleDataService.ajouterBouteilleAuCellier(cellierId, bouteilleId);
+                console.log(response.data);
+                const bouteilleAjoutee = this.bouteilles.find(bouteille => bouteille.id === bouteilleId);
+                bouteilleAjoutee.message = response.data.message;
+                setTimeout(() => {
+                    bouteilleAjoutee.message = "";
+                }, 3000);
+            } catch (error) {
+                console.log(reponse.data);
+            }
+        }
     },
-    mounted() {
+    async mounted() {
+        await this.fetchCelliers()
         this.obtenirBouteille()
     },
     // Va vérifier si la route a changé et refaire la requête si c'est le cas
@@ -59,3 +105,8 @@ export default {
     },
 };
 </script>
+<style>
+.add-button:hover {
+    color: rgb(14, 168, 14);
+}
+</style>
