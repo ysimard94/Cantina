@@ -46,13 +46,11 @@
                 </h4>
                 <div class="text-sm mt-auto">
                     <div class="flex justify-between items-center">
-                        <div class="font-sans text-gray-700">
+                        <div class="w-full font-sans text-gray-700">
                             <div class="font-medium text-left">
                                 {{ bouteille.pays.nom }}
                             </div>
-                            <div
-                                class="w-full flex items-center justify-between"
-                            >
+                            <div class="flex items-center justify-between">
                                 <div class="font-medium text-left">
                                     Qté: {{ bouteille.pivot.quantite }}
                                 </div>
