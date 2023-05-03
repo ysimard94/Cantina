@@ -33,15 +33,8 @@
 
             <div class="px-4 pt-3 w-2/3 flex flex-col h-full">
                 <h4
-                    class="font-serif font-semibold text-vin-rouge text-left h-[67px] leading-tight"
+                    class="font-serif text-[15px] font-semibold text-vin-rouge text-left h-[67px] leading-tight"
                 >
-                    <!--
-                <div class="px-4 pt-4 w-2/3">
-                    <h4
-                        class="text-lg font-serif font-semibold text-vin-rouge text-left h-[67px] leading-tight"
-                    >
-                    -->
-
                     {{ bouteille.nom }}
                 </h4>
                 <div class="text-sm mt-auto">
@@ -77,20 +70,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div>
-                            <div
-                                class="text-gray-700 font-medium mr-2 text-right"
-                            >
-                                Note
-                            </div>
-                            <div class="flex items-center">
-                                <div
-                                    class="text-gray-600 font-medium text-right"
-                                >
-                                    ({{ bouteille.nbr_notes }} avis)
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                     <div>
                         <div class="pb-2 font-sans flex justify-end mt-2">
@@ -121,42 +100,8 @@
                                 delete
                             </button>
                         </div>
-
-                        <!--<div class="flex items-center">Note
-                        </div> #}-->
                     </div>
                 </div>
-                <!-- <div class="mt-auto">
-                    <div class="pb-2 px-4 font-sans flex justify-center mt-2">
-                        <router-link
-                            :to="{
-                                name: 'modifier-bouteille',
-                                params: { id: bouteille.id },
-                            }"
-                        >
-                            <button
-                                v-if="!bouteille.code_saq"
-                                class="material-symbols-outlined w-20 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2"
-                            >
-                                edit
-                            </button>
-                        </router-link>
-                        <div v-if="bouteille.code_saq">
-                            <img
-                                src="@assets/saq.svg"
-                                alt="SAQ Icon"
-                                class="w-20 h-10 rounded-lg text-white font-semibold mr-2"
-                            />
-                        </div>
-                        <div class="w-2"></div>
-                        <button
-                            class="material-symbols-outlined w-20 h-10 rounded-lg text-white font-semibold bg-vin-rouge ml-2"
-                            @click="supprimerBouteille(bouteille.id)"
-                        >
-                            delete
-                        </button>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>

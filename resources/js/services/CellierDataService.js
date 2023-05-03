@@ -7,6 +7,9 @@ class CellierDataService {
     async ajouter(data) {
         return await apiClient.post("/celliers", data);
     }
+    async getCellierById(id) {
+        return await apiClient.get(`/cellier/${id}`);
+    }
 
     async details(id) {
         return await apiClient.get(`/celliers/${id}`);

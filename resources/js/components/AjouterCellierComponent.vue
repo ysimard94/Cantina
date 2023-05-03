@@ -36,6 +36,7 @@ export default {
                 nom: '',
 
 
+
             },
             succesMessage: null
         }
@@ -51,10 +52,12 @@ export default {
                 }
 
                 const response = await CellierDataService.ajouter(this.cellier);
-                const nouveauCellier = { id: response.data.id, ...this.cellier };
+                console.log(response.data.id)
+                const nouveauCellier = { id:response.data.id , ...this.cellier };
+                console.log(nouveauCellier);
                 this.$emit('nouveau-cellier', nouveauCellier);
                 this.succesMessage = 'Le cellier a été ajouté avec succès.';
-                window.location.reload();
+                //window.location.reload();
             } catch (error) {
                 console.log(error);
             }
