@@ -1,6 +1,15 @@
 <template>
-    <section class="mt-12">
-        <div class="bg-bg-rose m-4 p-3 shadow-md rounded">
+    <section class="m-4 mt-6">
+        <div class="mb-4 flex justify-start">
+            <button
+                @click="$router.go(-1)"
+                class="bg-vin_blanc hover:bg-gray-700 text-white font-bold rounded-full cursor-pointer"
+            >
+                <i class="material-symbols-outlined py-4 px-4"> arrow_back </i>
+            </button>
+        </div>
+
+        <div class="bg-bg-rose p-3 shadow-md rounded">
             <form
                 @submit.prevent="ajouterBouteille"
                 enctype="multipart/form-data"
@@ -52,7 +61,7 @@
                         <select
                             v-model="pays_id"
                             id="pays_id"
-                            class="w-full rounded pt-2 pb-2 pl-1 pr-1 bg-white"
+                            class="w-full rounded py-2 px-1 bg-white"
                             :class="{
                                 'border border-red-500':
                                     v$.pays_id.$error && v$.pays_id.$dirty,
@@ -89,7 +98,7 @@
                         <select
                             v-model="categorie_id"
                             id="categorie_id"
-                            class="w-full rounded pt-2 pb-2 pl-1 pr-1 bg-white"
+                            class="w-full rounded py-2 px-1 bg-white"
                             :class="{
                                 'border border-red-500':
                                     v$.categorie_id.$error &&
@@ -128,7 +137,7 @@
                     <input
                         v-model="annee"
                         id="annee"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                        class="w-full rounded py-2 px-1"
                         :class="{
                             'border border-red-500':
                                 v$.annee.$error && v$.annee.$dirty,
