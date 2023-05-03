@@ -211,6 +211,17 @@ class BouteilleController extends Controller
     }
 
     /**
+     * Supprimer une bouteille
+     */
+    public function destroyBouteille(Bouteille $bouteille)
+    {
+        $bouteille->delete();
+
+        return response()->json([
+            'message' => 'La bouteille a été supprimée avec succès.'
+        ]);
+    }
+    /**
      * Obtenir une bouteille par son nom
      */
     public function getResultatsBouteilles($valeur)

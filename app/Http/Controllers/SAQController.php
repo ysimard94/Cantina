@@ -31,7 +31,7 @@ class SAQController extends Controller
 
         // Calculer le nombre total de pages
         // $totalPage = ceil($totalItems / 96);
-        $totalPage = 5;
+        $totalPage = 1;
 
 
 

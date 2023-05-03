@@ -207,6 +207,8 @@
                     <BouteilleComponent
                         :bouteilles="bouteillesAffiches"
                         :cellierId="cellierActif.id"
+                        @bouteille-supprime="supprimerBouteille"
+                        @bouteille-modifie="modifierBouteille"
                     />
                 </div>
             </div>
@@ -348,19 +350,50 @@ export default {
                 console.log(error);
             }
         },
-        async supprimerBouteille(bouteilleId) {
+        async supprimerBouteille(bouteille) {
             try {
+                // Supprimer la bouteille dans le cellier actif
                 await CellierDataService.supprimerBouteilleCellier(
-                    1,
-                    bouteilleId
+                    this.cellierActif.id,
+                    bouteille.id
                 );
+                // Supprimer la bouteille dans la liste des bouteilles si la bouteille est celle de la SAQ
+                if (bouteille.code_saq === null) {
+                    await BouteilleDataService.delete(bouteille.id);
+                }
                 this.bouteilles = this.bouteilles.filter(
-                    (bouteille) => bouteille.id !== bouteilleId
+                    (bouteilleItem) => bouteilleItem.id !== bouteille.id
                 );
             } catch (error) {
                 console.log(error);
             }
         },
+        // async modifierBouteille(bouteille) {
+        //     try {
+        //         // Supprimer la bouteille dans le cellier actif
+        //         await CellierDataService.supprimerBouteilleCellier(
+        //             cellierActif.id,
+        //             bouteilleId
+        //         );
+
+        //         // Supprimer la bouteille dans la liste des bouteilles si la bouteille est celle de la SAQ
+        //         if (
+        //             (this.bouteilles = this.bouteilles.filter(
+        //                 (bouteille) => bouteille.id !== bouteilleId
+        //             ))
+        //         ) {
+        //         }
+        //         await BouteilleDataService.delete(bouteilleId);
+
+        //         this.bouteilles = this.bouteilles.filter(
+        //             (bouteille) => bouteille.id !== bouteilleId
+        //         );
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // },
+
+        // Obtenir la liste des celliers
         async fetchCelliers() {
             try {
                 const response = await CellierDataService.getAll();
