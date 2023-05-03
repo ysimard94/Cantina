@@ -122,7 +122,7 @@ class BouteilleController extends Controller
     {
         try {
             // Obtenir le cellier de l'utilisateur
-            $cellier = Cellier::where('utilisateur_id', Auth::user()->id)->firstOrFail();
+            $cellier = Cellier::where('utilisateur_id', Auth::user()->id)->findOrFail($cellierId);
             $bouteille = Bouteille::findOrFail($bouteilleId);
 
             // Attacher la bouteille au cellier
@@ -130,14 +130,16 @@ class BouteilleController extends Controller
 
             // Renvoyer un message de succès
             return response()->json(['message' => 'Bouteille ajoutée au cellier avec succès.']);
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) 
+        {
 
             // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
             error_log($e->getMessage());
 
             return response()->json([
                 'status' => 'échec',
-                'erreur' => 'Nous nous excusons, une erreur s\'est produite sur le serveur. Veuillez réessayer plus tard.'
+                'message' => 'Nous nous excusons, une erreur s\'est produite sur le serveur. Veuillez réessayer plus tard.'
             ], 500);
         }
     }
