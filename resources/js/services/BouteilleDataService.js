@@ -5,11 +5,8 @@ class BouteilleDataService {
         return await apiClient.get(`/bouteilles`);
     }
 
-    async create(cellierId, data) {
-        return await apiClient.postWithFormData(
-            `/bouteille/${cellierId}`,
-            data
-        );
+    async create(id, data) {
+        return await apiClient.postWithFormData(`/bouteille/${id}`, data);
     }
 
     async get(id) {

@@ -22,6 +22,8 @@ apiClient.interceptors.request.use(
 );
 
 apiClient.postWithFormData = function (url, data) {
+    console.log("URL: ", url);
+    console.log("Data: ", data);
     const config = {
         headers: {
             "Content-Type": "multipart/form-data",
@@ -30,5 +32,17 @@ apiClient.postWithFormData = function (url, data) {
 
     return this.post(url, data, config);
 };
+
+// apiClient.putWithFormData = function (url, data) {
+//     console.log("URL: ", url);
+//     console.log("Data: ", data);
+//     const config = {
+//         headers: {
+//             "Content-Type": "multipart/form-data",
+//         },
+//     };
+
+//     return this.put(url, data, config);
+// };
 
 export default apiClient;

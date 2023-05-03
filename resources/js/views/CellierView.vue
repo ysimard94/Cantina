@@ -1,14 +1,5 @@
 <template>
     <div class="container mx-auto px-2">
-        <!-- <div
-            class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-2 items-center mx-2 px-2 py-4 bg-bg-rose"
-        >
-           <label
-                for="select-cellier"
-                class="md:col-span-1 text-sm text-gray-700 text-left"
-                >Mes celliers</label
-            > -->
-
         <!-- Message de succès -->
         <div v-if="estSuccessPopup" class="m-6">
             <div
@@ -27,17 +18,6 @@
                     <span> close </span>
                 </button>
             </div>
-            <!-- </div> -->
-            <!-- Panneaux des celliers  -->
-            <!-- <div
-                class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-2 px-2 py-4 bg-bg-rose"
-            >
-                <label
-                    for="select-cellier"
-                    class="md:col-span-1 font-medium text-gray-700 text-left"
-                    >Mes celliers</label
-                >
-                -->
         </div>
         <div
             class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-2 px-2 py-4 bg-bg-rose"
@@ -270,6 +250,7 @@ export default {
             estAjouterCellier: false,
             estPopupOuvert: false,
             estRotation: false,
+            bouteilleSuprimeeMessage: "",
         };
     },
     async mounted() {
@@ -288,7 +269,8 @@ export default {
         },
 
         successMessage() {
-            const message = this.$route.query.message;
+            const message =
+                this.$route.query.message || this.bouteilleSuprimeeMessage;
 
             if (message && message !== "") {
                 this.showSuccessPopup();
@@ -338,47 +320,36 @@ export default {
             }
         },
         async supprimerBouteille(bouteille) {
+            const estConfirmé = confirm(
+                "Êtes-vous sûr de vouloir supprimer cette bouteille ?"
+            );
+            if (!estConfirmé) {
+                return;
+            }
             try {
                 // Supprimer la bouteille dans le cellier actif
                 await CellierDataService.supprimerBouteilleCellier(
                     this.cellierActif.id,
                     bouteille.id
                 );
-                // Supprimer la bouteille dans la liste des bouteilles si la bouteille est celle de la SAQ
+                // Supprimer la bouteille dans la liste des bouteilles si la bouteille n'est pas celle de la SAQ
                 if (bouteille.code_saq === null) {
                     await BouteilleDataService.delete(bouteille.id);
                 }
                 this.bouteilles = this.bouteilles.filter(
                     (bouteilleItem) => bouteilleItem.id !== bouteille.id
                 );
+
+                // initier le message de confirmation
+                this.bouteilleSuprimeeMessage =
+                    "La bouteille a été supprimée avec succès.";
+
+                // Montrer le message de confirmation
+                this.showSuccessPopup();
             } catch (error) {
                 console.log(error);
             }
         },
-        // async modifierBouteille(bouteille) {
-        //     try {
-        //         // Supprimer la bouteille dans le cellier actif
-        //         await CellierDataService.supprimerBouteilleCellier(
-        //             cellierActif.id,
-        //             bouteilleId
-        //         );
-
-        //         // Supprimer la bouteille dans la liste des bouteilles si la bouteille est celle de la SAQ
-        //         if (
-        //             (this.bouteilles = this.bouteilles.filter(
-        //                 (bouteille) => bouteille.id !== bouteilleId
-        //             ))
-        //         ) {
-        //         }
-        //         await BouteilleDataService.delete(bouteilleId);
-
-        //         this.bouteilles = this.bouteilles.filter(
-        //             (bouteille) => bouteille.id !== bouteilleId
-        //         );
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // },
 
         // Obtenir la liste des celliers
         async fetchCelliers() {
@@ -504,6 +475,7 @@ export default {
                 this.$router.replace({
                     query: { ...this.$route.query, message: "" },
                 });
+                this.bouteilleSuprimeeMessage = "";
             }, 3000);
         },
         fermerPopup() {

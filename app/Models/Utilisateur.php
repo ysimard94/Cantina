@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\Cellier;
 
 
 class Utilisateur extends Authenticatable implements JWTSubject
@@ -52,4 +53,13 @@ class Utilisateur extends Authenticatable implements JWTSubject
     protected $casts = [
         'couriel_verifie_le' => 'datetime',
     ];
+
+
+
+    public function celliers()
+    {
+        return $this->hasMany(Cellier::class);
+    }
+
+
 }
