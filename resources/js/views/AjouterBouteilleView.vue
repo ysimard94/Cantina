@@ -356,7 +356,11 @@ export default {
                 );
 
                 // Afficher un message de succès
-                this.message = reponse.data.message;
+                // this.message = reponse.data.message;
+                this.$router.push({
+                    name: "mes-celliers",
+                    query: { message: reponse.data.message },
+                });
             } catch (erreur) {
                 // Afficher un message d'erreur
                 this.erreurServeur = erreur.response.data.erreur;

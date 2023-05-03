@@ -1,5 +1,25 @@
 <template>
     <div class="container mx-auto px-2">
+        <!-- Message de succès -->
+        <div v-if="estSuccessPopup" class="m-6">
+            <div
+                class="bg-green-500 text-white font-bold rounded-full px-4 py-2 flex items-center"
+            >
+                <!-- Icône de succès (Google Material Icons) -->
+                <span class="material-icons text-lg mr-2">check_circle</span>
+                <span class="flex-1 text-center text-sm">{{
+                    successMessage
+                }}</span>
+                <button
+                    @click="fermerPopup"
+                    class="ml-2 material-symbols-outlined"
+                >
+                    <!-- Icône de fermeture (Google Material Icons) -->
+                    <span> close </span>
+                </button>
+            </div>
+        </div>
+        <!-- Panneaux des celliers  -->
         <div
             class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-2 px-2 py-4 bg-bg-rose"
         >
@@ -39,6 +59,7 @@
                     </button>
                 </div>
             </div>
+            <!-- Ajouter cellier bloc -->
             <div v-if="showAjouterCellier" class="md:col-span-3 mt-4">
                 <AjouterCellierComponent
                     @close="showAjouterCellier = false"
@@ -214,6 +235,7 @@ export default {
         AjouterCellierComponent,
         ModifierCellierComponent,
     },
+
     data() {
         return {
             bouteilles: [],
@@ -225,6 +247,7 @@ export default {
             rechercheCellier: "",
             showModifierCellier: false,
             estAjouterCellier: false,
+            estPopupOuvert: false,
         };
     },
     async mounted() {
@@ -232,6 +255,8 @@ export default {
         if (this.cellierActif.id !== 0) {
             await this.fetchBouteillesCellier();
         }
+
+        console.log(this.message);
     },
     computed: {
         bouteillesAffiches() {
@@ -240,7 +265,26 @@ export default {
                 : this.bouteilles;
         },
 
+        successMessage() {
+            const message = this.$route.query.message;
+
+            if (message && message !== "") {
+                this.showSuccessPopup();
+            }
+
+            return message;
+        },
+        estSuccessPopup() {
+            return this.successMessage !== "" && this.estPopupOuvert;
+        },
         // ...mapGetters({ cellierFiltreValeurs: "cellierFiltreValeurs" }),
+    },
+    watch: {
+        successMessage(newVal) {
+            if (newVal !== "") {
+                this.showSuccessPopup();
+            }
+        },
     },
     methods: {
         // Appliquer le filtre pour afficher toutes les bouteilles filtrées
@@ -388,6 +432,19 @@ export default {
             // Mettre à jour les valeurs du filtre
             this.setCellierFiltreValeurs({});
         },
+        showSuccessPopup() {
+            this.estPopupOuvert = true;
+            setTimeout(() => {
+                this.estPopupOuvert = false;
+                this.$router.replace({
+                    query: { ...this.$route.query, message: "" },
+                });
+            }, 3000);
+        },
+        fermerPopup() {
+            this.estPopupOuvert = false;
+        },
+
         ...mapMutations(["setCellierFiltreValeurs"]),
     },
 };
