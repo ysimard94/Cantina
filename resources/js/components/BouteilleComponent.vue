@@ -94,13 +94,20 @@
                     </div>
                     <div>
                         <div class="pb-2 font-sans flex justify-end mt-2">
-                            <button
+                            <router-link
                                 v-if="!bouteille.code_saq"
-                                @click="modifierBouteille(bouteille)"
-                                class="material-symbols-outlined w-10 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2"
+                                :to="{
+                                    name: 'modifier-bouteille',
+                                    params: { id: bouteille.id },
+                                }"
                             >
-                                edit
-                            </button>
+                                <button
+                                    class="material-symbols-outlined w-10 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2"
+                                >
+                                    edit
+                                </button>
+                            </router-link>
+
                             <div
                                 v-if="bouteille.code_saq"
                                 class="w-[32px] my-auto mr-2"

@@ -185,7 +185,7 @@
                 <!-- Année - Notes - Prix -->
                 <div class="flex gap-2 items-center">
                     <!-- Notes -->
-                    <div class="mb-4">
+                    <div class="mb-4 flex-1">
                         <label
                             for="note"
                             class="block text-lg text-left font-bold text-vin-rouge"
@@ -213,7 +213,7 @@
                         </p>
                     </div>
                     <!-- Prix -->
-                    <div class="mb-4">
+                    <div class="mb-4 flex-1">
                         <label
                             for="prix"
                             class="block text-lg text-left font-bold text-vin-rouge"
@@ -345,6 +345,7 @@ export default {
             formData.append("pays_id", this.pays_id);
             formData.append("categorie_id", this.categorie_id);
             formData.append("annee", this.annee);
+            console.log(formData);
 
             try {
                 this.$emit("loading:start");
@@ -355,8 +356,8 @@ export default {
                     formData
                 );
 
-                // Afficher un message de succès
-                // this.message = reponse.data.message;
+                // renvoyer a la page celliers avec un message de succès
+
                 this.$router.push({
                     name: "mes-celliers",
                     query: { message: reponse.data.message },
