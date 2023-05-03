@@ -77,42 +77,8 @@
                                 delete
                             </button>
                         </div>
-
-                        <!--<div class="flex items-center">Note
-                        </div> #}-->
                     </div>
                 </div>
-                <!-- <div class="mt-auto">
-                    <div class="pb-2 px-4 font-sans flex justify-center mt-2">
-                        <router-link
-                            :to="{
-                                name: 'modifier-bouteille',
-                                params: { id: bouteille.id },
-                            }"
-                        >
-                            <button
-                                v-if="!bouteille.code_saq"
-                                class="material-symbols-outlined w-20 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2"
-                            >
-                                edit
-                            </button>
-                        </router-link>
-                        <div v-if="bouteille.code_saq">
-                            <img
-                                src="@assets/saq.svg"
-                                alt="SAQ Icon"
-                                class="w-20 h-10 rounded-lg text-white font-semibold mr-2"
-                            />
-                        </div>
-                        <div class="w-2"></div>
-                        <button
-                            class="material-symbols-outlined w-20 h-10 rounded-lg text-white font-semibold bg-vin-rouge ml-2"
-                            @click="supprimerBouteille(bouteille.id)"
-                        >
-                            delete
-                        </button>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
