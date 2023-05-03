@@ -441,6 +441,7 @@ export default {
         },
         async ajoutCellier(nouveaucellier) {
             this.celliers.push(nouveaucellier);
+            console.log(this.celliers)
         },
         handleAddButton() {
             this.showModifierCellier = false;
@@ -469,12 +470,17 @@ export default {
 
             this.cellierSelectionne = null;
         },
-        supprimerCellier() {
-            this.celliers = this.celliers.filter(
-                (c) => c.id !== this.cellierActif.id
-            );
+       supprimerCellier() {
+            this.celliers = this.celliers.filter((c) => c.id !== this.cellierActif.id);
+
+            // Filtrer les bouteilles qui ne sont pas associées au cellier supprimé
+            console.log(this.bouteilles)
+            this.bouteilles = this.bouteilles.filter((b) => b.cellier.id !== this.cellierActif.id);
+
             this.cellierActif = this.celliers[0];
-            this.afficherBouteilles();
+
+            // Mettre à jour les bouteilles affichées
+            this.bouteillesAffiches();
         },
         triCellier() {
             if (this.filteredBouteilles.length > 0) {

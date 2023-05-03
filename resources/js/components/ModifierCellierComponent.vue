@@ -70,6 +70,7 @@ export default {
                 console.log(response)
                 this.successMessage = 'Le cellier a été supprimé avec succès.'
                 this.$emit('cellier-supprime')
+                window.location.reload();
             } catch (error) {
                 console.log(error)
             }
