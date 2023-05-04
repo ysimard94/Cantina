@@ -131,7 +131,7 @@
         </div>
 
         <div v-else>
-            <div v-if="bouteillesAffiches && bouteillesAffiches.length > 0">
+            <div v-show="estSHow">
                 <!-- Section pour filtre et tri -->
                 <div class="md:col-span-2 flex justify-between items-center">
                     <button
@@ -205,7 +205,7 @@
                 </div>
             </div>
             <div
-                v-else
+                v-show="!estSHow"
                 class="w-full flex flex-col items-center justify-center h-full mt-4"
             >
                 <p>
@@ -308,7 +308,11 @@ export default {
         estSuccessPopup() {
             return this.successMessage !== "" && this.estPopupOuvert;
         },
-        // ...mapGetters({ cellierFiltreValeurs: "cellierFiltreValeurs" }),
+        estSHow() {
+            return (
+                this.bouteillesAffiches && this.bouteillesAffiches.length > 0
+            );
+        },
     },
     watch: {
         successMessage(newVal) {
@@ -443,11 +447,11 @@ export default {
                 console.log(error);
             }
         },
-       async ajoutCellier(nouveaucellier) {
+        async ajoutCellier(nouveaucellier) {
             this.cellierActif = nouveaucellier; // mettre à jour le cellierActif avec le nouveau cellier
             this.celliers.push(nouveaucellier); // ajouter le nouveau cellier à la liste des celliers
-           console.log(this.celliers);
-             await this.fetchBouteillesCellier();
+            console.log(this.celliers);
+            await this.fetchBouteillesCellier();
         },
         handleAddButton() {
             this.showModifierCellier = false;
