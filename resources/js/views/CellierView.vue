@@ -71,7 +71,9 @@
             </p>
         </div>
 
-        <div v-else class="flex flex-col items-center justify-center h-full px-2">
+
+        <div v-else>
+
             <div v-if="bouteillesAffiches && bouteillesAffiches.length > 0">
                 <!-- Section pour filtre et tri -->
                 <div class="md:col-span-2 flex justify-between items-center">
@@ -88,21 +90,27 @@
                     </transition>
                     <button class="rounded" @click="reinitialisationBouteilles();
                     rotation();
-                                                                                                        ">
+
+                                            ">
+
                         <span class="material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1" :class="
                             {
                                 'rotate-[360deg] ease-in-out duration-500':
                                 estRotation,
+
                                                                                                                             }
+
                         ">
                             refresh
                         </span>
                     </button>
+
                     <button class="rounded" @click=" triCellier(); rotationTri(); ">
                         <span
                             class="material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1 ease-in-out duration-500"
                             :class=" { '-scale-y-100': est180 } ">
                             swap_vert
+
                         </span>
                     </button>
                 </div>
