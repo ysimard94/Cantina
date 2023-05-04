@@ -1,6 +1,6 @@
 <template>
     <div
-        class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg h-full"
+        class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg h-full mx-2"
         v-for="bouteille in bouteilles"
         :key="bouteille.id"
     >
