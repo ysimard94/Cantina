@@ -20,7 +20,7 @@
                                     v-model="valeurRecherche" 
                                     type="text" 
                                     class="w-full py-1 pl-2 pr-[32px] rounded"
-                                    placeholder="Recherchez une bouteille de la SAQ"
+                                    placeholder="Recherchez une bouteille SAQ"
                                     @keyup="recherche"
                                 >
                                 <button class="material-symbols-outlined absolute right-0 p-1">
