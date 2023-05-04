@@ -89,8 +89,8 @@ export default {
 .fade-leave-to {
     opacity: 0;
 } */
-.fade-enter-active {
-    animation: fadeIn 0.1s ease-in;
+.moveUp-enter-active {
+    animation: fadeIn 0.2s ease-in;
 }
 @keyframes fadeIn {
     0% {
@@ -103,16 +103,15 @@ export default {
         opacity: 1;
     }
 }
-.fade-leave-active {
+.moveUp-leave-active {
     animation: moveUp 0.1s ease-in;
 }
 @keyframes moveUp {
     0% {
         transforme: translateX(0);
     }
-
     100% {
-        transforme: translateY(-500px);
+        transforme: translateY(-400px);
     }
 }
 
