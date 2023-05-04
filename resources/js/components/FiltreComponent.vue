@@ -401,25 +401,33 @@ export default {
         inputPrixMaxWidth() {
             return `${this.prixMax.toString().length * 12}px`;
         },
-        // Retourne le prix minimum et maximum des bouteilles
+        // Calculer le prix minimum de l’ensemble des prix de bouteilles
         calcPrixMin() {
             if (this.bouteilles.length > 0) {
                 return Math.min(
-                    ...this.bouteilles.map((bouteille) => bouteille.prix)
+                    ...this.bouteilles.map((bouteille) => {
+                        return bouteille.prix;
+                    })
                 );
             } else {
                 return 0;
             }
         },
+        //  Calculer le prix maximum de l’ensemble des prix de bouteilles
         calcPrixMax() {
             if (this.bouteilles.length > 0) {
                 return Math.max(
-                    ...this.bouteilles.map((bouteille) => bouteille.prix)
+                    ...this.bouteilles.map((bouteille) => {
+                        return bouteille.prix;
+                    })
                 );
             } else {
                 return 0;
             }
         },
+
+        // Filtrer les bouteilles selon les critères sélectionnés, la fonction est appelé à chaque changement de valeur
+        // Vérifier si la bouteille correspond aux critères sélectionnés (catégorie, pays, source, prix)
         filteredItems() {
             return this.bouteilles.filter((bouteille) => {
                 const estCategorieSelectionnee =
@@ -444,14 +452,13 @@ export default {
                     );
 
                 const estPrixInclus =
-                    parseInt(bouteille.prix) >= this.prixMin &&
-                    parseInt(bouteille.prix) <= this.prixMax;
+                    parseInt(bouteille.prix) >= parseInt(this.prixMin) &&
+                    parseInt(bouteille.prix) <= parseInt(this.prixMax);
 
                 return (
                     estCategorieSelectionnee &&
                     estPaysSelectionne &&
                     estSourceSelectionnee &&
-                    estPrixInclus &&
                     Math.floor((bouteille.note * 5) / 100) >=
                         this.nbrEtoileFiltrer
                 );
@@ -542,6 +549,7 @@ export default {
             }, []); // On initialise le tableau avec un tableau vide
         },
 
+        // Mettre à jour les catégories sélectionnées
         toggleCategorie(oCategorie) {
             console.log(
                 this.$store.state.cellierFiltreValeurs.storeSelectedCategories
@@ -558,6 +566,8 @@ export default {
                 this.$store.state.cellierFiltreValeurs.storeSelectedCategories
             );
         },
+
+        // Mettre à jour les sources sélectionnées
         toggleSource(oSource) {
             const selectedIndex = this.selectedSources.findIndex(
                 (source) => source.id === oSource.id
@@ -570,6 +580,7 @@ export default {
             }
         },
 
+        // Mettre à jour les pays sélectionnés
         togglePays(oPays) {
             const selectedIndex = this.selectedPays.findIndex(
                 (pays) => pays.id === oPays.id
@@ -582,10 +593,12 @@ export default {
             }
         },
 
+        // Fermer le filtre en déclenchant l'action fermer-filtre du parent
         fermerFiltre() {
-            console.log(this.$store.state.cellierFiltreValeurs);
             this.$emit("fermer-filtre");
         },
+
+        // Réinitialiser les filtres
         reinitialiserFiltre() {
             this.filteredBouteilles = this.bouteilles;
             this.selectedCategories = [];
@@ -598,6 +611,7 @@ export default {
         ...mapMutations(["setCellierFiltreValeurs"]),
     },
     mounted() {
+        //  Initialiser les valeurs des filtres
         this.fetchCategories();
         this.pays = this.extrairePays(this.bouteilles);
         this.selectedCategories = this.$store.getters.cellierFiltreValeurs
