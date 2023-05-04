@@ -76,7 +76,7 @@
                                 }"
                             >
                                 <button
-                                    class="material-symbols-outlined w-10 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2"
+                                    class="material-symbols-outlined  hover:bg-gray-700 w-10 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2"
                                 >
                                     edit
                                 </button>

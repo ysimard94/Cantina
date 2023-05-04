@@ -4,20 +4,22 @@
                 {{ errorMessage }}
             </div>
 
-        <form @submit.prevent="modifierCellier" class="flex items-center space-x-2">
-            <input type="text" class="w-full border border-gray-300 rounded-md py-2 px-3" v-model="nouveauNom" />
-            <button type="submit"
-                class="material-symbols-outlined w-9 font-semibold text-white rounded-full bg-green-500 hover:bg-green-700">
-                done
-            </button>
-            <button class="material-symbols-outlined w-9 font-semibold text-white rounded-full bg-red-500 hover:bg-red-700"
-                @click="annulerModification">
-                clear
-            </button>
-            <button type="button" class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
-                @click="supprimerCellier">
-                delete
-            </button>
+        <form @submit.prevent="modifierCellier" class="flex items-center w-full">
+            <input type="text" class="w-full border border-gray-300 rounded-md py-2 px-3 mr-2" v-model="nouveauNom" />
+            <div class="flex items-center ml-auto">
+                <button type="submit"
+                    class="material-symbols-outlined mx-2 font-semibold text-white rounded-full bg-green-500 hover:bg-green-700">
+                    done
+                </button>
+                <button class="material-symbols-outlined mx-2 font-semibold text-white rounded-full bg-red-500 hover:bg-red-700"
+                    @click="annulerModification">
+                    clear
+                </button>
+                <button type="button" class="material-symbols-outlined w-9 py-1 font-semibold text-vin-rouge"
+                    @click="supprimerCellier">
+                    delete
+                </button>
+            </div>
         </form>
     </div>
 </template>

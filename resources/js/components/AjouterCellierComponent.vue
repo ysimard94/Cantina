@@ -4,20 +4,19 @@
                     {{ errorMessage }}
                 </div>
 
-        <form @submit.prevent="ajouterCellier" class="flex items-center space-x-2">
-            <input type="text" class="w-full border border-gray-300 rounded-md py-2 px-3" v-model="cellier.nom"
+        <form @submit.prevent="ajouterCellier" class="flex items-center w-full">
+            <input type="text" class="w-full border border-gray-300 rounded-md py-2 px-3 mr-2" v-model="cellier.nom"
                 placeholder="Nom du cellier" />
-
-            <div class="w-4"></div>
-
-            <button type="submit"
-                class="material-symbols-outlined w-9  font-semibold text-white rounded-full bg-green-500 hover:bg-green-700">
-                done
-            </button>
-            <button class="material-symbols-outlined w-9 font-semibold text-white rounded-full bg-red-500 hover:bg-red-700"
-                @click="annulerAjout">
-                clear
-            </button>
+            <div class="flex items-center ml-auto">
+                <button type="submit"
+                    class="material-symbols-outlined mx-[8px] font-semibold text-white rounded-full bg-green-500 hover:bg-green-700">
+                    done
+                </button>
+                <button class="material-symbols-outlined mx-[4px] font-semibold text-white rounded-full bg-red-500 hover:bg-red-700"
+                    @click="annulerAjout">
+                    clear
+                </button>
+            </div>
         </form>
     </div>
 </template>
