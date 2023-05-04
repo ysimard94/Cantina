@@ -5,7 +5,7 @@ const store = createStore({
         isLoading: false,
         session: JSON.parse(sessionStorage.getItem("session")) || {},
         cellierFiltreValeurs: {},
-        cellierActif: { id: 0, nom: "Aucun cellier" },
+        cellierActif: false,
     },
     mutations: {
         setLoading(state, value) {
