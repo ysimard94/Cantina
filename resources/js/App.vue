@@ -2,27 +2,30 @@
     <div class="relative min-h-screen">
         <HeaderComponent />
         <main class="bg-[#D9D9D9]">
-            <router-view v-slot="{ Component }" @loading:start="onLoadingStart" @loading:end="onLoadingEnd">
+            <router-view
+                v-slot="{ Component }"
+                @loading:start="onLoadingStart"
+                @loading:end="onLoadingEnd"
+            >
                 <LoadingSpinner v-if="$store.getters.isLoading" />
-                <transition name="fade" mode="out-in">
-                    <!-- <LoadingSpinner v-if="$store.getters.isLoading" /> -->
-                    <component :is="Component" />
+                <transition name="moveUp">
+                    <component :is="Component" ::key="$route.path" />
                 </transition>
             </router-view>
             <!-- <transition name="fade" mode="out-in"> -->
             <!-- </transition> -->
             <!-- Menu modal qui est montré qu'au clic du bouton dans le footer -->
-            <MenuComponent 
-                :menu-ouvert="menuOuvert" 
-                @fermer-menu="menuOuvert = false" 
+            <MenuComponent
+                :menu-ouvert="menuOuvert"
+                @fermer-menu="menuOuvert = false"
                 @reinitialiser-page="pageActive = -1"
             />
         </main>
-        <FooterComponent 
-            :page-active="pageActive" 
-            @toggle-menu="menuOuvert = !menuOuvert" 
-            @fermer-menu="menuOuvert = false" 
-            @changer-page-active="pageActive = $event" 
+        <FooterComponent
+            :page-active="pageActive"
+            @toggle-menu="menuOuvert = !menuOuvert"
+            @fermer-menu="menuOuvert = false"
+            @changer-page-active="pageActive = $event"
         />
     </div>
 </template>
@@ -36,12 +39,12 @@ import BouteilleDataService from "@/services/BouteilleDataService";
 
 export default {
     name: "App",
-    data () {
+    data() {
         return {
             bouteillesSAQ: [],
             menuOuvert: false,
             pageActive: -1,
-        }
+        };
     },
     components: {
         HeaderComponent,
@@ -50,13 +53,13 @@ export default {
         MenuComponent,
     },
     methods: {
-        onLoadingStart () {
+        onLoadingStart() {
             this.$store.dispatch("setLoading", true);
         },
-        onLoadingEnd () {
+        onLoadingEnd() {
             this.$store.dispatch("setLoading", false);
         },
-        async fetchBouteilles () {
+        async fetchBouteilles() {
             try {
                 const response = await BouteilleDataService.getAll();
                 this.bouteillesSAQ = response.data;
@@ -65,9 +68,9 @@ export default {
             }
         },
     },
-    async mounted () {
-        await this.fetchBouteilles()
-    }
+    async mounted() {
+        await this.fetchBouteilles();
+    },
 };
 </script>
 <style>
@@ -78,13 +81,38 @@ export default {
     text-align: center;
     color: #2c3e50;
 }
-.fade-enter-active,
+/* .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s;
 }
 .fade-enter,
 .fade-leave-to {
     opacity: 0;
+} */
+.moveUp-enter-active {
+    animation: fadeIn 1s ease-in;
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.moveUp-leave-active {
+    animation: moveUp 0.1s ease-in;
+}
+@keyframes moveUp {
+    0% {
+        transforme: translateY(0);
+    }
+    100% {
+        transforme: translateY(-200px);
+    }
 }
 main {
     min-height: 100vh;

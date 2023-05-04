@@ -1,6 +1,6 @@
 <template>
     <section class="m-4 mt-6">
-        <div class="mb-4 flex justify-start">
+        <div class="mb-6 flex justify-start">
             <button
                 @click="$router.go(-1)"
                 class="bg-vin_blanc hover:bg-gray-700 text-white font-bold rounded-full cursor-pointer"
@@ -9,34 +9,34 @@
             </button>
         </div>
 
-        <div class="bg-bg-rose p-3 shadow-md rounded">
+        <div class="bg-bg-rose p-3 shadow-md rounded-lg">
             <form
                 @submit.prevent="ajouterBouteille"
                 enctype="multipart/form-data"
             >
                 <!-- Titre -->
-                <h3 class="mb-4 text-vin-rouge font-bold text-xl">
+                <h3 class="mb-4 text-vin-rouge font-bold text-lg">
                     Ajouter une bouteille
                 </h3>
                 <!-- Erreurs serveur -->
-                <p v-if="erreurServeur" class="block text-md text-red-500">
+                <p v-if="erreurServeur" class="block text-sm text-red-500">
                     {{ erreurServeur }}
                 </p>
                 <!-- Erreurs de validation client -->
-                <p v-if="message" class="block text-md text-green-500">
+                <p v-if="message" class="block text-sm text-green-500">
                     {{ message }}
                 </p>
                 <!-- Nom -->
                 <div class="mb-4">
                     <label
                         for="nom"
-                        class="block text-lg text-left font-bold text-vin-rouge"
+                        class="block text-md text-left font-bold text-vin-rouge"
                         >Nom</label
                     >
                     <input
                         v-model="nom"
                         id="nom"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                        class="w-full h-8 py-1 pl-2 rounded"
                         :class="{
                             'border border-red-500':
                                 v$.nom.$error && v$.nom.$dirty,
@@ -44,7 +44,7 @@
                                 !v$.nom.$error && v$.nom.$dirty,
                         }"
                     />
-                    <p v-if="v$.nom.$error" class="block text-md text-red-500">
+                    <p v-if="v$.nom.$error" class="block text-xs text-red-500">
                         Veillez entrer un nom valide
                     </p>
                 </div>
@@ -54,14 +54,14 @@
                     <div class="mb-4 flex-1">
                         <label
                             for="pays_id"
-                            class="block text-lg text-left font-bold text-vin-rouge"
+                            class="block text-md text-left font-bold text-vin-rouge"
                         >
                             Pays
                         </label>
                         <select
                             v-model="pays_id"
                             id="pays_id"
-                            class="w-full rounded py-2 px-1 bg-white"
+                            class="w-full py-1 pl-2 h-8 rounded bg-white"
                             :class="{
                                 'border border-red-500':
                                     v$.pays_id.$error && v$.pays_id.$dirty,
@@ -82,7 +82,7 @@
                         </select>
                         <p
                             v-if="v$.pays_id.$error"
-                            class="block text-md text-red-500"
+                            class="block text-xs text-red-500"
                         >
                             Veillez sélectionner un pays
                         </p>
@@ -91,14 +91,14 @@
                     <div class="mb-4 flex-1">
                         <label
                             for="categorie_id"
-                            class="block text-lg text-left font-bold text-vin-rouge"
+                            class="block text-md text-left font-bold text-vin-rouge"
                         >
                             Catégorie
                         </label>
                         <select
                             v-model="categorie_id"
                             id="categorie_id"
-                            class="w-full rounded py-2 px-1 bg-white"
+                            class="w-full rounded py-2 px-1 h-8 bg-white"
                             :class="{
                                 'border border-red-500':
                                     v$.categorie_id.$error &&
@@ -121,42 +121,73 @@
                         </select>
                         <p
                             v-if="v$.categorie_id.$error"
-                            class="block text-md text-red-500"
+                            class="block text-xs text-red-500"
                         >
                             Veillez sélectionner une catégorie
                         </p>
                     </div>
                 </div>
-                <!-- Année -->
-                <div class="mb-4">
-                    <label
-                        for="annee"
-                        class="block text-lg text-left font-bold text-vin-rouge"
-                        >Année</label
-                    >
-                    <input
-                        v-model="annee"
-                        id="annee"
-                        class="w-full rounded py-2 px-1"
-                        :class="{
-                            'border border-red-500':
-                                v$.annee.$error && v$.annee.$dirty,
-                            'border border-green-500':
-                                !v$.annee.$error && v$.annee.$dirty,
-                        }"
-                    />
-                    <p
-                        v-if="v$.annee.$error"
-                        class="block text-md text-red-500"
-                    >
-                        Veillez entrer une année valide
-                    </p>
+                <!-- Année  - Quantité -->
+                <div class="flex gap-2 items-center">
+                    <!-- Quantité  -->
+                    <div class="mb-4 flex-1">
+                        <label
+                            for="quantite"
+                            class="block text-md text-left font-bold text-vin-rouge"
+                            >Quantité</label
+                        >
+                        <input
+                            type="number"
+                            v-model="quantite"
+                            id="quantite"
+                            class="w-full rounded py-2 px-1 h-8"
+                            :class="{
+                                'border border-red-500':
+                                    v$.quantite.$error && v$.quantite.$dirty,
+                                'border border-green-500':
+                                    !v$.quantite.$error && v$.quantite.$dirty,
+                            }"
+                        />
+                        <p
+                            v-if="v$.quantite.$error"
+                            class="block text-xs text-red-500"
+                        >
+                            Veillez entrer une quantité valide
+                        </p>
+                    </div>
+                    <!-- Année  -->
+                    <div class="mb-4 flex-1">
+                        <label
+                            for="annee"
+                            class="block text-md text-left font-bold text-vin-rouge"
+                            >Année</label
+                        >
+                        <input
+                            type="number"
+                            v-model="annee"
+                            id="annee"
+                            class="w-full rounded py-2 px-1 h-8"
+                            :class="{
+                                'border border-red-500':
+                                    v$.annee.$error && v$.annee.$dirty,
+                                'border border-green-500':
+                                    !v$.annee.$error && v$.annee.$dirty,
+                            }"
+                        />
+                        <p
+                            v-if="v$.annee.$error"
+                            class="block text-xs text-red-500"
+                        >
+                            Veillez entrer une année valide
+                        </p>
+                    </div>
                 </div>
+
                 <!-- Description -->
                 <div class="mb-4">
                     <label
                         for="description"
-                        class="block text-lg text-left font-bold text-vin-rouge"
+                        class="block text-md text-left font-bold text-vin-rouge"
                         >Description</label
                     >
                     <textarea
@@ -170,7 +201,7 @@
                 <div class="mb-4">
                     <label
                         for="photo"
-                        class="block text-lg text-left font-bold text-vin-rouge"
+                        class="block text-md text-left font-bold text-vin-rouge"
                         >Select an image:</label
                     >
                     <input
@@ -179,7 +210,7 @@
                         type="file"
                         accept="image/*"
                         name="photo"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1 bg-white"
+                        class="w-full text-md rounded pt-2 pb-2 pl-1 pr-1 bg-white"
                     />
                 </div>
                 <!-- Année - Notes - Prix -->
@@ -188,7 +219,7 @@
                     <div class="mb-4 flex-1">
                         <label
                             for="note"
-                            class="block text-lg text-left font-bold text-vin-rouge"
+                            class="block text-md text-left font-bold text-vin-rouge"
                             >Note (%)</label
                         >
                         <input
@@ -197,7 +228,7 @@
                             max="100"
                             v-model="note"
                             id="note"
-                            class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                            class="w-full rounded pt-2 pb-2 pl-1 pr-1 h-8"
                             :class="{
                                 'border border-red-500':
                                     v$.note.$error && v$.note.$dirty,
@@ -207,7 +238,7 @@
                         />
                         <p
                             v-if="v$.note.$error"
-                            class="block text-md text-red-500"
+                            class="block text-xs text-red-500"
                         >
                             Veillez entrer une note valide
                         </p>
@@ -216,14 +247,14 @@
                     <div class="mb-4 flex-1">
                         <label
                             for="prix"
-                            class="block text-lg text-left font-bold text-vin-rouge"
+                            class="block text-md text-left font-bold text-vin-rouge"
                             >prix</label
                         >
                         <input
                             type="number"
                             v-model="prix"
                             id="prix"
-                            class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                            class="w-full rounded pt-2 pb-2 pl-1 pr-1 h-8"
                             :class="{
                                 'border border-red-500':
                                     v$.prix.$error && v$.prix.$dirty,
@@ -233,7 +264,7 @@
                         />
                         <p
                             v-if="v$.prix.$error"
-                            class="block text-md text-red-500"
+                            class="block text-xs text-red-500"
                         >
                             Veillez entrer un prix valide
                         </p>
@@ -244,7 +275,7 @@
                 <div>
                     <button
                         type="submit"
-                        class="mb-4 mt-4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5"
+                        class="mb-4 mt-4 bg-vin-rouge text-white rounded py-2 px-6"
                     >
                         Ajouter
                     </button>
@@ -262,6 +293,8 @@ import {
     integer,
     helpers,
     numeric,
+    minValue,
+    maxValue,
 } from "@vuelidate/validators";
 
 import PaysDataService from "@/services/PaysDataService";
@@ -288,6 +321,7 @@ export default {
             message: "",
             pays: [],
             categories: [],
+            quantite: 1,
         };
     },
 
@@ -306,6 +340,13 @@ export default {
             },
             note: {
                 numeric,
+                minValue: minValue(0),
+                maxValue: maxValue(100),
+            },
+            quantite: {
+                required,
+                integer: integer,
+                minValue: minValue(1),
             },
             nbr_notes: {
                 integer: integer,
@@ -345,6 +386,7 @@ export default {
             formData.append("pays_id", this.pays_id);
             formData.append("categorie_id", this.categorie_id);
             formData.append("annee", this.annee);
+            formData.append("quantite", this.quantite);
             console.log(formData);
 
             try {
@@ -357,7 +399,6 @@ export default {
                 );
 
                 // renvoyer a la page celliers avec un message de succès
-
                 this.$router.push({
                     name: "mes-celliers",
                     query: { message: reponse.data.message },
@@ -398,7 +439,6 @@ export default {
     mounted: async function () {
         await this.getCategories();
         await this.getPays();
-        console.log("Selected cellier ID:", this.cellierId);
     },
 };
 </script>

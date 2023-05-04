@@ -1,6 +1,6 @@
 <template>
     <div
-        class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg h-full"
+        class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg h-full mx-2"
         v-for="bouteille in bouteilles"
         :key="bouteille.id"
     >
@@ -69,7 +69,10 @@
                                 class="material-symbols-outlined w-10 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2"
                                 :to="{
                                     name: 'modifier-bouteille',
-                                    params: { id: bouteille.id },
+                                    params: {
+                                        bouteilleId: bouteille.id,
+                                        cellierId: cellierId,
+                                    },
                                 }"
                             >
                                 <button
@@ -99,7 +102,6 @@
 </template>
 
 <script>
-import CellierDataService from "@/services/CellierDataService.js";
 export default {
     name: "BouteilleComponent",
     props: {

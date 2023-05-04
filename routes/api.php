@@ -34,6 +34,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/utilisateur-show/{utilisateur}', [UtilisateurController::class, 'show']);
 
     Route::get('/celliers/{id}/bouteilles', [CellierController::class, 'getBouteilles']);
+    Route::get('/celliers/{cellier}/{bouteille}', [CellierController::class, 'getCellierBouteillePivot']); // Obtenir une bouteille attachée à un cellier
     Route::get('/celliers',  [CellierController::class, 'index']);
     Route::post('/celliers', [CellierController::class, 'store']);
     Route::get('/celliers/{id}', [CellierController::class, 'show']);
@@ -48,12 +49,12 @@ Route::middleware('auth:api')->group(function () {
 
     // Bouteilles
     Route::post('/bouteille/{cellierId}', [BouteilleController::class, 'sauveBouteille']); // Sauvegarder une bouteille
-
     Route::get('/bouteilles', [BouteilleController::class, 'getBouteilles']); // Obtenir toutes les bouteilles
     Route::get('/bouteille/{bouteille}', [BouteilleController::class, 'showBouteille']); // Obtenir une bouteille par son id
-    Route::put('/bouteille/{bouteille}', [BouteilleController::class, 'updateBouteille']); // Modifier une bouteille
+    Route::put('/bouteille/{bouteille}/{cellier}', [BouteilleController::class, 'updateBouteille']); // Modifier une bouteille
     Route::delete('/bouteille/{bouteille}', [BouteilleController::class, 'destroyBouteille']); // Supprimer une bouteille
     Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}+{quantite}', [BouteilleController::class, 'ajoutBouteilleAuCellier']); // Ajouter une bouteille à un cellier
+    Route::delete('/celliers/{cellier}/{bouteille}', [BouteilleController::class, 'supprimerBouteilleDansCellier']); // Supprimer une bouteille dans un cellier
 
     // Résultats de recherche
     Route::get('/resultats/{valeur}', [BouteilleController::class, 'getResultatsBouteilles']); // Obtenir une bouteille
