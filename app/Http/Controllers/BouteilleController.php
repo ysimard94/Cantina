@@ -51,66 +51,89 @@ class BouteilleController extends Controller
 
     public function sauveBouteille(Request $request,  $cellierId)
     {
-        try {
+        $utilisateur = Auth::user();
+        $cellier = Cellier::findOrFail($cellierId);
 
-            // Valider la requête entrante
-            $validator = Validator::make($request->all(), [
-                'nom' => 'required',
-                'categorie_id' => 'required|numeric|integer',
-                'pays_id' => 'required|numeric|integer',
-            ]);
+        // Verifier  si le cellier appartiens a l'utilisateur connecté
+        if ($utilisateur->id === $cellier->utilisateur_id) { 
+            try {
 
-            // Si les données ne sont pas valide, lancer une exception
+                // Valider la requête entrante
+                $validator = Validator::make($request->all(), [
+                    'nom' => 'required|min:2',
+                    'annee' => 'integer|max:' . date('Y'),
+                    'description' => 'min:2',
+                    'prix' => 'numeric',
+                    'note' => 'numeric',
+                    'nbr_notes' => 'integer',
+                    'pays_id' => 'required|numeric|integer',
+                    'categorie_id' => 'required|numeric|integer',
+                    'quantite' => 'required|integer|min:1',
+                ]);
 
-            if ($validator->fails()) {
-                throw new ValidationException($validator);
+                // Si les données ne sont pas valide, lancer une exception
+
+                // if ($validator->fails()) {
+                //     throw new ValidationException($validator);
+                // }
+
+                // Si aucune photo n'a été envoyée, définir une photo par défaut
+                if ($request->hasFile('photo')) {
+
+                    $path = "storage/" . $request->file('photo')->store('photos', 'public');
+                } else {
+                    $path = 'https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166';
+                }
+
+                // Créer une nouvelle bouteille avec les données envoyées
+                $bouteilleData = $request->except('quantite');
+
+                $bouteilleData['photo'] = $path;
+                $bouteille = Bouteille::create($bouteilleData);
+
+
+                // // Obtenir le cellier de l'utilisateur connecté
+                // $cellier = Cellier::where('id', $cellierId)
+                //     ->where('utilisateur_id', Auth::user()->id)
+                //     ->firstOrFail();
+
+                // Récupérer la quantité à partir de la requête
+                $quantite = $request->input('quantite');
+                
+                // Attacher la bouteille au cellier avec la quantité
+                $cellier->bouteilles()->attach($bouteille, ['quantite' => $quantite]);
+
+                // Retourner une réponse
+                return response()->json([
+                    'status' => 'success',
+                    'bouteille' => $bouteille,
+                    'message' => 'Bouteille ajoutée avec succès.',
+                ], 201);
+            } catch (ValidationException $e) {
+
+                // Retourner un message d'erreur personnalisé pour les erreurs de validation
+                return response()->json([
+                    'status' => 'échec',
+                    'erreur' => 'Les données sont invalide, veuillez remplir les champs correctement.'
+                ], 422);
+            } catch (\Exception $e) {
+                // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
+                error_log($e->getMessage());
+
+                // Retourner un message d'erreur général au client
+                return response()->json([
+                    'status' => 'échec',
+                    'erreur' => $e->getMessage(),
+                ], 500);
             }
-
-            // Si aucune photo n'a été envoyée, définir une photo par défaut
-            if ($request->hasFile('photo')) {
-
-                $path = "storage/" . $request->file('photo')->store('photos', 'public');
-            } else {
-                $path = 'https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166';
-            }
-
-            // Créer une nouvelle bouteille avec les données envoyées
-            $bouteilleData = $request->all();
-            $bouteilleData['photo'] = $path;
-            $bouteille = Bouteille::create($bouteilleData);
-
-
-            // Obtenir le cellier de l'utilisateur connecté
-            $cellier = Cellier::where('id', $cellierId)
-                ->where('utilisateur_id', Auth::user()->id)
-                ->firstOrFail();
-
-            // Attacher la bouteille au cellier
-            $cellier->bouteilles()->attach($bouteille);
-
-            // Retourner une réponse
-            return response()->json([
-                'status' => 'success',
-                'bouteille' => $bouteille,
-                'message' => 'Bouteille ajoutée avec succès.',
-            ], 201);
-        } catch (ValidationException $e) {
-
-            // Retourner un message d'erreur personnalisé pour les erreurs de validation
-            return response()->json([
-                'status' => 'échec',
-                'erreur' => 'Les données sont invalide, veuillez remplir les champs correctement.'
-            ], 422);
-        } catch (\Exception $e) {
-            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
-            error_log($e->getMessage());
-
+        }else {
             // Retourner un message d'erreur général au client
             return response()->json([
                 'status' => 'échec',
-                'erreur' => $e->getMessage(),
-            ], 500);
+                'message' => 'Vous n\'avez pas la permission d\'ajouter une bouteille à ce cellier.',
+            ], 404);
         }
+       
     }
 
     /**
