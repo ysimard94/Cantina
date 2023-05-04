@@ -34,7 +34,7 @@
                     <input type="number" :value="1" id="quantite"
                         class="p-2 font-sans rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-[40px] w-16 ml-1"
                         placeholder="Quantité" min="1">
-                    <button class="material-symbols-outlined text-4xl ml-2 add-button"
+                    <button class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 hover:scale-125 active:scale-110"
                         @click="ajouterBouteille(bouteille.id, $event, bouteille.quantite)">add</button>
                 </div>
             </div>
