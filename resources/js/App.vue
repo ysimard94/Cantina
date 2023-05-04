@@ -8,13 +8,10 @@
                 @loading:end="onLoadingEnd"
             >
                 <LoadingSpinner v-if="$store.getters.isLoading" />
-                <transition name="moveUp">
+                <transition name="moveUp" mode="out-in">
                     <component :is="Component" ::key="$route.path" />
                 </transition>
             </router-view>
-            <!-- <transition name="fade" mode="out-in"> -->
-            <!-- </transition> -->
-            <!-- Menu modal qui est montré qu'au clic du bouton dans le footer -->
             <MenuComponent
                 :menu-ouvert="menuOuvert"
                 @fermer-menu="menuOuvert = false"
@@ -81,6 +78,7 @@ export default {
     text-align: center;
     color: #2c3e50;
 }
+
 /* .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s;
@@ -92,24 +90,30 @@ export default {
 .moveUp-enter-active {
     animation: fadeIn 0.2s ease-in;
 }
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
     }
+
     50% {
         opacity: 0.5;
     }
+
     100% {
         opacity: 1;
     }
 }
+
 .moveUp-leave-active {
     animation: moveUp 0.1s ease-in;
 }
+
 @keyframes moveUp {
     0% {
         transforme: translateX(0);
     }
+
     100% {
         transforme: translateY(-400px);
     }
