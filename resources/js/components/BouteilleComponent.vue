@@ -88,7 +88,7 @@
                                 <img src="@assets/saq.svg" alt="SAQ Icon" />
                             </div>
                             <button
-                                
+                            @click="supprimerBouteille(bouteille)"
                                 class="material-symbols-outlined hover:bg-bg-fonce focus:bg-bg-fonce w-10 h-10 rounded-lg text-white font-semibold bg-vin-rouge ml-2 transform transition-all duration-200"
                             >
                                 delete
