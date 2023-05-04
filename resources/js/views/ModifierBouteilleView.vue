@@ -1,6 +1,6 @@
 <template>
     <section class="m-4 mt-6">
-        <div class="mb-4 flex justify-start">
+        <div class="mb-6 flex justify-start">
             <button
                 @click="$router.go(-1)"
                 class="bg-vin_blanc hover:bg-gray-700 text-white font-bold rounded-full cursor-pointer"
@@ -8,12 +8,12 @@
                 <i class="material-symbols-outlined py-4 px-4"> arrow_back </i>
             </button>
         </div>
-        <div class="bg-bg-rose m-4 p-3 shadow-md rounded">
+        <div class="bg-bg-rose p-3 shadow-md rounded">
             <form
                 @submit.prevent="modifierBouteille"
                 enctype="multipart/form-data"
             >
-                <h3 class="mb-4 text-vin-rouge font-bold text-xl">
+                <h3 class="mb-4 text-vin-rouge font-bold text-lg">
                     Modifier votre bouteille
                 </h3>
                 <!-- Erreurs serveur -->
@@ -27,13 +27,13 @@
                 <div class="mb-4">
                     <label
                         for="nom"
-                        class="block text-lg text-left font-bold text-vin-rouge"
+                        class="block text-md text-left font-bold text-vin-rouge"
                         >Nom</label
                     >
                     <input
                         v-model="nom"
                         id="nom"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                        class="w-full rounded pt-2 pb-2 pl-1 pr-1 h-8"
                         :class="{
                             'border border-red-500':
                                 v$.nom.$error && v$.nom.$dirty,
@@ -51,14 +51,14 @@
                     <div class="mb-4 flex-1">
                         <label
                             for="pays_id"
-                            class="block text-lg text-left font-bold text-vin-rouge"
+                            class="block text-md text-left font-bold text-vin-rouge"
                         >
                             Pays
                         </label>
                         <select
                             v-model="pays_id"
                             id="pays_id"
-                            class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                            class="w-full rounded pt-2 pb-2 pl-1 pr-1 h-8 bg-white"
                             :class="{
                                 'border border-red-500':
                                     v$.pays_id.$error && v$.pays_id.$dirty,
@@ -88,14 +88,14 @@
                     <div class="mb-4 flex-1">
                         <label
                             for="categorie_id"
-                            class="block text-lg text-left font-bold text-vin-rouge"
+                            class="block text-md text-left font-bold text-vin-rouge"
                         >
                             Catégorie
                         </label>
                         <select
                             v-model="categorie_id"
                             id="categorie_id"
-                            class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                            class="w-full rounded pt-2 pb-2 pl-1 pr-1 h-8 bg-white"
                             :class="{
                                 'border border-red-500':
                                     v$.categorie_id.$error &&
@@ -130,14 +130,14 @@
                     <div class="mb-4 flex-1">
                         <label
                             for="quantite"
-                            class="block text-lg text-left font-bold text-vin-rouge"
+                            class="block text-md text-left font-bold text-vin-rouge"
                             >Quantité</label
                         >
                         <input
                             type="number"
                             v-model="quantite"
                             id="quantite"
-                            class="w-full rounded py-2 px-1"
+                            class="w-full rounded py-2 px-1 h-8 bg-white"
                             :class="{
                                 'border border-red-500':
                                     v$.quantite.$error && v$.quantite.$dirty,
@@ -156,13 +156,13 @@
                     <div class="mb-4 flex-1">
                         <label
                             for="annee"
-                            class="block text-lg text-left font-bold text-vin-rouge"
+                            class="block text-md text-left font-bold text-vin-rouge"
                             >Année</label
                         >
                         <input
                             v-model="annee"
                             id="annee"
-                            class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                            class="w-full rounded pt-2 pb-2 pl-1 pr-1 h-8 bg-white"
                             :class="{
                                 'border border-red-500':
                                     v$.annee.$error && v$.annee.$dirty,
@@ -183,7 +183,7 @@
                 <div class="mb-4">
                     <label
                         for="description"
-                        class="block text-lg text-left font-bold text-vin-rouge"
+                        class="block text-md text-left font-bold text-vin-rouge"
                         >Description</label
                     >
                     <textarea
@@ -197,7 +197,7 @@
                 <div class="mb-4">
                     <label
                         for="photo"
-                        class="block text-lg text-left font-bold text-vin-rouge"
+                        class="block text-md text-left font-bold text-vin-rouge"
                         >Select an image:</label
                     >
                     <input
@@ -206,7 +206,7 @@
                         type="file"
                         accept="image/*"
                         name="photo"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                        class="w-full rounded pt-2 pb-2 pl-1 pr-1 bg-white"
                     />
                 </div>
                 <div class="flex gap-2 items-center">
@@ -214,13 +214,13 @@
                     <div class="mb-4 flex-1">
                         <label
                             for="annee"
-                            class="block text-lg text-left font-bold text-vin-rouge"
+                            class="block text-md text-left font-bold text-vin-rouge"
                             >Note (%)</label
                         >
                         <input
                             v-model="note"
                             id="annee"
-                            class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                            class="w-full rounded pt-2 pb-2 pl-1 pr-1 h-8 bg-white"
                             :class="{
                                 'border border-red-500':
                                     v$.note.$error && v$.note.$dirty,
@@ -239,13 +239,13 @@
                     <div class="mb-4 flex-1">
                         <label
                             for="annee"
-                            class="block text-lg text-left font-bold text-vin-rouge"
+                            class="block text-md text-left font-bold text-vin-rouge"
                             >prix</label
                         >
                         <input
                             v-model="prix"
                             id="annee"
-                            class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                            class="w-full rounded pt-2 pb-2 pl-1 pr-1 h-8 bg-white"
                             :class="{
                                 'border border-red-500':
                                     v$.prix.$error && v$.prix.$dirty,
@@ -265,7 +265,7 @@
                 <div>
                     <button
                         type="submit"
-                        class="mb-4 mt-4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5"
+                        class="mb-4 mt-4 bg-vin-rouge text-vin-blanc rounded py-2 px-6"
                     >
                         modifier
                     </button>
