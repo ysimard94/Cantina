@@ -73,7 +73,7 @@ export default {
                 console.log(error)
             }
         },
-        async supprimerCellier() {
+       async supprimerCellier() {
             try {
                 const response = await CellierDataService.supprimer(this.cellier.id)
                 console.log(response)
@@ -84,15 +84,13 @@ export default {
                         message: this.successMessage
                     }
                 })
-                this.$emit('close');
-                this.$emit('cellier-supprime')
-
-
-
+                this.$emit('close')
+                this.$emit('cellier-supprime', this.cellier.id) // Émettre l'événement 'cellier-supprime' avec l'ID du cellier supprimé
             } catch (error) {
                 console.log(error)
             }
         },
+
         annulerModification() {
             this.nouveauNom = this.cellier.nom;
             this.$emit('close');
