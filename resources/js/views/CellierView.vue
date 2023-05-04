@@ -18,13 +18,16 @@
             <div class="md:col-span-2 flex justify-between items-center">
                 <select id="select-cellier" @change="handleChangerCellier" v-model="cellierActif"
                     class="mr-2 p-2 font-semibold w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <option disabled>-- Sélectionner un cellier --</option>
+                    <option disabled :selected="cellierActif.id === 0">
+                        {{ celliers.length === 0 ? "-- Aucun cellier --" : "-- Sélectionner un cellier --" }}
+                    </option>
                     <option v-for="(cellier, index) in celliers" :key="index" :value="cellier">
                         {{ cellier.nom }}
                     </option>
                 </select>
                 <div class="flex">
-                    <button class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
+                    <button v-if="cellierActif.id !== 0"
+                        class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
                         @click="handleEditButton">
                         edit
                     </button>
@@ -91,14 +94,14 @@
                     <button class="rounded" @click="reinitialisationBouteilles();
                     rotation();
 
-                                            ">
+                                                                ">
 
                         <span class="material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1" :class="
                             {
                                 'rotate-[360deg] ease-in-out duration-500':
                                 estRotation,
 
-                                                                                                                            }
+                                                                                                                                                    }
 
                         ">
                             refresh
@@ -165,7 +168,7 @@ export default {
         ModifierCellierComponent,
     },
 
-    data () {
+    data() {
         return {
             bouteilles: [],
             filteredBouteilles: [],
@@ -182,7 +185,7 @@ export default {
             est180: false,
         };
     },
-    async mounted () {
+    async mounted() {
         await this.fetchCelliers();
         if (this.cellierActif.id !== 0) {
             await this.fetchBouteillesCellier();
@@ -191,13 +194,13 @@ export default {
         console.log(this.message);
     },
     computed: {
-        bouteillesAffiches () {
+        bouteillesAffiches() {
             return this.filteredBouteilles.length > 0
                 ? this.filteredBouteilles
                 : this.bouteilles;
         },
 
-        successMessage () {
+        successMessage() {
             const message =
                 this.$route.query.message || this.bouteilleSuprimeeMessage;
 
@@ -207,13 +210,13 @@ export default {
 
             return message;
         },
-        estSuccessPopup () {
+        estSuccessPopup() {
             return this.successMessage !== "" && this.estPopupOuvert;
         },
         // ...mapGetters({ cellierFiltreValeurs: "cellierFiltreValeurs" }),
     },
     watch: {
-        successMessage (newVal) {
+        successMessage(newVal) {
             if (newVal !== "") {
                 this.showSuccessPopup();
             }
@@ -221,22 +224,22 @@ export default {
     },
     methods: {
         // Appliquer le filtre pour afficher toutes les bouteilles filtrées
-        filtrerBouteilles (filteredBouteilles) {
+        filtrerBouteilles(filteredBouteilles) {
             this.filteredBouteilles = filteredBouteilles;
         },
-        montrerFiltre () {
+        montrerFiltre() {
             this.estOuvertFiltre = true;
         },
-        fermerFiltre () {
+        fermerFiltre() {
             this.estOuvertFiltre = false;
         },
-        handleChangerCellier () {
+        handleChangerCellier() {
             this.fetchBouteillesCellier();
 
             // Réinitialiser les filtres et tris au changement du cellier
             this.reinitialisationBouteilles();
         },
-        async fetchBouteillesCellier () {
+        async fetchBouteillesCellier() {
             try {
                 const response =
                     await BouteilleDataService.getBouteillesByCellierId(
@@ -244,11 +247,17 @@ export default {
                     );
                 this.bouteilles = response.data.bouteilles;
                 console.log(this.cellierActif);
+                // Trier et filtrer les bouteilles en fonction des critères actifs
+                this.trierBouteilles();
+                this.filtrerBouteilles();
+
+                // Réinitialiser les filtres et tris
+                this.reinitialisationBouteilles();
             } catch (error) {
                 console.log(error);
             }
         },
-        async supprimerBouteille (bouteille) {
+        async supprimerBouteille(bouteille) {
             const estConfirmé = confirm(
                 "Êtes-vous sûr de vouloir supprimer cette bouteille ?"
             );
@@ -275,7 +284,7 @@ export default {
         },
 
         // Obtenir la liste des celliers
-        async fetchCelliers () {
+        async fetchCelliers() {
             try {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
@@ -288,7 +297,7 @@ export default {
             }
         },
         //Animation du bouton de réinitialisation
-        rotation () {
+        rotation() {
             this.estRotation = true;
             setTimeout(() => {
                 this.estRotation = false;
@@ -296,12 +305,12 @@ export default {
         },
 
         //Animation du bouton de tri
-        rotationTri () {
+        rotationTri() {
             this.est180 = !this.est180
         },
 
         //Applique le résultat de la recherche avec les filtres ou non dans le celliers
-        rechercheBouteillesCellier () {
+        rechercheBouteillesCellier() {
             try {
                 console.log(this.bouteilles);
                 if (this.filteredBouteilles.length > 0) {
@@ -339,20 +348,20 @@ export default {
                 console.log(error);
             }
         },
-        async ajoutCellier (nouveaucellier) {
+        async ajoutCellier(nouveaucellier) {
             this.celliers.push(nouveaucellier);
             console.log(this.celliers);
         },
-        handleAddButton () {
+        handleAddButton() {
             this.showModifierCellier = false;
             this.showAjouterCellier = true;
             this.estAjouterCellier = !this.estAjouterCellier;
         },
-        handleEditButton () {
+        handleEditButton() {
             this.showAjouterCellier = false;
             this.showModifierCellier = true;
         },
-        mettreAJourCellier (cellierModifie) {
+        mettreAJourCellier(cellierModifie) {
             this.celliers = this.celliers.map((cellier) => {
                 if (cellier.id === cellierModifie.id) {
                     return cellierModifie;
@@ -370,7 +379,8 @@ export default {
 
             this.cellierSelectionne = null;
         },
-        supprimerCellier () {
+        async supprimerCellier() {
+
             this.celliers = this.celliers.filter(
                 (c) => c.id !== this.cellierActif.id
             );
@@ -381,19 +391,25 @@ export default {
                 (b) => b.cellier.id !== this.cellierActif.id
             );
 
-            this.cellierActif = this.celliers[0];
+            if (this.celliers.length > 0) {
+                this.cellierActif = this.celliers[0];
 
-            // Mettre à jour les bouteilles affichées
-            this.bouteillesAffiches();
+                // Mettre à jour les bouteilles affichées
+                await this.fetchBouteillesCellier();
+                // Mettre à jour les bouteilles affichées
+                this.filteredBouteilles = this.bouteillesAffiches;
+            } else {
+                this.cellierActif = { id: 0, nom: "Aucun cellier" };
+            }
         },
-        triCellier () {
+        triCellier() {
             if (this.filteredBouteilles.length > 0) {
                 this.filteredBouteilles.reverse();
             } else {
                 this.bouteilles.reverse();
             }
         },
-        async reinitialisationBouteilles () {
+        async reinitialisationBouteilles() {
             await this.fetchBouteillesCellier();
             if (this.filteredBouteilles.length > 0) {
                 this.filteredBouteilles = [];
@@ -401,7 +417,7 @@ export default {
             // Mettre à jour les valeurs du filtre
             this.setCellierFiltreValeurs({});
         },
-        showSuccessPopup () {
+        showSuccessPopup() {
             this.estPopupOuvert = true;
             setTimeout(() => {
                 this.estPopupOuvert = false;
@@ -411,7 +427,7 @@ export default {
                 this.bouteilleSuprimeeMessage = "";
             }, 3000);
         },
-        fermerPopup () {
+        fermerPopup() {
             this.estPopupOuvert = false;
         },
 
