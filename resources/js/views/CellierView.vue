@@ -77,6 +77,8 @@
                 <AjouterCellierComponent
                     @close="showAjouterCellier = false"
                     @nouveau-cellier="ajoutCellier"
+                    :cellierActif="cellierActif"
+                    :celliers="celliers"
                 />
             </div>
             <div v-if="showModifierCellier" class="md:col-span-3 mt-4">
@@ -441,9 +443,11 @@ export default {
                 console.log(error);
             }
         },
-        async ajoutCellier(nouveaucellier) {
-            this.celliers.push(nouveaucellier);
-            console.log(this.celliers);
+       async ajoutCellier(nouveaucellier) {
+            this.cellierActif = nouveaucellier; // mettre à jour le cellierActif avec le nouveau cellier
+            this.celliers.push(nouveaucellier); // ajouter le nouveau cellier à la liste des celliers
+           console.log(this.celliers);
+             await this.fetchBouteillesCellier();
         },
         handleAddButton() {
             this.showModifierCellier = false;
