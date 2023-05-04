@@ -9,10 +9,10 @@
                 placeholder="Nom du cellier" />
             <div class="flex items-center ml-auto">
                 <button type="submit"
-                    class="material-symbols-outlined mx-[8px] font-semibold text-white rounded-full bg-green-500 hover:bg-green-700">
+                    class="material-symbols-outlined mx-[8px] font-semibold text-white rounded-full bg-green-500 hover:bg-green-700 transform transition-all duration-200">
                     done
                 </button>
-                <button class="material-symbols-outlined mx-[4px] font-semibold text-white rounded-full bg-red-500 hover:bg-red-700"
+                <button class="material-symbols-outlined mx-[4px] font-semibold text-white rounded-full bg-red-500 hover:bg-red-700 transform transition-all duration-200"
                     @click="annulerAjout">
                     clear
                 </button>

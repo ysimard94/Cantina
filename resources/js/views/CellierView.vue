@@ -225,7 +225,7 @@
         >
             <div class="fixed bottom-[72px] right-0 mb-8 mr-8">
                 <button
-                    class="bg-vin_blanc hover:bg-gray-700 text-white font-bold py-4 px-4 rounded-full"
+                    class="bg-vin_blanc hover:bg-gray-700 text-white font-bold py-4 px-4 rounded-full transform transition-all duration-200"
                 >
                     <svg
                         class="w-6 h-6"
