@@ -59,7 +59,6 @@ const routes = [
         },
     },
 
-
     {
         path: "/saq-produits",
         name: "saq-produits",
@@ -90,7 +89,7 @@ const routes = [
         },
     },
     {
-        path: "/modifier-bouteille/:id",
+        path: "/modifier-bouteille/:bouteilleId/:cellierId",
         name: "modifier-bouteille",
         component: ModifierBouteilleView,
         meta: {

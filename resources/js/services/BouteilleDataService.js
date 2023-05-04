@@ -14,11 +14,14 @@ class BouteilleDataService {
     }
 
     async delete(id) {
-        return await apiClient.delete(`/bouteille/${id}`);
+        return await apiClient.delete(`/bouteille/${bouteilleId}/${cellierId}`);
     }
 
-    async update(id, data) {
-        return await apiClient.put(`/bouteille/${id}`, data);
+    async update(bouteilleId, cellierId, data) {
+        return await apiClient.put(
+            `/bouteille/${bouteilleId}/${cellierId}`,
+            data
+        );
     }
     async getBouteillesByCellierId(cellierId) {
         return await apiClient.get(`/bouteilles/cellier/${cellierId}`);

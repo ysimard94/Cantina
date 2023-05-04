@@ -30,6 +30,10 @@ class CellierDataService {
             `/celliers/${cellierId}/bouteilles/${bouteilleId}`
         );
     }
+    // Obtenir l’enregistrement de la bouteille attaché au cellier avec la quantité
+    async getCellierBouteillePivot(cellierId, bouteilleId) {
+        return await apiClient.get(`/celliers/${cellierId}/${bouteilleId}`);
+    }
 }
 
 export default new CellierDataService();

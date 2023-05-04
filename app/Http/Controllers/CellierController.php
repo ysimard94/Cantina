@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cellier;
+use App\Models\Bouteille;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -91,6 +92,32 @@ class cellierController extends Controller
         $cellier->bouteilles()->detach($bouteilleId);
 
         return response()->json($cellier);
+    }
+
+    // Obtenir l’enregistrement pivot d'une bouteille dans un cellier
+    public function getCellierBouteillePivot(Cellier $cellier, Bouteille $bouteille)
+    {
+        try {
+            // Récupérer l'enregistrement pivot pour la bouteille et le cellier
+            $pivot = $cellier->bouteilles()->where('bouteille_id', $bouteille->id)->firstOrFail();
+    
+            // Retourner l'enregistrement pivot
+            return response()->json($pivot);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Gérer l'exception ModelNotFoundException
+            // retourner une réponse JSON avec un message d'erreur
+            return response()->json([
+                'status' => 'échec',
+                'message' => 'Enregistrement  non trouvé',
+            ], 404);
+        } catch (\Exception $e) {
+            // Gérer les autres exceptions
+            // retourner une réponse JSON avec un message d'erreur général
+            return response()->json([
+                'status' => 'échec',
+                'message' => 'Une erreur est survenue lors de la récupération de l\'enregistrement',
+            ], 500);
+        }
     }
 
 }

@@ -61,8 +61,7 @@ class BouteilleController extends Controller
                 // Valider la requête entrante
                 $validator = Validator::make($request->all(), [
                     'nom' => 'required|min:2',
-                    'annee' => 'integer|max:' . date('Y'),
-                    'description' => 'min:2',
+                    'description'=> 'nullable|min:2',
                     'prix' => 'numeric',
                     'note' => 'numeric',
                     'nbr_notes' => 'integer',
@@ -73,9 +72,9 @@ class BouteilleController extends Controller
 
                 // Si les données ne sont pas valide, lancer une exception
 
-                // if ($validator->fails()) {
-                //     throw new ValidationException($validator);
-                // }
+                if ($validator->fails()) {
+                    throw new ValidationException($validator);
+                }
 
                 // Si aucune photo n'a été envoyée, définir une photo par défaut
                 if ($request->hasFile('photo')) {
@@ -90,12 +89,6 @@ class BouteilleController extends Controller
 
                 $bouteilleData['photo'] = $path;
                 $bouteille = Bouteille::create($bouteilleData);
-
-
-                // // Obtenir le cellier de l'utilisateur connecté
-                // $cellier = Cellier::where('id', $cellierId)
-                //     ->where('utilisateur_id', Auth::user()->id)
-                //     ->firstOrFail();
 
                 // Récupérer la quantité à partir de la requête
                 $quantite = $request->input('quantite');
@@ -116,6 +109,7 @@ class BouteilleController extends Controller
                     'status' => 'échec',
                     'erreur' => 'Les données sont invalide, veuillez remplir les champs correctement.'
                 ], 422);
+
             } catch (\Exception $e) {
                 // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
                 error_log($e->getMessage());
@@ -126,6 +120,7 @@ class BouteilleController extends Controller
                     'erreur' => $e->getMessage(),
                 ], 500);
             }
+
         }else {
             // Retourner un message d'erreur général au client
             return response()->json([
@@ -180,7 +175,7 @@ class BouteilleController extends Controller
      *
      */
 
-     public function supprimerBouteilleDansCellier(Bouteille $bouteille, Cellier $cellier)
+     public function supprimerBouteilleDansCellier(Cellier $cellier, Bouteille $bouteille )
     {
         $user = Auth::user();
 
@@ -228,15 +223,15 @@ class BouteilleController extends Controller
     {
         try {
             // Vérifier si la bouteille se trouve dans le cellier de l'utilisateur authentifié
-            $bouteilleFound = Bouteille::whereHas('celliers', function ($query) {
+            $bouteille = Bouteille::whereHas('celliers', function ($query) {
                 $query->where('utilisateur_id', Auth::id());
             })->with('categorie', 'pays')->find($bouteille->id);
 
-            if ($bouteilleFound) {
+            if ($bouteille) {
                 // Renvoyer la bouteille avec pays et catégorie
                 return response()->json([
                     'status' => 'success',
-                    'bouteille' => $bouteilleFound
+                    'bouteille' => $bouteille
                 ], 200);
             } else {
                 return response()->json([
@@ -257,20 +252,20 @@ class BouteilleController extends Controller
 
 
     // Va mettre à jour les données d'une bouteille personnalisée
-    public function updateBouteille(Bouteille $bouteille, Request $request)
+    public function updateBouteille(Bouteille $bouteille, Cellier $cellier, Request $request)
     {
 
         try {
             // Valider la requête entrante
             $validator = Validator::make($request->all(), [
                 'nom' => 'required|min:2',
-                'annee' => 'integer|max:' . date('Y'),
-                'description' => 'min:2',
+                'description'=> 'nullable|min:2',
                 'prix' => 'numeric',
                 'note' => 'numeric',
                 'nbr_notes' => 'integer',
                 'pays_id' => 'required',
                 'categorie_id' => 'required',
+                'quantite' => 'required|integer|min:1',
             ]);
 
             // Si les données ne sont pas valide, lancer une exception
@@ -289,6 +284,13 @@ class BouteilleController extends Controller
 
             // Va mettre à jour les données des colonnes correspondantes avec celles de la requête
             $bouteille->fill($request->only($bouteille->getFillable()));
+
+             // Récupérer la quantité à partir de la requête
+             $quantite = $request->input('quantite');
+
+            // Mettre à jour la quantité
+            $cellier->bouteilles()->syncWithoutDetaching([$bouteille->id => ['quantite' => $quantite]]);
+
             // $bouteille["photo"] = $path;
 
             // Sauvegarde les nouvelles informations

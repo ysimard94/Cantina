@@ -130,7 +130,7 @@
                 <!-- Année  - Quantité -->
                 <div class="flex gap-2 items-center">
                     <!-- Quantité  -->
-                    <div class="mb-4">
+                    <div class="mb-4 flex-1">
                         <label
                             for="quantite"
                             class="block text-lg text-left font-bold text-vin-rouge"
@@ -156,13 +156,14 @@
                         </p>
                     </div>
                     <!-- Année  -->
-                    <div class="mb-4">
+                    <div class="mb-4 flex-1">
                         <label
                             for="annee"
                             class="block text-lg text-left font-bold text-vin-rouge"
                             >Année</label
                         >
                         <input
+                            type="number"
                             v-model="annee"
                             id="annee"
                             class="w-full rounded py-2 px-1"
@@ -438,7 +439,6 @@ export default {
     mounted: async function () {
         await this.getCategories();
         await this.getPays();
-        console.log("Selected cellier ID:", this.cellierId);
     },
 };
 </script>
