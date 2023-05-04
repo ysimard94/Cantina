@@ -283,9 +283,14 @@ export default {
     },
     async mounted() {
         await this.fetchCelliers();
-        this.$store.getters.cellierActif
-            ? (this.cellierActif = this.$store.getters.cellierActif)
-            : (this.cellierActif = this.celliers[0]);
+        if (this.$store.getters.cellierActif) {
+            this.cellierActif = this.$store.getters.cellierActif;
+        } else if (this.celliers) {
+            this.cellierActif = this.celliers[0];
+        } else {
+            this.cellierActif = { id: 0, nom: "Aucun cellier" };
+        }
+
         if (this.cellierActif.id !== 0) {
             await this.fetchBouteillesCellier();
         }
