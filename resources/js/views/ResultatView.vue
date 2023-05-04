@@ -2,7 +2,7 @@
     <div class="container mx-auto">
         <div v-for="bouteille in bouteilles" :key="bouteille.id">
             <div class="bg-bg_rose overflow-hidden shadow rounded-lg px-2 py-2 m-4">
-                
+
                 <img :src="bouteille.photo" alt="Bottle image" class="w-16 h-32 object-cover mx-auto ">
                 <div class="px-4 py-4">
                     <h4 class="text-lg font-semibold text-vin_rouge text-left font-serif">{{ bouteille.nom }}</h4>
@@ -27,12 +27,15 @@
                 <div class="flex justify-between items-center mx-3 mb-3 hover:text-geen-600">
                     <select id="select-cellier"
                         class="p-2 font-sans w-full rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option disabled class="font-black">-- Sélectionner un cellier --</option>
+                        <option disabled>-- Sélectionner un cellier --</option>
                         <option v-for="(cellier) in celliers" :value="cellier.id" :key="cellier.id">{{ cellier.nom }}
                         </option>
                     </select>
+                    <input type="number" :value="1" id="quantite"
+                        class="p-2 font-sans rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-[40px] w-16 ml-1"
+                        placeholder="Quantité" min="1">
                     <button class="material-symbols-outlined text-4xl ml-2 add-button"
-                        @click="ajouterBouteille(bouteille.id, $event)">add</button>
+                        @click="ajouterBouteille(bouteille.id, $event, bouteille.quantite)">add</button>
                 </div>
             </div>
         </div>
@@ -49,6 +52,9 @@ export default {
             bouteilles: [],
             celliers: [],
             message: "",
+            bouteille: {
+                'quantite': 1,
+            }
         };
     },
     methods: {
@@ -79,9 +85,9 @@ export default {
         },
         async ajouterBouteille(bouteilleId, event) {
             let cellierId = event.target.parentNode.querySelector("#select-cellier").value;
-            console.log(bouteilleId, cellierId)
+            let quantite = event.target.parentNode.querySelector("#quantite").value;
             try {
-                const response = await BouteilleDataService.ajouterBouteilleAuCellier(cellierId, bouteilleId);
+                const response = await BouteilleDataService.ajouterBouteilleAuCellier(cellierId, bouteilleId, quantite);
                 console.log(response.data);
                 const bouteilleAjoutee = this.bouteilles.find(bouteille => bouteille.id === bouteilleId);
                 bouteilleAjoutee.message = response.data.message;
