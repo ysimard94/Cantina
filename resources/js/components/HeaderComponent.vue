@@ -29,8 +29,8 @@
                             </label>
                             <ul class="absolute mt-3 bg-white w-full rounded shadow z-10 transform transition-all duration-300" :class="{ 'transform -translate-y-1 opacity-0': rechercheVide, 'transform translate-y-0 opacity-100': !rechercheVide }">
                                 <li 
-                                    class=" mx-4 flex" 
-                                    
+                                    class=" mx-4 flex text-left"
+                                    :class="{ 'border-b-2': index !== bouteilles.length - 1 }"
                                     v-for="(bouteille, index) in bouteilles" 
                                     >
                                     <router-link 

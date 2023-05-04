@@ -21,6 +21,7 @@ class Cellier extends Model
 
     public function bouteilles()
     {
-        return $this->belongsToMany(Bouteille::class);
+        return $this->belongsToMany(Bouteille::class)
+                    ->withPivot('quantite');
     }
 }
