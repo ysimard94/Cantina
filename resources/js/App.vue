@@ -117,7 +117,8 @@ export default {
 
 main {
     min-height: 100vh;
-    margin-bottom: 72px;
+    padding-bottom: 96px;
+    margin-bottom: 60px;
     display: flex;
     flex-direction: column;
 }
