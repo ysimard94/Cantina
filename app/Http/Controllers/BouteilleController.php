@@ -51,67 +51,84 @@ class BouteilleController extends Controller
 
     public function sauveBouteille(Request $request,  $cellierId)
     {
+        $utilisateur = Auth::user();
+        $cellier = Cellier::findOrFail($cellierId);
 
-        try {
+        // Verifier  si le cellier appartiens a l'utilisateur connecté
+        if ($utilisateur->id === $cellier->utilisateur_id) { 
+            try {
 
-            // Valider la requête entrante
-            $validator = Validator::make($request->all(), [
-                'nom' => 'required',
-                'categorie_id' => 'required|numeric|integer',
-                'pays_id' => 'required|numeric|integer',
-            ]);
+                // Valider la requête entrante
+                $validator = Validator::make($request->all(), [
+                    'nom' => 'required|min:2',
+                    'description'=> 'nullable|min:2',
+                    'prix' => 'numeric',
+                    'note' => 'numeric',
+                    'nbr_notes' => 'integer',
+                    'pays_id' => 'required|numeric|integer',
+                    'categorie_id' => 'required|numeric|integer',
+                    'quantite' => 'required|integer|min:1',
+                ]);
 
-            // Si les données ne sont pas valide, lancer une exception
+                // Si les données ne sont pas valide, lancer une exception
 
-            if ($validator->fails()) {
-                throw new ValidationException($validator);
+                if ($validator->fails()) {
+                    throw new ValidationException($validator);
+                }
+
+                // Si aucune photo n'a été envoyée, définir une photo par défaut
+                if ($request->hasFile('photo')) {
+
+                    $path = "storage/" . $request->file('photo')->store('photos', 'public');
+                } else {
+                    $path = 'https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166';
+                }
+
+                // Créer une nouvelle bouteille avec les données envoyées
+                $bouteilleData = $request->except('quantite');
+
+                $bouteilleData['photo'] = $path;
+                $bouteille = Bouteille::create($bouteilleData);
+
+                // Récupérer la quantité à partir de la requête
+                $quantite = $request->input('quantite');
+                
+                // Attacher la bouteille au cellier avec la quantité
+                $cellier->bouteilles()->attach($bouteille, ['quantite' => $quantite]);
+
+                // Retourner une réponse
+                return response()->json([
+                    'status' => 'success',
+                    'bouteille' => $bouteille,
+                    'message' => 'Bouteille ajoutée avec succès.',
+                ], 201);
+            } catch (ValidationException $e) {
+
+                // Retourner un message d'erreur personnalisé pour les erreurs de validation
+                return response()->json([
+                    'status' => 'échec',
+                    'erreur' => 'Les données sont invalide, veuillez remplir les champs correctement.'
+                ], 422);
+
+            } catch (\Exception $e) {
+                // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
+                error_log($e->getMessage());
+
+                // Retourner un message d'erreur général au client
+                return response()->json([
+                    'status' => 'échec',
+                    'erreur' => $e->getMessage(),
+                ], 500);
             }
 
-            // Si aucune photo n'a été envoyée, définir une photo par défaut
-            if ($request->hasFile('photo')) {
-
-                $path = "storage/" . $request->file('photo')->store('photos', 'public');
-            } else {
-                $path = 'https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166';
-            }
-
-            // Créer une nouvelle bouteille avec les données envoyées
-            $bouteilleData = $request->all();
-            $bouteilleData['photo'] = $path;
-            $bouteille = Bouteille::create($bouteilleData);
-
-
-            // Obtenir le cellier de l'utilisateur connecté
-            $cellier = Cellier::where('id', $cellierId)
-                ->where('utilisateur_id', Auth::user()->id)
-                ->firstOrFail();
-
-            // Attacher la bouteille au cellier
-            $cellier->bouteilles()->attach($bouteille);
-
-            // Retourner une réponse
-            return response()->json([
-                'status' => 'success',
-                'bouteille' => $bouteille,
-                'message' => 'Bouteille ajoutée avec succès.',
-            ], 201);
-        } catch (ValidationException $e) {
-
-            // Retourner un message d'erreur personnalisé pour les erreurs de validation
-            return response()->json([
-                'status' => 'échec',
-                'erreur' => 'Les données sont invalide, veuillez remplir les champs correctement.'
-            ], 422);
-        } catch (\Exception $e) {
-            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
-            error_log($e->getMessage());
-
+        }else {
             // Retourner un message d'erreur général au client
             return response()->json([
                 'status' => 'échec',
-                'erreur' => $e->getMessage(),
-            ], 500);
+                'message' => 'Vous n\'avez pas la permission d\'ajouter une bouteille à ce cellier.',
+            ], 404);
         }
+       
     }
 
     /**
@@ -154,6 +171,30 @@ class BouteilleController extends Controller
         }
     }
     /**
+     * Supprimer ou enlever une bouteille dans cellier de l'utilisateur
+     *
+     */
+
+     public function supprimerBouteilleDansCellier(Cellier $cellier, Bouteille $bouteille )
+    {
+        $user = Auth::user();
+
+        // Verifier  si le cellier appartiens a l'utilisateur connecté
+        if ($user->id === $cellier->utilisateur_id) {
+            try {
+                // Détacher la bouteille du cellier
+                $cellier->bouteilles()->detach($bouteille->id);
+                return response()->json(['message' => 'Bouteille détachée du cellier avec succès']); // retourner un message de succès
+            } catch (\Throwable $th) {
+                return response()->json([ 'status' => 'échec', 'message' => 'Une erreur est survenue lors de la suppression de la bouteille du cellier'], 500); // retourner une message d'erreur du serveur
+            }
+        } else {
+            //  
+            return response()->json(['message' => 'Cellier non trouvé'], 404); // retourner un message d'erreur avec code 404 si l'utilisateur n'est pas propriétaire du cellier
+        }
+    }
+
+    /**
      * Obtenir toutes les bouteilles d'un cellier
      */
     public function getBouteillesByCellierId(Cellier $cellier)
@@ -182,15 +223,15 @@ class BouteilleController extends Controller
     {
         try {
             // Vérifier si la bouteille se trouve dans le cellier de l'utilisateur authentifié
-            $bouteilleFound = Bouteille::whereHas('celliers', function ($query) {
+            $bouteille = Bouteille::whereHas('celliers', function ($query) {
                 $query->where('utilisateur_id', Auth::id());
             })->with('categorie', 'pays')->find($bouteille->id);
 
-            if ($bouteilleFound) {
+            if ($bouteille) {
                 // Renvoyer la bouteille avec pays et catégorie
                 return response()->json([
                     'status' => 'success',
-                    'bouteille' => $bouteilleFound
+                    'bouteille' => $bouteille
                 ], 200);
             } else {
                 return response()->json([
@@ -211,20 +252,20 @@ class BouteilleController extends Controller
 
 
     // Va mettre à jour les données d'une bouteille personnalisée
-    public function updateBouteille(Bouteille $bouteille, Request $request)
+    public function updateBouteille(Bouteille $bouteille, Cellier $cellier, Request $request)
     {
 
         try {
             // Valider la requête entrante
             $validator = Validator::make($request->all(), [
                 'nom' => 'required|min:2',
-                'annee' => 'integer|max:' . date('Y'),
-                'description' => 'min:2',
+                'description'=> 'nullable|min:2',
                 'prix' => 'numeric',
                 'note' => 'numeric',
                 'nbr_notes' => 'integer',
                 'pays_id' => 'required',
                 'categorie_id' => 'required',
+                'quantite' => 'required|integer|min:1',
             ]);
 
             // Si les données ne sont pas valide, lancer une exception
@@ -243,6 +284,13 @@ class BouteilleController extends Controller
 
             // Va mettre à jour les données des colonnes correspondantes avec celles de la requête
             $bouteille->fill($request->only($bouteille->getFillable()));
+
+             // Récupérer la quantité à partir de la requête
+             $quantite = $request->input('quantite');
+
+            // Mettre à jour la quantité
+            $cellier->bouteilles()->syncWithoutDetaching([$bouteille->id => ['quantite' => $quantite]]);
+
             // $bouteille["photo"] = $path;
 
             // Sauvegarde les nouvelles informations

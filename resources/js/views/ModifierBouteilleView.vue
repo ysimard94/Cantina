@@ -23,6 +23,7 @@
                 <p v-if="message" class="block text-md text-green-500">
                     {{ message }}
                 </p>
+                <!-- Nom -->
                 <div class="mb-4">
                     <label
                         for="nom"
@@ -40,7 +41,7 @@
                                 !v$.nom.$error && v$.nom.$dirty,
                         }"
                     />
-                    <p v-if="v$.nom.$error" class="block text-md text-red-500">
+                    <p v-if="v$.nom.$error" class="block text-xs text-red-500">
                         Veillez entrer un nom valide
                     </p>
                 </div>
@@ -123,30 +124,59 @@
                         </p>
                     </div>
                 </div>
-                <!-- Année -->
-                <div class="mb-4">
-                    <label
-                        for="annee"
-                        class="block text-lg text-left font-bold text-vin-rouge"
-                        >Année</label
-                    >
-                    <input
-                        v-model="annee"
-                        id="annee"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                        :class="{
-                            'border border-red-500':
-                                v$.annee.$error && v$.annee.$dirty,
-                            'border border-green-500':
-                                !v$.annee.$error && v$.annee.$dirty,
-                        }"
-                    />
-                    <p
-                        v-if="v$.annee.$error"
-                        class="block text-md text-red-500"
-                    >
-                        Veillez entrer une année valide
-                    </p>
+                <!-- Quantité et Année -->
+                <div class="flex gap-2 items-center">
+                    <!-- Quantité  -->
+                    <div class="mb-4 flex-1">
+                        <label
+                            for="quantite"
+                            class="block text-lg text-left font-bold text-vin-rouge"
+                            >Quantité</label
+                        >
+                        <input
+                            type="number"
+                            v-model="quantite"
+                            id="quantite"
+                            class="w-full rounded py-2 px-1"
+                            :class="{
+                                'border border-red-500':
+                                    v$.quantite.$error && v$.quantite.$dirty,
+                                'border border-green-500':
+                                    !v$.quantite.$error && v$.quantite.$dirty,
+                            }"
+                        />
+                        <p
+                            v-if="v$.quantite.$error"
+                            class="block text-xs text-red-500"
+                        >
+                            Veillez entrer une quantité valide
+                        </p>
+                    </div>
+                    <!-- Année -->
+                    <div class="mb-4 flex-1">
+                        <label
+                            for="annee"
+                            class="block text-lg text-left font-bold text-vin-rouge"
+                            >Année</label
+                        >
+                        <input
+                            v-model="annee"
+                            id="annee"
+                            class="w-full rounded pt-2 pb-2 pl-1 pr-1"
+                            :class="{
+                                'border border-red-500':
+                                    v$.annee.$error && v$.annee.$dirty,
+                                'border border-green-500':
+                                    !v$.annee.$error && v$.annee.$dirty,
+                            }"
+                        />
+                        <p
+                            v-if="v$.annee.$error"
+                            class="block text-xs text-red-500"
+                        >
+                            Veillez entrer une année valide
+                        </p>
+                    </div>
                 </div>
 
                 <!-- Description -->
@@ -200,7 +230,7 @@
                         />
                         <p
                             v-if="v$.note.$error"
-                            class="block text-md text-red-500"
+                            class="block text-xs text-red-500"
                         >
                             Veillez entrer une note valide
                         </p>
@@ -225,7 +255,7 @@
                         />
                         <p
                             v-if="v$.prix.$error"
-                            class="block text-md text-red-500"
+                            class="block text-xs text-red-500"
                         >
                             Veillez entrer un prix valide
                         </p>
@@ -253,16 +283,22 @@ import {
     integer,
     helpers,
     numeric,
+    minValue,
+    maxValue,
 } from "@vuelidate/validators";
-import axios from "axios";
 
 import PaysDataService from "@/services/PaysDataService";
 import CategorieDataService from "@/services/CategorieDataService";
 import BouteilleDataService from "@/services/BouteilleDataService";
+import CellierDataService from "../services/CellierDataService";
 
 export default {
     props: {
-        id: {
+        bouteilleId: {
+            type: String,
+            required: true,
+        },
+        cellierId: {
             type: String,
             required: true,
         },
@@ -278,15 +314,16 @@ export default {
             description: "",
             photo: null,
             prix: 0,
-            note: "",
+            note: 0,
             nbr_notes: 0,
             pays_id: null,
             categorie_id: null,
             annee: null,
-            message: "",
             pays: [],
             categories: [],
             message: "",
+            quantite: 1,
+            pivot: null,
         };
     },
     validations() {
@@ -304,6 +341,13 @@ export default {
             },
             note: {
                 numeric,
+                minValue: minValue(0),
+                maxValue: maxValue(100),
+            },
+            quantite: {
+                required,
+                integer: integer,
+                minValue: minValue(1),
             },
             nbr_notes: {
                 integer: integer,
@@ -343,15 +387,16 @@ export default {
             formData.append("categorie_id", this.categorie_id);
 
             formData.append("annee", this.annee);
+            formData.append("quantite", this.quantite);
 
             // Met à jour les données de la bouteille et retourne un message de succès
             try {
                 const reponse = await BouteilleDataService.update(
-                    this.id,
+                    this.bouteilleId,
+                    this.cellierId,
                     formData
                 );
                 // renvoyer a la page celliers avec un message de succès
-
                 this.$router.push({
                     name: "mes-celliers",
                     query: { message: reponse.data.message },
@@ -361,14 +406,16 @@ export default {
             } finally {
             }
         },
-        obtenirBouteille: async function (bouteilleId) {
+        obtenirBouteille: async function () {
             try {
-                const response = await BouteilleDataService.get(bouteilleId);
+                const response = await BouteilleDataService.get(
+                    this.bouteilleId
+                );
                 const bouteille = response.data.bouteille;
 
                 // Populate the form with the fetched data
                 this.nom = bouteille.nom;
-                this.description = bouteille.description;
+                this.description !== "null" ? bouteille.description : null;
                 this.prix = bouteille.prix;
                 this.note = bouteille.note;
                 this.nbr_notes = bouteille.nbr_notes;
@@ -393,6 +440,19 @@ export default {
             } finally {
             }
         },
+        getCellierBouteillePivot: async function () {
+            try {
+                const reponse =
+                    await CellierDataService.getCellierBouteillePivot(
+                        this.cellierId,
+                        this.bouteilleId
+                    );
+                this.quantite = reponse.data.pivot.quantite;
+            } catch (error) {
+                console.error(error);
+            } finally {
+            }
+        },
         getCategories: async function () {
             try {
                 const reponse = await CategorieDataService.getAll();
@@ -409,9 +469,10 @@ export default {
         },
     },
     mounted: async function () {
-        await this.obtenirBouteille(this.id);
+        await this.obtenirBouteille();
         await this.getCategories();
         await this.getPays();
+        await this.getCellierBouteillePivot();
     },
 };
 </script>
