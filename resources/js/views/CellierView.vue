@@ -91,7 +91,7 @@
             </div>
         </div>
         <!-- recherche dans le cellier -->
-        <div class="flex items-center mx-auto p-2">
+        <div class="flex items-center mx-auto p-2 mt-1">
             <form @submit.prevent="" class="w-full">
                 <label class="relative flex items-center">
                     <input
@@ -206,7 +206,7 @@
             </div>
             <div
                 v-else
-                class="w-full flex flex-col items-center justify-center h-full"
+                class="w-full flex flex-col items-center justify-center h-full mt-4"
             >
                 <p>
                     Félicitations, votre cellier a été ajouté avec succès ! Pour
