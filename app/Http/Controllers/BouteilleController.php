@@ -51,7 +51,7 @@ class BouteilleController extends Controller
 
     public function sauveBouteille(Request $request,  $cellierId)
     {
-   
+
         try {
 
             // Valider la requête entrante
@@ -69,7 +69,7 @@ class BouteilleController extends Controller
 
             // Si aucune photo n'a été envoyée, définir une photo par défaut
             if ($request->hasFile('photo')) {
-            
+
                 $path = "storage/" . $request->file('photo')->store('photos', 'public');
             } else {
                 $path = 'https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166';
@@ -118,21 +118,31 @@ class BouteilleController extends Controller
      * Ajouter une bouteille au cellier de l'utilisateur
      *
      */
-    public function ajoutBouteilleAuCellier($cellierId, $bouteilleId)
+    public function ajoutBouteilleAuCellier($cellierId, $bouteilleId, $quantite)
     {
         try {
             // Obtenir le cellier de l'utilisateur
             $cellier = Cellier::where('utilisateur_id', Auth::user()->id)->findOrFail($cellierId);
             $bouteille = Bouteille::findOrFail($bouteilleId);
 
-            // Attacher la bouteille au cellier
-            $cellier->bouteilles()->attach($bouteille);
+            if($quantite < 1){
+                $quantite = 1;
+            }
 
-            // Renvoyer un message de succès
-            return response()->json(['message' => 'Bouteille ajoutée au cellier avec succès.']);
-        } 
-        catch (\Exception $e) 
-        {
+            // Vérifier si la bouteille existe déjà dans le cellier
+            $bouteilleExistante = $cellier->bouteilles()->wherePivot('bouteille_id', $bouteilleId)->first();
+            Log::info($bouteilleId);
+            Log::info($quantite);
+            
+            if ($bouteilleExistante) {
+                // Si la bouteille existe déjà, ajouter la quantité envoyée en paramètres à sa quantité existante
+                $quantite += $bouteilleExistante->pivot->quantite;
+                $cellier->bouteilles()->updateExistingPivot($bouteilleId, ['quantite' => $quantite]);
+            } else {
+                //Si la bouteille n'existe pas, l'attacher au cellier avec la quantité envoyée en paramètres
+                $cellier->bouteilles()->attach($bouteille, ['quantite' => $quantite]);
+            }
+        } catch (\Exception $e) {
 
             // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
             error_log($e->getMessage());
@@ -157,7 +167,6 @@ class BouteilleController extends Controller
                 'status' => 'success',
                 'bouteilles' => $bouteilles
             ], 200);
-
         } catch (\Exception $e) {
             // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
             error_log($e->getMessage());
@@ -189,7 +198,6 @@ class BouteilleController extends Controller
                     'erreur' => 'La bouteille demandée ne se trouve pas dans votre cellier.'
                 ], 403);
             }
-
         } catch (\Exception $e) {
             // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
             error_log($e->getMessage());
@@ -205,30 +213,29 @@ class BouteilleController extends Controller
     // Va mettre à jour les données d'une bouteille personnalisée
     public function updateBouteille(Bouteille $bouteille, Request $request)
     {
-    
-        try
-        {
-                 // Valider la requête entrante
-                 $validator = Validator::make($request->all(), [
-                    'nom' => 'required|min:2',
-                    'annee' => 'integer|max:' . date('Y'),
-                    'description' => 'min:2',
-                    'prix' => 'numeric',
-                    'note' => 'numeric',
-                    'nbr_notes' => 'integer',
-                    'pays_id' => 'required',
-                    'categorie_id' => 'required',
-                ]);
-    
-                // Si les données ne sont pas valide, lancer une exception
-    
-                if ($validator->fails()) {
-                    throw new ValidationException($validator);
-                }
+
+        try {
+            // Valider la requête entrante
+            $validator = Validator::make($request->all(), [
+                'nom' => 'required|min:2',
+                'annee' => 'integer|max:' . date('Y'),
+                'description' => 'min:2',
+                'prix' => 'numeric',
+                'note' => 'numeric',
+                'nbr_notes' => 'integer',
+                'pays_id' => 'required',
+                'categorie_id' => 'required',
+            ]);
+
+            // Si les données ne sont pas valide, lancer une exception
+
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
 
             // Si une photo a été envoyée
             // if ($request->hasFile('photo')) {
-            
+
             //     $path = "storage/" . $request->file('photo')->store('photos', 'public');
             // } else {
             //     $path = 'https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166';
@@ -237,28 +244,26 @@ class BouteilleController extends Controller
             // Va mettre à jour les données des colonnes correspondantes avec celles de la requête
             $bouteille->fill($request->only($bouteille->getFillable()));
             // $bouteille["photo"] = $path;
-    
+
             // Sauvegarde les nouvelles informations
             $bouteille->save();
-    
+
             // Retourne un message si la bouteille a été modifiée avec succès
             return response()->json([
                 'message' => 'La bouteille a été modifiée avec succès'
             ]);
-        }
-        catch(\Exception $e)
-        {
-             // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
-             error_log($e->getMessage());
+        } catch (\Exception $e) {
+            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
+            error_log($e->getMessage());
 
-             // Retourner un message d'erreur général au client
-             return response()->json([
-                 'status' => 'échec',
-                 'erreur' => $e->getMessage(),
-             ], 500);
+            // Retourner un message d'erreur général au client
+            return response()->json([
+                'status' => 'échec',
+                'erreur' => $e->getMessage(),
+            ], 500);
         }
     }
-    
+
 
 
     /**
@@ -278,7 +283,7 @@ class BouteilleController extends Controller
     public function getResultatsBouteilles($valeur)
     {
         // Va chercher la bouteille correspondant à le nom envoyé
-        $bouteilles = Bouteille::where('nom','LIKE', '%' . $valeur . '%')->whereNotNull('code_saq')->with('categorie', 'pays')->take(5)->get();
+        $bouteilles = Bouteille::where('nom', 'LIKE', '%' . $valeur . '%')->whereNotNull('code_saq')->with('categorie', 'pays')->take(5)->get();
 
         Log::info($valeur);
 
