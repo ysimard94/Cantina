@@ -1,10 +1,16 @@
 <template>
-    <div class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg h-full" v-for="bouteille in bouteilles"
-        :key="bouteille.id">
+    <div
+        class="bg-bg_rose flex flex-col overflow-hidden shadow rounded-lg h-full"
+        v-for="bouteille in bouteilles"
+        :key="bouteille.id"
+    >
         <div class="flex items-start">
             <div class="w-1/3">
-                <div class="relative ">
-                    <div class="text-center text-white font-bolder font-sans" :class="categorieBgColor(bouteille.categorie.nom)">
+                <div class="relative">
+                    <div
+                        class="text-center text-white font-bolder font-sans"
+                        :class="categorieBgColor(bouteille.categorie.nom)"
+                    >
                         {{ bouteille.categorie.nom }}
                     </div>
                     <img
@@ -35,12 +41,19 @@
                                 <div class="text-gray-700 font-medium mr-2">
                                     <div class="flex items-center">
                                         <template v-for="i in 5" :key="i">
-                                            <svg :class="{ 'text-vin-blanc': bouteille.note / 20 >= i, }"
-                                                class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24">
+                                            <svg
+                                                :class="{
+                                                    'text-vin-blanc':
+                                                        bouteille.note / 20 >=
+                                                        i,
+                                                }"
+                                                class="w-4 h-4 fill-current"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24"
+                                            >
                                                 <path
-                                                    d="M12 2 L15.09 8.09 L23 9.54 L17.91 15.5 L19.64 23.54 L12 20.59 L4.36 23.54 L6.09 15.5 L1 9.54 L8.91 8.09 L12 2 Z" />
-
+                                                    d="M12 2 L15.09 8.09 L23 9.54 L17.91 15.5 L19.64 23.54 L12 20.59 L4.36 23.54 L6.09 15.5 L1 9.54 L8.91 8.09 L12 2 Z"
+                                                />
                                             </svg>
                                         </template>
                                     </div>
@@ -50,13 +63,21 @@
                     </div>
                     <div>
                         <div class="pb-2 font-sans flex justify-end mt-1">
-                            <button
+                            <router-link
                                 v-if="!bouteille.code_saq"
                                 @click="modifierBouteille(bouteille)"
                                 class="material-symbols-outlined w-10 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2"
+                                :to="{
+                                    name: 'modifier-bouteille',
+                                    params: { id: bouteille.id },
+                                }"
                             >
-                                edit
-                            </button>
+                                <button
+                                    class="material-symbols-outlined w-10 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2"
+                                >
+                                    edit
+                                </button>
+                            </router-link>
                             <div
                                 v-if="bouteille.code_saq"
                                 class="w-[32px] my-auto mr-2"
@@ -106,7 +127,7 @@ export default {
             }
         },
         async modifierBouteille(bouteille) {
-            this.$emit("bouteille-supprime", bouteille);
+            this.$emit("bouteille-modifie", bouteille);
         },
         async supprimerBouteille(bouteille) {
             this.$emit("bouteille-supprime", bouteille);
