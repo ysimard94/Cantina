@@ -100,6 +100,7 @@
 
 <script>
 import CellierDataService from "@/services/CellierDataService.js";
+import BouteilleDataService from "@/services/BouteilleDataService.js";
 export default {
     name: "BouteilleComponent",
     props: {

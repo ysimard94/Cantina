@@ -323,31 +323,25 @@ export default {
             const estConfirmé = confirm(
                 "Êtes-vous sûr de vouloir supprimer cette bouteille ?"
             );
-            if (!estConfirmé) {
-                return;
-            }
-            try {
-                // Supprimer la bouteille dans le cellier actif
-                await CellierDataService.supprimerBouteilleCellier(
-                    this.cellierActif.id,
-                    bouteille.id
-                );
-                // Supprimer la bouteille dans la liste des bouteilles si la bouteille n'est pas celle de la SAQ
-                if (bouteille.code_saq === null) {
-                    await BouteilleDataService.delete(bouteille.id);
+            if (estConfirmé) {
+                try {
+                    await BouteilleDataService.supprimerBouteilleDansCellier(
+                        this.cellierActif.id,
+                        bouteille.id
+                    );
+                    this.bouteilles = this.bouteilles.filter(
+                        (bouteilleItem) => bouteilleItem.id !== bouteille.id
+                    );
+
+                    // initier le message de confirmation
+                    this.bouteilleSuprimeeMessage =
+                        "La bouteille a été supprimée avec succès.";
+
+                    // Montrer le message de confirmation
+                    this.showSuccessPopup();
+                } catch (error) {
+                    console.log(error);
                 }
-                this.bouteilles = this.bouteilles.filter(
-                    (bouteilleItem) => bouteilleItem.id !== bouteille.id
-                );
-
-                // initier le message de confirmation
-                this.bouteilleSuprimeeMessage =
-                    "La bouteille a été supprimée avec succès.";
-
-                // Montrer le message de confirmation
-                this.showSuccessPopup();
-            } catch (error) {
-                console.log(error);
             }
         },
 
@@ -412,7 +406,7 @@ export default {
         },
         async ajoutCellier(nouveaucellier) {
             this.celliers.push(nouveaucellier);
-            console.log(this.celliers)
+            console.log(this.celliers);
         },
         handleAddButton() {
             this.showModifierCellier = false;
@@ -441,12 +435,16 @@ export default {
 
             this.cellierSelectionne = null;
         },
-       supprimerCellier() {
-            this.celliers = this.celliers.filter((c) => c.id !== this.cellierActif.id);
+        supprimerCellier() {
+            this.celliers = this.celliers.filter(
+                (c) => c.id !== this.cellierActif.id
+            );
 
             // Filtrer les bouteilles qui ne sont pas associées au cellier supprimé
-            console.log(this.bouteilles)
-            this.bouteilles = this.bouteilles.filter((b) => b.cellier.id !== this.cellierActif.id);
+            console.log(this.bouteilles);
+            this.bouteilles = this.bouteilles.filter(
+                (b) => b.cellier.id !== this.cellierActif.id
+            );
 
             this.cellierActif = this.celliers[0];
 

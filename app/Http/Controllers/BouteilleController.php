@@ -51,7 +51,6 @@ class BouteilleController extends Controller
 
     public function sauveBouteille(Request $request,  $cellierId)
     {
-
         try {
 
             // Valider la requête entrante
@@ -153,6 +152,30 @@ class BouteilleController extends Controller
             ], 500);
         }
     }
+    /**
+     * Supprimer ou enlever une bouteille dans cellier de l'utilisateur
+     *
+     */
+
+     public function supprimerBouteilleDansCellier(Bouteille $bouteille, Cellier $cellier)
+    {
+        $user = Auth::user();
+
+        // Verifier  si le cellier appartiens a l'utilisateur connecté
+        if ($user->id === $cellier->utilisateur_id) {
+            try {
+                // Détacher la bouteille du cellier
+                $cellier->bouteilles()->detach($bouteille->id);
+                return response()->json(['message' => 'Bouteille détachée du cellier avec succès']); // retourner un message de succès
+            } catch (\Throwable $th) {
+                return response()->json([ 'status' => 'échec', 'message' => 'Une erreur est survenue lors de la suppression de la bouteille du cellier'], 500); // retourner une message d'erreur du serveur
+            }
+        } else {
+            //  
+            return response()->json(['message' => 'Cellier non trouvé'], 404); // retourner un message d'erreur avec code 404 si l'utilisateur n'est pas propriétaire du cellier
+        }
+    }
+
     /**
      * Obtenir toutes les bouteilles d'un cellier
      */
