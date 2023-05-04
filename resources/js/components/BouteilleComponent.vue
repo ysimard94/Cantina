@@ -76,7 +76,7 @@
                                 }"
                             >
                                 <button
-                                    class="material-symbols-outlined  hover:bg-gray-700 w-10 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2 transform transition-all duration-200"
+                                    class="material-symbols-outlined  hover:bg-gray-700 focus:bg-gray-700 w-10 h-10 rounded-lg text-white font-semibold bg-vin-blanc mr-2 transform transition-all duration-200"
                                 >
                                     edit
                                 </button>
@@ -88,8 +88,8 @@
                                 <img src="@assets/saq.svg" alt="SAQ Icon" />
                             </div>
                             <button
-                                @click="supprimerBouteille(bouteille)"
-                                class="material-symbols-outlined hover:bg-bg-fonce w-10 h-10 rounded-lg text-white font-semibold bg-vin-rouge ml-2 transform transition-all duration-200"
+                            @click="supprimerBouteille(bouteille)"
+                                class="material-symbols-outlined hover:bg-bg-fonce focus:bg-bg-fonce w-10 h-10 rounded-lg text-white font-semibold bg-vin-rouge ml-2 transform transition-all duration-200"
                             >
                                 delete
                             </button>

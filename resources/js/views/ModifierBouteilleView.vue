@@ -3,7 +3,7 @@
         <div class="mb-6 flex justify-start">
             <button
                 @click="$router.go(-1)"
-                class="bg-vin_blanc hover:bg-gray-700 text-white font-bold rounded-full cursor-pointer transform transition-all duration-200"
+                class="bg-vin_blanc hover:bg-gray-700 focus:bg-gray-700 text-white font-bold rounded-full cursor-pointer transform transition-all duration-200"
             >
                 <i class="material-symbols-outlined py-4 px-4"> arrow_back </i>
             </button>
