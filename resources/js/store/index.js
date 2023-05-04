@@ -5,10 +5,14 @@ const store = createStore({
         isLoading: false,
         session: JSON.parse(sessionStorage.getItem("session")) || {},
         cellierFiltreValeurs: {},
+        cellierActif: { id: 0, nom: "Aucun cellier" },
     },
     mutations: {
         setLoading(state, value) {
             state.isLoading = value;
+        },
+        setCellierActif(state, value) {
+            state.cellierActif = value;
         },
         setSession(state, { key, value }) {
             state.session[key] = value;
@@ -34,6 +38,9 @@ const store = createStore({
         setSession({ commit }, key, value) {
             commit("setLoading", key, value);
         },
+        setCellierActif({ commit }, key, value) {
+            commit("setCellierActif", key, value);
+        },
         setCellierFiltreValeurs({ commit }, value) {
             commit("setCellierFiltreValeurs", value);
         },
@@ -45,6 +52,7 @@ const store = createStore({
         isLoading: (state) => state.isLoading,
         session: (state) => state.session,
         cellierFiltreValeurs: (state) => state.cellierFiltreValeurs,
+        cellierActif: (state) => state.cellierActif,
     },
 });
 
