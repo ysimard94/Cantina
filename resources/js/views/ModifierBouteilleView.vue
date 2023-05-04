@@ -8,7 +8,7 @@
                 <i class="material-symbols-outlined py-4 px-4"> arrow_back </i>
             </button>
         </div>
-        <div class="bg-bg-rose p-3 shadow-md rounded">
+        <div class="bg-bg-rose p-3 shadow-md rounded-lg">
             <form
                 @submit.prevent="modifierBouteille"
                 enctype="multipart/form-data"
@@ -265,7 +265,7 @@
                 <div>
                     <button
                         type="submit"
-                        class="mb-4 mt-4 bg-vin-rouge text-vin-blanc rounded py-2 px-6"
+                        class="mb-4 mt-4 bg-vin-rouge text-white rounded py-2 px-6"
                     >
                         modifier
                     </button>
