@@ -65,8 +65,9 @@
                         edit
                     </button>
                     <button
-                        class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
-                        @click="handleAddButton"
+                        class="rounded-full text-4xl material-symbols-outlined px-1 py-1 font-semibold text-vin-rouge transition-transform duration-300 transform origin-center"
+                        :class="{ 'rotate-45': showAjouterCellier }"
+                        @click="showAjouterCellier = !showAjouterCellier"
                     >
                         add
                     </button>
@@ -222,6 +223,7 @@
                 name: 'ajouter-bouteille',
                 params: { cellierId: cellierActif.id },
             }"
+            class="transition duration-1000 ease-in-out transform hover:-translate-y-1 hover:scale-110"
         >
             <div class="fixed bottom-[72px] right-0 mb-8 mr-8">
                 <button
@@ -335,18 +337,26 @@ export default {
         filtrerBouteilles(filteredBouteilles) {
             this.filteredBouteilles = filteredBouteilles;
         },
+
+        // Montrer le filtre
         montrerFiltre() {
             this.estOuvertFiltre = true;
         },
+
+        // fermer le filtre
         fermerFiltre() {
             this.estOuvertFiltre = false;
         },
+
+        // Réinitialiser les filtres et tris au changement du cellier
         handleChangerCellier() {
             this.fetchBouteillesCellier();
             this.setCellierActif(this.cellierActif);
             // Réinitialiser les filtres et tris au changement du cellier
             this.reinitialisationBouteilles();
         },
+
+        // Obtenir tous les bouteilles du cellier actif
         async fetchBouteillesCellier() {
             try {
                 const response =
@@ -365,6 +375,7 @@ export default {
                 console.log(error);
             }
         },
+        // supprimer une bouteille dans le cellier actif
         async supprimerBouteille(bouteille) {
             const estConfirmé = confirm(
                 "Êtes-vous sûr de vouloir supprimer cette bouteille ?"
