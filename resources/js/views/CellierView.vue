@@ -67,7 +67,7 @@
                     <button
                         class="rounded-full text-4xl material-symbols-outlined px-1 py-1 font-semibold text-vin-rouge transition-transform duration-300 transform origin-center"
                         :class="{ 'rotate-45': showAjouterCellier }"
-                        @click="showAjouterCellier = !showAjouterCellier"
+                        @click="handleAddButton"
                     >
                         add
                     </button>
@@ -475,7 +475,7 @@ export default {
         },
         handleAddButton() {
             this.showModifierCellier = false;
-            this.showAjouterCellier = true;
+            this.showAjouterCellier = !this.showAjouterCellier;
             this.estAjouterCellier = !this.estAjouterCellier;
         },
         handleEditButton() {
