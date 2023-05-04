@@ -278,10 +278,14 @@ export default {
             estRotation: false,
             bouteilleSuprimeeMessage: "",
             est180: false,
+            estSHow: false,
         };
     },
     async mounted() {
         await this.fetchCelliers();
+        this.$store.getters.cellierActif
+            ? (this.cellierActif = this.$store.getters.cellierActif)
+            : (this.cellierActif = this.celliers[0]);
         if (this.cellierActif.id !== 0) {
             await this.fetchBouteillesCellier();
         }
@@ -334,7 +338,7 @@ export default {
         },
         handleChangerCellier() {
             this.fetchBouteillesCellier();
-
+            this.setCellierActif(this.cellierActif);
             // Réinitialiser les filtres et tris au changement du cellier
             this.reinitialisationBouteilles();
         },
@@ -531,7 +535,7 @@ export default {
             this.estPopupOuvert = false;
         },
 
-        ...mapMutations(["setCellierFiltreValeurs"]),
+        ...mapMutations(["setCellierFiltreValeurs", "setCellierActif"]),
     },
 };
 </script>
