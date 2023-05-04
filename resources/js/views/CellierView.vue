@@ -32,14 +32,14 @@
         </transition>
 
         <div
-            class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-2 px-2 py-4 bg-bg-rose"
+            class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-1 items-center mx-2 px-2 py-4 bg-bg-rose"
         >
             <div class="md:col-span-2 flex justify-between items-center">
                 <select
                     id="select-cellier"
                     @change="handleChangerCellier"
                     v-model="cellierActif"
-                    class="mr-2 p-2 font-semibold w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    class="p-2 font-sans w-full mr-2 rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 >
                     <option disabled :selected="cellierActif.id === 0">
                         {{
