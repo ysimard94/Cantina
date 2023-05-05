@@ -403,6 +403,7 @@ export default {
         },
         // Calculer le prix minimum de l’ensemble des prix de bouteilles
         calcPrixMin() {
+            console.log(this.prixMin);
             if (this.bouteilles.length > 0) {
                 return Math.min(
                     ...this.bouteilles.map((bouteille) => {
@@ -459,6 +460,7 @@ export default {
                     estCategorieSelectionnee &&
                     estPaysSelectionne &&
                     estSourceSelectionnee &&
+                    estPrixInclus &&
                     Math.floor((bouteille.note * 5) / 100) >=
                         this.nbrEtoileFiltrer
                 );
@@ -486,6 +488,7 @@ export default {
         },
         prixMin: {
             handler: function (newVal, oldVal) {
+                console.log("prixMin " + oldVal);
                 this.updateFiltredBouteille();
             },
         },
@@ -642,21 +645,12 @@ export default {
             : [];
         this.prixMin = this.$store.getters.cellierFiltreValeurs
             .storeSelectedPrixMin
-            ? JSON.parse(
-                  JSON.stringify(
-                      this.$store.getters.cellierFiltreValeurs
-                          .storeSelectedPrixMin
-                  )
-              )
+            ? this.$store.getters.cellierFiltreValeurs.storeSelectedPrixMin
             : this.calcPrixMin;
+
         this.prixMax = this.$store.getters.cellierFiltreValeurs
             .storeSelectedPrixMax
-            ? JSON.parse(
-                  JSON.stringify(
-                      this.$store.getters.cellierFiltreValeurs
-                          .storeSelectedPrixMax
-                  )
-              )
+            ? this.$store.getters.cellierFiltreValeurs.storeSelectedPrixMax
             : this.calcPrixMax;
 
         this.nbrEtoileFiltrer = this.$store.getters.cellierFiltreValeurs
