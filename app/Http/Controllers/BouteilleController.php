@@ -142,23 +142,30 @@ class BouteilleController extends Controller
             $cellier = Cellier::where('utilisateur_id', Auth::user()->id)->findOrFail($cellierId);
             $bouteille = Bouteille::findOrFail($bouteilleId);
 
+            // Si la quantité envoyée est inférieure à 1, le mettre  à 1 car c'est la valeur minimale
             if($quantite < 1){
                 $quantite = 1;
             }
 
             // Vérifier si la bouteille existe déjà dans le cellier
             $bouteilleExistante = $cellier->bouteilles()->wherePivot('bouteille_id', $bouteilleId)->first();
-            Log::info($bouteilleId);
-            Log::info($quantite);
             
             if ($bouteilleExistante) {
                 // Si la bouteille existe déjà, ajouter la quantité envoyée en paramètres à sa quantité existante
                 $quantite += $bouteilleExistante->pivot->quantite;
                 $cellier->bouteilles()->updateExistingPivot($bouteilleId, ['quantite' => $quantite]);
+
             } else {
                 //Si la bouteille n'existe pas, l'attacher au cellier avec la quantité envoyée en paramètres
                 $cellier->bouteilles()->attach($bouteille, ['quantite' => $quantite]);
+
             }
+            // Retourner une réponse
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Votre bouteille a été ajoutée avec succès!',
+            ], 201);
+
         } catch (\Exception $e) {
 
             // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
