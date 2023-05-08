@@ -18,7 +18,7 @@ class BouteilleDataService {
     }
 
     async update(bouteilleId, cellierId, data) {
-        return await apiClient.put(
+        return await apiClient.postWithFormData(
             `/bouteille/${bouteilleId}/${cellierId}`,
             data
         );
