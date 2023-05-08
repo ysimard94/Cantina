@@ -14,7 +14,11 @@
                         {{ bouteille.categorie.nom }}
                     </div>
                     <img
-                        :src="bouteille.photo"
+                        :src="
+                            bouteille.code_saq === null
+                                ? imageUrl(bouteille.photo)
+                                : bouteille.photo
+                        "
                         :alt="bouteille.nom"
                         class="w-2/3 mt-4 mb-4 mx-auto"
                     />
@@ -116,6 +120,11 @@ export default {
         },
     },
     methods: {
+        // Retourne l'url de l'image de la bouteille en fonction de l'url de base
+        imageUrl(photo) {
+            const baseUrl = import.meta.env.VITE_BASE_URL || "";
+            return `${baseUrl}${photo}`;
+        },
         categorieBgColor(categorieNom) {
             switch (categorieNom) {
                 case "Vin rouge":
