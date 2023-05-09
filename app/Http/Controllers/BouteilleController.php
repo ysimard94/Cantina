@@ -9,7 +9,6 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
 use Illuminate\Support\Facades\Validator;
 
 class BouteilleController extends Controller
@@ -55,7 +54,7 @@ class BouteilleController extends Controller
         $cellier = Cellier::findOrFail($cellierId);
 
         // Verifier  si le cellier appartiens a l'utilisateur connecté
-        if ($utilisateur->id === $cellier->utilisateur_id) { 
+        if ($utilisateur->id == $cellier->utilisateur_id) { 
             try {
 
                 // Valider la requête entrante
