@@ -14,11 +14,7 @@
                         {{ bouteille.categorie.nom }}
                     </div>
                     <img
-                        :src="
-                            bouteille.code_saq === null
-                                ? imageUrl(bouteille.photo)
-                                : bouteille.photo
-                        "
+                        :src="imageUrl(bouteille.photo)"
                         :alt="bouteille.nom"
                         class="w-2/3 mt-4 mb-4 mx-auto"
                     />
@@ -123,7 +119,13 @@ export default {
         // Retourne l'url de l'image de la bouteille en fonction de l'url de base
         imageUrl(photo) {
             const baseUrl = import.meta.env.VITE_BASE_URL || "";
-            return `${baseUrl}${photo}`;
+            if (
+                photo !==
+                "https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166"
+            ) {
+                return `${baseUrl}${photo}`;
+            }
+            return photo;
         },
         categorieBgColor(categorieNom) {
             switch (categorieNom) {
