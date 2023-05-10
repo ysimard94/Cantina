@@ -22,11 +22,13 @@
             </div>
 
             <div class="px-4 pt-2 w-2/3 flex flex-col h-full">
+                <router-link :to="{ name: 'bouteille-details', params: { id: bouteille.id } }">
                 <h4
-                    class="font-serif text-[15px] font-semibold text-vin-rouge text-left h-[67px] leading-tight"
+                    class="font-serif text-[15px] font-semibold text-vin-rouge text-left h-[67px] leading-tight underline"
                 >
                     {{ bouteille.nom }}
                 </h4>
+                </router-link>
                 <div class="text-sm mt-auto">
                     <div class="flex justify-between items-center">
                         <div class="w-full font-sans text-gray-700">
