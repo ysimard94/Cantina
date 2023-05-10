@@ -1,29 +1,17 @@
 <template>
     <div class="container mx-auto px-2">
-        <transition
-            enter-active-class="transition duration-300 ease-out opacity-0"
-            enter-class="opacity-0"
-            enter-to-class="opacity-100"
-            leave-active-class="transition duration-300 ease-in opacity-100"
-            leave-class="opacity-100"
-            leave-to-class="opacity-0"
-        >
+        <transition enter-active-class="transition duration-300 ease-out opacity-0" enter-class="opacity-0"
+            enter-to-class="opacity-100" leave-active-class="transition duration-300 ease-in opacity-100"
+            leave-class="opacity-100" leave-to-class="opacity-0">
             <!-- Message de succès -->
             <div v-if="estSuccessPopup" class="m-6">
-                <div
-                    class="bg-green-500 text-white font-bold rounded-full px-4 py-2 flex items-center"
-                >
+                <div class="bg-green-500 text-white font-bold rounded-full px-4 py-2 flex items-center">
                     <!-- Icône de succès (Google Material Icons) -->
-                    <span class="material-icons text-lg mr-2"
-                        >check_circle</span
-                    >
+                    <span class="material-icons text-lg mr-2">check_circle</span>
                     <span class="flex-1 text-center text-sm">{{
                         successMessage
                     }}</span>
-                    <button
-                        @click="fermerPopup"
-                        class="ml-2 material-symbols-outlined"
-                    >
+                    <button @click="fermerPopup" class="ml-2 material-symbols-outlined">
                         <!-- Icône de fermeture (Google Material Icons) -->
                         <span> close </span>
                     </button>
@@ -31,98 +19,64 @@
             </div>
         </transition>
 
-        <div
-            class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-1 items-center mx-2 px-2 py-4 bg-bg-rose"
-        >
+        <div class="rounded-md mt-4 grid grid-cols-1 md:grid-cols-3 gap-1 items-center mx-2 px-2 py-4 bg-bg-rose">
             <div class="md:col-span-2 flex justify-between items-center">
-                <select
-                    id="select-cellier"
-                    @change="handleChangerCellier"
-                    v-model="cellierActif"
-                    class="p-2 font-sans w-full mr-2 rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                >
+                <select id="select-cellier" @change="handleChangerCellier" v-model="cellierActif"
+                    class="p-2 font-sans w-full mr-2 rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     <option disabled :selected="cellierActif.id === 0">
                         {{
                             celliers.length === 0
-                                ? "-- Aucun cellier --"
-                                : "-- Sélectionner un cellier --"
+                            ? "-- Aucun cellier --"
+                            : "-- Sélectionner un cellier --"
                         }}
                     </option>
-                    <option
-                        v-for="(cellier, index) in celliers"
-                        :key="index"
-                        :value="cellier"
-                    >
+                    <option v-for="(cellier, index) in celliers" :key="index" :value="cellier">
                         {{ cellier.nom }}
                     </option>
                 </select>
                 <div class="flex">
-                    <button
-                        v-if="cellierActif.id !== 0"
+                    <button v-if="cellierActif.id !== 0"
                         class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge"
-                        @click="handleEditButton"
-                    >
+                        @click="handleEditButton">
                         edit
                     </button>
                     <button
                         class="rounded-full text-4xl material-symbols-outlined px-1 py-1 font-semibold text-vin-rouge transition-transform duration-300 transform origin-center"
-                        :class="{ 'rotate-45': showAjouterCellier }"
-                        @click="handleAddButton"
-                    >
+                        :class="{ 'rotate-45': showAjouterCellier }" @click="handleAddButton">
                         add
                     </button>
                 </div>
             </div>
             <!-- Ajouter cellier bloc -->
             <div v-if="showAjouterCellier" class="md:col-span-3 mt-4">
-                <AjouterCellierComponent
-                    @close="showAjouterCellier = false"
-                    @nouveau-cellier="ajoutCellier"
-                    :cellierActif="cellierActif"
-                    :celliers="celliers"
-                />
+                <AjouterCellierComponent @close="showAjouterCellier = false" @nouveau-cellier="ajoutCellier"
+                    :cellierActif="cellierActif" :celliers="celliers" />
             </div>
             <div v-if="showModifierCellier" class="md:col-span-3 mt-4">
-                <ModifierCellierComponent
-                    :cellier="cellierActif"
-                    @close="showModifierCellier = false"
-                    @cellier-modifie="mettreAJourCellier"
-                    @cellier-supprime="supprimerCellier"
-                />
+                <ModifierCellierComponent :cellier="cellierActif" @close="showModifierCellier = false"
+                    @cellier-modifie="mettreAJourCellier" @cellier-supprime="supprimerCellier" />
             </div>
         </div>
         <!-- recherche dans le cellier -->
         <div class="flex items-center mx-auto p-2 mt-1">
             <form @submit.prevent="" class="w-full">
                 <label class="relative flex items-center">
-                    <input
-                        v-model="rechercheCellier"
-                        type="text"
-                        class="w-full py-1 pl-2 pr-[32px] rounded"
-                        placeholder="Rechercher dans le cellier"
-                    />
-                    <button
-                        class="material-symbols-outlined absolute right-0 p-1"
-                        @click="rechercheBouteillesCellier"
-                    >
+                    <input v-model="rechercheCellier" type="text" class="w-full py-1 pl-2 pr-[32px] rounded"
+                        placeholder="Rechercher dans le cellier" />
+                    <button class="material-symbols-outlined absolute right-0 p-1" @click="rechercheBouteillesCellier">
                         search
                     </button>
                 </label>
             </form>
         </div>
-        <div
-            v-if="cellierActif.id === 0"
-            class="w-full flex flex-col items-center justify-center h-full"
-        >
+        <div v-if="cellierActif.id === 0" class="w-full flex flex-col items-center justify-center h-full">
             <p>
                 Vous n'avez pas encore enregistré de cellier. Pour commencer,
                 cliquez sur le bouton ci-dessous pour ajouter un nouveau
                 cellier.
             </p>
-            <button
-                class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge text-center"
-                @click="handleAddButton"
-            >
+            <button class="material-symbols-outlined w-9 px-2 py-1 font-semibold text-vin-rouge text-center"
+                @click="handleAddButton">
                 add
             </button>
             <p>
@@ -135,80 +89,47 @@
             <div v-show="estSHow">
                 <!-- Section pour filtre et tri -->
                 <div class="md:col-span-2 flex justify-between items-center">
-                    <button
-                        class="mr-auto rounded pt-1 pb-1 pl-1 pr-10"
-                        @click="estOuvertFiltre = !estOuvertFiltre"
-                    >
-                        <span
-                            class="material-symbols-outlined text-4xl font-medium text-vin-rouge"
-                            >tune</span
-                        >
+                    <button class="mr-auto rounded pt-1 pb-1 pl-1 pr-10" @click="estOuvertFiltre = !estOuvertFiltre">
+                        <span class="material-symbols-outlined text-4xl font-medium text-vin-rouge">tune</span>
                     </button>
-                    <transition
-                        enter-active-class="transition duration-500 ease-in-out transform"
-                        enter-from-class="-translate-x-full"
-                        enter-to-class="translate-x-0"
-                        leave-active-class="transition duration-500 ease-in-out transform"
-                        leave-from-class="translate-x-0"
-                        leave-to-class="-translate-x-full"
-                    >
-                        <FiltreComponent
-                            v-if="estOuvertFiltre"
-                            @filtrer-bouteilles="filtrerBouteilles"
-                            @fermer-filtre="fermerFiltre"
-                            :bouteilles="bouteilles"
-                            class="w-full fixed inset-0 mb-15 z-50"
-                        />
+                    <transition enter-active-class="transition duration-500 ease-in-out transform"
+                        enter-from-class="-translate-x-full" enter-to-class="translate-x-0"
+                        leave-active-class="transition duration-500 ease-in-out transform" leave-from-class="translate-x-0"
+                        leave-to-class="-translate-x-full">
+                        <FiltreComponent v-if="estOuvertFiltre" @filtrer-bouteilles="filtrerBouteilles"
+                            @fermer-filtre="fermerFiltre" :bouteilles="bouteilles"
+                            class="w-full fixed inset-0 mb-15 z-50" />
                     </transition>
-                    <button
-                        class="rounded"
-                        @click="
-                            reinitialisationBouteilles();
-                            rotation();
-                        "
-                    >
-                        <span
-                            class="material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1"
-                            :class="{
-                                'rotate-[360deg] ease-in-out duration-500':
-                                    estRotation,
-                            }"
-                        >
+                    <button class="rounded" @click="
+                        reinitialisationBouteilles();
+                    rotation();
+                    ">
+                        <span class="material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1" :class="{
+                            'rotate-[360deg] ease-in-out duration-500':
+                                estRotation,
+                        }">
                             refresh
                         </span>
                     </button>
 
-                    <button
-                        class="rounded"
-                        @click="
-                            triCellier();
-                            rotationTri();
-                        "
-                    >
+                    <button class="rounded" @click="
+                        triCellier();
+                    rotationTri();
+                    ">
                         <span
                             class="material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1 ease-in-out duration-500"
-                            :class="{ '-scale-y-100': est180 }"
-                        >
+                            :class="{ '-scale-y-100': est180 }">
                             swap_vert
                         </span>
                     </button>
                 </div>
 
-                <div
-                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 h-full"
-                >
-                    <BouteilleComponent
-                        :bouteilles="bouteillesAffiches"
-                        :cellierId="cellierActif.id"
-                        @bouteille-supprime="supprimerBouteille"
-                        @bouteille-modifie="modifierBouteille"
-                    />
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 h-full">
+                    <BouteilleComponent :bouteilles="bouteillesAffiches" :cellierId="cellierActif.id"
+                        @bouteille-supprime="supprimerBouteille" @bouteille-modifie="modifierBouteille" />
                 </div>
             </div>
-            <div
-                v-show="!estSHow"
-                class="w-full flex flex-col items-center justify-center h-full mt-4"
-            >
+            <div v-show="!estSHow" class="w-full flex flex-col items-center justify-center h-full mt-4">
                 <p>
                     Félicitations, votre cellier a été ajouté avec succès ! Pour
                     commencer à suivre vos bouteilles de vin, vous pouvez
@@ -218,30 +139,17 @@
             </div>
         </div>
 
-        <router-link
-            :to="{
-                name: 'ajouter-bouteille',
-                params: { cellierId: cellierActif.id },
-            }"
-            class="transition duration-1000 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-        >
+        <router-link :to="{
+            name: 'ajouter-bouteille',
+            params: { cellierId: cellierActif.id },
+        }" class="transition duration-1000 ease-in-out transform hover:-translate-y-1 hover:scale-110">
             <div class="fixed bottom-[72px] right-0 mb-8 mr-8">
                 <button
-                    class="bg-vin_blanc hover:bg-gray-700 focus:bg-gray-700 text-white font-bold py-4 px-4 rounded-full transform transition-all duration-00"
-                >
-                    <svg
-                        class="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        ></path>
+                    class="bg-vin_blanc hover:bg-gray-700 focus:bg-gray-700 text-white font-bold py-4 px-4 rounded-full transform transition-all duration-00">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
                 </button>
             </div>
@@ -265,7 +173,7 @@ export default {
         ModifierCellierComponent,
     },
 
-    data() {
+    data () {
         return {
             bouteilles: [],
             filteredBouteilles: [],
@@ -283,33 +191,28 @@ export default {
             estSHow: false,
         };
     },
-    async mounted() {
+    async mounted () {
         await this.fetchCelliers();
         if (this.$store.getters.cellierActif) {
-            console.log("cellierActif", this.$store.getters.cellierActif);
             this.cellierActif = this.$store.getters.cellierActif;
         } else if (this.celliers.length > 0) {
-            console.log("celliers", this.celliers);
             this.cellierActif = this.celliers[0];
         } else {
-            console.log("aucun cellier");
             this.cellierActif = { id: 0, nom: "Aucun cellier" };
         }
 
         if (this.cellierActif.id !== 0) {
             await this.fetchBouteillesCellier();
         }
-
-        console.log(this.message);
     },
     computed: {
-        bouteillesAffiches() {
+        bouteillesAffiches () {
             return this.filteredBouteilles.length > 0
                 ? this.filteredBouteilles
                 : this.bouteilles;
         },
 
-        successMessage() {
+        successMessage () {
             const message =
                 this.$route.query.message || this.bouteilleSuprimeeMessage;
 
@@ -319,17 +222,17 @@ export default {
 
             return message;
         },
-        estSuccessPopup() {
+        estSuccessPopup () {
             return this.successMessage !== "" && this.estPopupOuvert;
         },
-        estSHow() {
+        estSHow () {
             return (
                 this.bouteillesAffiches && this.bouteillesAffiches.length > 0
             );
         },
     },
     watch: {
-        successMessage(newVal) {
+        successMessage (newVal) {
             if (newVal !== "") {
                 this.showSuccessPopup();
             }
@@ -337,22 +240,22 @@ export default {
     },
     methods: {
         // Appliquer le filtre pour afficher toutes les bouteilles filtrées
-        filtrerBouteilles(filteredBouteilles) {
+        filtrerBouteilles (filteredBouteilles) {
             this.filteredBouteilles = filteredBouteilles;
         },
 
         // Montrer le filtre
-        montrerFiltre() {
+        montrerFiltre () {
             this.estOuvertFiltre = true;
         },
 
         // fermer le filtre
-        fermerFiltre() {
+        fermerFiltre () {
             this.estOuvertFiltre = false;
         },
 
         // Réinitialiser les filtres et tris au changement du cellier
-        handleChangerCellier() {
+        handleChangerCellier () {
             this.fetchBouteillesCellier();
             this.setCellierActif(this.cellierActif);
             // Réinitialiser les filtres et tris au changement du cellier
@@ -360,14 +263,13 @@ export default {
         },
 
         // Obtenir tous les bouteilles du cellier actif
-        async fetchBouteillesCellier() {
+        async fetchBouteillesCellier () {
             try {
                 const response =
                     await BouteilleDataService.getBouteillesByCellierId(
                         this.cellierActif.id
                     );
                 this.bouteilles = response.data.bouteilles;
-                console.log(this.cellierActif);
                 //   Trier et filtrer les bouteilles en fonction des critères actifs
                 // this.trierBouteilles();
                 // this.filtrerBouteilles();
@@ -375,11 +277,10 @@ export default {
                 // this.reinitialisationBouteilles();
             } catch (error) {
                 console.log(error);
-                console.log("hello");
             }
         },
         // supprimer une bouteille dans le cellier actif
-        async supprimerBouteille(bouteille) {
+        async supprimerBouteille (bouteille) {
             const estConfirmé = confirm(
                 "Êtes-vous sûr de vouloir supprimer cette bouteille ?"
             );
@@ -406,7 +307,7 @@ export default {
         },
 
         // Obtenir la liste des celliers
-        async fetchCelliers() {
+        async fetchCelliers () {
             try {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
@@ -419,7 +320,7 @@ export default {
             }
         },
         //Animation du bouton de réinitialisation
-        rotation() {
+        rotation () {
             this.estRotation = true;
             setTimeout(() => {
                 this.estRotation = false;
@@ -427,14 +328,13 @@ export default {
         },
 
         //Animation du bouton de tri
-        rotationTri() {
+        rotationTri () {
             this.est180 = !this.est180;
         },
 
         //Applique le résultat de la recherche avec les filtres ou non dans le celliers
-        rechercheBouteillesCellier() {
+        rechercheBouteillesCellier () {
             try {
-                console.log(this.bouteilles);
                 if (this.filteredBouteilles.length > 0) {
                     this.filteredBouteilles = this.filteredBouteilles.filter(
                         (bouteille) => {
@@ -470,22 +370,21 @@ export default {
                 console.log(error);
             }
         },
-        async ajoutCellier(nouveaucellier) {
+        async ajoutCellier (nouveaucellier) {
             this.cellierActif = nouveaucellier; // mettre à jour le cellierActif avec le nouveau cellier
             this.celliers.push(nouveaucellier); // ajouter le nouveau cellier à la liste des celliers
-            console.log(this.celliers);
             await this.fetchBouteillesCellier();
         },
-        handleAddButton() {
+        handleAddButton () {
             this.showModifierCellier = false;
             this.showAjouterCellier = !this.showAjouterCellier;
             this.estAjouterCellier = !this.estAjouterCellier;
         },
-        handleEditButton() {
+        handleEditButton () {
             this.showAjouterCellier = false;
             this.showModifierCellier = true;
         },
-        mettreAJourCellier(cellierModifie) {
+        mettreAJourCellier (cellierModifie) {
             this.celliers = this.celliers.map((cellier) => {
                 if (cellier.id === cellierModifie.id) {
                     return cellierModifie;
@@ -503,13 +402,12 @@ export default {
 
             this.cellierSelectionne = null;
         },
-        async supprimerCellier() {
+        async supprimerCellier () {
             this.celliers = this.celliers.filter(
                 (c) => c.id !== this.cellierActif.id
             );
 
             // Filtrer les bouteilles qui ne sont pas associées au cellier supprimé
-            console.log(this.bouteilles);
             this.bouteilles = this.bouteilles.filter(
                 (b) => b.cellier.id !== this.cellierActif.id
             );
@@ -525,14 +423,14 @@ export default {
                 this.cellierActif = { id: 0, nom: "Aucun cellier" };
             }
         },
-        triCellier() {
+        triCellier () {
             if (this.filteredBouteilles.length > 0) {
                 this.filteredBouteilles.reverse();
             } else {
                 this.bouteilles.reverse();
             }
         },
-        async reinitialisationBouteilles() {
+        async reinitialisationBouteilles () {
             await this.fetchBouteillesCellier();
             if (this.filteredBouteilles.length > 0) {
                 this.filteredBouteilles = [];
@@ -540,7 +438,7 @@ export default {
             // Mettre à jour les valeurs du filtre
             this.setCellierFiltreValeurs({});
         },
-        showSuccessPopup() {
+        showSuccessPopup () {
             this.estPopupOuvert = true;
             setTimeout(() => {
                 this.bouteilleSuprimeeMessage = "";
@@ -550,7 +448,7 @@ export default {
                 this.estPopupOuvert = false;
             }, 2000);
         },
-        fermerPopup() {
+        fermerPopup () {
             this.estPopupOuvert = false;
         },
 

@@ -67,7 +67,7 @@ import CellierDataService from "@/services/CellierDataService.js";
 
 export default {
     name: "ResultatView",
-    data() {
+    data () {
         return {
             bouteilles: [],
             celliers: [],
@@ -88,15 +88,25 @@ export default {
                 console.log(e)
             }
         },
-        // Méthode pour récupérer les celliers de l'utilisateur
-        async fetchCelliers() {
+
+ // Méthode pour récupérer les celliers de l'utilisateur
+        async fetchCelliers () {
             try {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
+                // Si il est existe au moins un cellier, on mis le premier comme cellier actif
+                if (this.celliers.length > 0) {
+                    this.cellierActif = this.celliers[0];
+                }
             } catch (error) {
                 console.log(error);
             }
         },
+
+        handleChangerCellier () {
+            console.log(this.cellierActif)
+        },
+
         // Méthode pour ajouter la bouteille au cellier sélectionné ainsi que la quantité
         async ajouterBouteille(bouteilleId, event) {
             let cellierId = event.target.parentNode.querySelector("#select-cellier").value;
@@ -121,13 +131,13 @@ export default {
             this.estSuccessPopup = false
         },
     },
-    async mounted() {
+    async mounted () {
         await this.fetchCelliers()
         this.obtenirBouteille()
     },
     // Va vérifier si la route a changé et refaire la requête si c'est le cas
     watch: {
-        $route() {
+        $route () {
             this.obtenirBouteille();
         },
     },
