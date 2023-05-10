@@ -54,7 +54,7 @@ class BouteilleController extends Controller
         $cellier = Cellier::findOrFail($cellierId);
 
         // Verifier  si le cellier appartiens a l'utilisateur connecté
-        if ($utilisateur->id == $cellier->utilisateur_id) { 
+        if ($utilisateur->id == $cellier->utilisateur_id) {
             try {
 
                 // Valider la requête entrante
@@ -91,7 +91,7 @@ class BouteilleController extends Controller
 
                 // Récupérer la quantité à partir de la requête
                 $quantite = $request->input('quantite');
-                
+
                 // Attacher la bouteille au cellier avec la quantité
                 $cellier->bouteilles()->attach($bouteille, ['quantite' => $quantite]);
 
@@ -127,7 +127,7 @@ class BouteilleController extends Controller
                 'message' => 'Vous n\'avez pas la permission d\'ajouter une bouteille à ce cellier.',
             ], 404);
         }
-       
+
     }
 
     /**
@@ -148,7 +148,7 @@ class BouteilleController extends Controller
 
             // Vérifier si la bouteille existe déjà dans le cellier
             $bouteilleExistante = $cellier->bouteilles()->wherePivot('bouteille_id', $bouteilleId)->first();
-            
+
             if ($bouteilleExistante) {
                 // Si la bouteille existe déjà, ajouter la quantité envoyée en paramètres à sa quantité existante
                 $quantite += $bouteilleExistante->pivot->quantite;
@@ -195,7 +195,7 @@ class BouteilleController extends Controller
                 return response()->json([ 'status' => 'échec', 'message' => 'Une erreur est survenue lors de la suppression de la bouteille du cellier'], 500); // retourner une message d'erreur du serveur
             }
         } else {
-            //  
+            //
             return response()->json(['message' => 'Cellier non trouvé'], 404); // retourner un message d'erreur avec code 404 si l'utilisateur n'est pas propriétaire du cellier
         }
     }
@@ -235,10 +235,8 @@ class BouteilleController extends Controller
 
             if ($bouteille) {
                 // Renvoyer la bouteille avec pays et catégorie
-                return response()->json([
-                    'status' => 'success',
-                    'bouteille' => $bouteille
-                ], 200);
+                return $bouteille;
+
             } else {
                 return response()->json([
                     'status' => 'échec',
@@ -272,7 +270,7 @@ class BouteilleController extends Controller
                 'categorie_id' => 'required',
                 'quantite' => 'required|integer|min:1',
             ]);
-           
+
             // Si les données ne sont pas valide, lancer une exception
 
             if ($validator->fails()) {
@@ -280,7 +278,7 @@ class BouteilleController extends Controller
             }
 
             // Récupérer l'ancien chemin d'image de la base de données en utilisant l'ID de l'instance $bouteille
-           
+
             $ancienneImageUrl = $bouteille->photo;
 
             // Chemin d'image par défaut
@@ -303,15 +301,15 @@ class BouteilleController extends Controller
 
             // Va mettre à jour les données des colonnes correspondantes avec celles de la requête
             $bouteille->fill($request->only($bouteille->getFillable()));
-         
+
              // Récupérer la quantité à partir de la requête
              $quantite = $request->input('quantite');
-           
+
             // Mettre à jour la quantité
             $cellier->bouteilles()->syncWithoutDetaching([$bouteille->id => ['quantite' => $quantite]]);
-          
+
             $bouteille["photo"] = $path;
-      
+
             // Sauvegarde les nouvelles informations
             $bouteille->save();
 
