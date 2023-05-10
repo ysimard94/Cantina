@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Pays;
+use App\Models\Categorie;
+use App\Models\Cellier;
+use App\Models\Archive;
 
 class Bouteille extends Model
 {
@@ -38,5 +42,10 @@ class Bouteille extends Model
         return $this->belongsToMany(Cellier::class)
                     ->withPivot('quantite')
                     ->withTimestamps();
+    }
+
+    public function archives()
+    {
+        return $this->hasMany(Archive::class);
     }
 }

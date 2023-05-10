@@ -10,6 +10,7 @@ import AjouterBouteilleView from "@/views/AjouterBouteilleView.vue";
 import PageNonTrouveView from "@/views/PageNonTrouveView.vue";
 import ModifierBouteilleView from "@/views/ModifierBouteilleView.vue";
 import BouteilleDetailsView from "@/views/BouteilleDetailsView.vue";
+import ArchiveView from "@/views/ArchiveView.vue";
 
 import ResultatView from "@/views/ResultatView.vue";
 
@@ -85,6 +86,14 @@ const routes = [
         path: "/ajouter-bouteille/:cellierId",
         name: "ajouter-bouteille",
         component: AjouterBouteilleView,
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: "/archives/utilisateur/:utilisateurId",
+        name: "archive-bouteille",
+        component: ArchiveView,
         meta: {
             requiresAuth: true,
         },

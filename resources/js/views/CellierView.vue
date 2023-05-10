@@ -202,7 +202,6 @@
                         :bouteilles="bouteillesAffiches"
                         :cellierId="cellierActif.id"
                         @bouteille-supprime="supprimerBouteille"
-                        @bouteille-modifie="modifierBouteille"
                     />
                 </div>
             </div>
@@ -218,7 +217,22 @@
                 </p>
             </div>
         </div>
-
+        <!-- Bouton temporaire pour afficher la page des archives -->
+        <router-link
+            :to="{
+                name: 'archive-bouteille',
+                params: {
+                    utilisateurId: this.$store.getters.session.utilisateur_id,
+                },
+            }"
+            class="transition duration-1000 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+        >
+            <button
+                class="material-symbols-outlined bg-vin_blanc hover:bg-gray-700 focus:bg-gray-700 text-white font-bold py-4 px-4 rounded-full transform transition-all duration-00"
+            >
+                inbox_customize
+            </button>
+        </router-link>
         <router-link
             :to="{
                 name: 'ajouter-bouteille',
@@ -372,13 +386,20 @@ export default {
                 console.log(error);
             }
         },
-        // supprimer une bouteille dans le cellier actif
+        // supprimer une bouteille dans le cellier actif puis l'archiver
         async supprimerBouteille(bouteille) {
             const estConfirmé = confirm(
                 "Êtes-vous sûr de vouloir supprimer cette bouteille ?"
             );
             if (estConfirmé) {
                 try {
+                    // Archiver la bouteille
+
+                    await BouteilleDataService.archiverBouteille(
+                        this.cellierActif.id,
+                        bouteille.id
+                    );
+                    // Supprimer la bouteille du cellier
                     await BouteilleDataService.supprimerBouteilleDansCellier(
                         this.cellierActif.id,
                         bouteille.id
@@ -389,7 +410,7 @@ export default {
 
                     // initier le message de confirmation
                     this.bouteilleSuprimeeMessage =
-                        "La bouteille a été supprimée avec succès.";
+                        "La bouteille a été archivé avec succès.";
 
                     // Montrer le message de confirmation
                     this.showSuccessPopup();

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\Cellier;
+use App\Models\Archive;
 
 
 class Utilisateur extends Authenticatable implements JWTSubject
@@ -61,5 +62,8 @@ class Utilisateur extends Authenticatable implements JWTSubject
         return $this->hasMany(Cellier::class);
     }
 
-
+    public function archives()
+    {
+        return $this->hasMany(Archive::class);
+    }
 }
