@@ -186,7 +186,7 @@ class BouteilleController extends Controller
         $user = Auth::user();
 
         // Verifier  si le cellier appartiens a l'utilisateur connecté
-        if ($user->id === $cellier->utilisateur_id) {
+        if ($user->id == $cellier->utilisateur_id) {
             try {
                 // Détacher la bouteille du cellier
                 $cellier->bouteilles()->detach($bouteille->id);

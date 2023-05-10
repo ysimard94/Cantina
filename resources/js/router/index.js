@@ -4,7 +4,7 @@ import SuccessView from "@/views/SuccessView.vue";
 import NewUserView from "@/views/NewUserView.vue";
 import LoginView from "@/views/LoginView.vue";
 import CellierView from "@/views/CellierView.vue";
-import CatalogueView from "@/views/CatalogueView.vue";
+// import CatalogueView from "@/views/CatalogueView.vue";
 import ModifierUtilView from "@/views/ModifierUtilView.vue";
 import AjouterBouteilleView from "@/views/AjouterBouteilleView.vue";
 import PageNonTrouveView from "@/views/PageNonTrouveView.vue";
@@ -65,14 +65,14 @@ const routes = [
         name: "saq-produits",
         component: SuccessView,
     },
-    {
-        path: "/catalogue",
-        name: "catalogue.index",
-        component: CatalogueView,
-        meta: {
-            requiresAuth: true,
-        },
-    },
+    // {
+    //     path: "/catalogue",
+    //     name: "catalogue.index",
+    //     component: CatalogueView,
+    //     meta: {
+    //         requiresAuth: true,
+    //     },
+    // },
     {
         path: "/utilisateur/modifier",
         name: "modifier-utilisateur",
