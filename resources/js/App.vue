@@ -56,18 +56,18 @@ export default {
         onLoadingEnd() {
             this.$store.dispatch("setLoading", false);
         },
-        async fetchBouteilles() {
-            try {
-                const response = await BouteilleDataService.getAll();
-                this.bouteillesSAQ = response.data;
-            } catch (error) {
-                console.log(error.response);
-            }
-        },
+        // async fetchBouteilles() {
+        //     try {
+        //         const response = await BouteilleDataService.getAll();
+        //         this.bouteillesSAQ = response.data;
+        //     } catch (error) {
+        //         console.log(error.response);
+        //     }
+        // },
     },
-    async mounted() {
-        await this.fetchBouteilles();
-    },
+    // async mounted() {
+    //     await this.fetchBouteilles();
+    // },
 };
 </script>
 <style>
