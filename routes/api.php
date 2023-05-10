@@ -59,6 +59,7 @@ Route::middleware('auth:api')->group(function () {
     
     // Archives
     Route::post('/archives/{cellier}/{bouteille}', [ArchiveController::class, 'store']); // Archiver une bouteille
+    Route::get('/archives/{utilisateur}', [ArchiveController::class, 'index']); // Obtenir les archives d'un utilisateur
 
     // Résultats de recherche
     Route::get('/resultats/{valeur}', [BouteilleController::class, 'getResultatsBouteilles']); // Obtenir une bouteille

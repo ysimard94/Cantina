@@ -42,6 +42,11 @@ class BouteilleDataService {
     async archiverBouteille(cellierId, bouteilleId) {
         return await apiClient.post(`/archives/${cellierId}/${bouteilleId}`);
     }
+    // Obtenir les archives d'un utilisateur
+    async obtenirArchivesUtilisateur(utilisateurId) {
+        return await apiClient.get(`/archives/${utilisateurId}`);
+    }
+
     async getResultatsBouteilles(valeur) {
         return await apiClient.get(`/resultats/${valeur}`);
     }
