@@ -38,6 +38,10 @@ class BouteilleDataService {
     async supprimerBouteilleDansCellier(cellierId, bouteilleId) {
         return await apiClient.delete(`/celliers/${cellierId}/${bouteilleId}`);
     }
+    // Archiver une bouteille
+    async archiverBouteille(cellierId, bouteilleId) {
+        return await apiClient.post(`/archives/${cellierId}/${bouteilleId}`);
+    }
     async getResultatsBouteilles(valeur) {
         return await apiClient.get(`/resultats/${valeur}`);
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BouteilleController;
+use App\Http\Controllers\ArchiveController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategorieController;
@@ -56,6 +57,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}+{quantite}', [BouteilleController::class, 'ajoutBouteilleAuCellier']); // Ajouter une bouteille à un cellier
     Route::delete('/celliers/{cellier}/{bouteille}', [BouteilleController::class, 'supprimerBouteilleDansCellier']); // Supprimer une bouteille dans un cellier
     
+    // Archives
+    Route::post('/archives/{cellier}/{bouteille}', [ArchiveController::class, 'store']); // Archiver une bouteille
 
     // Résultats de recherche
     Route::get('/resultats/{valeur}', [BouteilleController::class, 'getResultatsBouteilles']); // Obtenir une bouteille

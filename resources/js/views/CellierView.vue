@@ -202,7 +202,6 @@
                         :bouteilles="bouteillesAffiches"
                         :cellierId="cellierActif.id"
                         @bouteille-supprime="supprimerBouteille"
-                        @bouteille-modifie="modifierBouteille"
                     />
                 </div>
             </div>
@@ -372,13 +371,20 @@ export default {
                 console.log(error);
             }
         },
-        // supprimer une bouteille dans le cellier actif
+        // supprimer une bouteille dans le cellier actif puis l'archiver
         async supprimerBouteille(bouteille) {
             const estConfirmé = confirm(
                 "Êtes-vous sûr de vouloir supprimer cette bouteille ?"
             );
             if (estConfirmé) {
                 try {
+                    // Archiver la bouteille
+
+                    await BouteilleDataService.archiverBouteille(
+                        this.cellierActif.id,
+                        bouteille.id
+                    );
+                    // Supprimer la bouteille du cellier
                     await BouteilleDataService.supprimerBouteilleDansCellier(
                         this.cellierActif.id,
                         bouteille.id
@@ -389,7 +395,7 @@ export default {
 
                     // initier le message de confirmation
                     this.bouteilleSuprimeeMessage =
-                        "La bouteille a été supprimée avec succès.";
+                        "La bouteille a été archivé avec succès.";
 
                     // Montrer le message de confirmation
                     this.showSuccessPopup();

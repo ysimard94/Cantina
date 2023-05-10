@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bouteille;
 use App\Models\Cellier;
+use App\Models\archive;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
@@ -183,14 +184,13 @@ class BouteilleController extends Controller
 
      public function supprimerBouteilleDansCellier(Cellier $cellier, Bouteille $bouteille )
     {
-        $user = Auth::user();
+        $utilisateur = Auth::user();
 
         // Verifier  si le cellier appartiens a l'utilisateur connecté
-        if ($user->id == $cellier->utilisateur_id) {
+        if ($utilisateur->id == $cellier->utilisateur_id) {
             try {
                 // Détacher la bouteille du cellier
                 $cellier->bouteilles()->detach($bouteille->id);
-                return response()->json(['message' => 'Bouteille détachée du cellier avec succès']); // retourner un message de succès
             } catch (\Throwable $th) {
                 return response()->json([ 'status' => 'échec', 'message' => 'Une erreur est survenue lors de la suppression de la bouteille du cellier'], 500); // retourner une message d'erreur du serveur
             }

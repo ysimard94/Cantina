@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('archives', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('bouteille_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('utilisateur_id');
             $table->timestamps();
 
             $table->foreign('bouteille_id')->references('id')->on('bouteilles')->onDelete('cascade');
