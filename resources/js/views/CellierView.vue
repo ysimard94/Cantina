@@ -286,10 +286,13 @@ export default {
     async mounted() {
         await this.fetchCelliers();
         if (this.$store.getters.cellierActif) {
+            console.log("cellierActif", this.$store.getters.cellierActif);
             this.cellierActif = this.$store.getters.cellierActif;
-        } else if (this.celliers) {
+        } else if (this.celliers.length > 0) {
+            console.log("celliers", this.celliers);
             this.cellierActif = this.celliers[0];
         } else {
+            console.log("aucun cellier");
             this.cellierActif = { id: 0, nom: "Aucun cellier" };
         }
 
@@ -365,14 +368,14 @@ export default {
                     );
                 this.bouteilles = response.data.bouteilles;
                 console.log(this.cellierActif);
-                // Trier et filtrer les bouteilles en fonction des critères actifs
-                this.trierBouteilles();
-                this.filtrerBouteilles();
-
+                //   Trier et filtrer les bouteilles en fonction des critères actifs
+                // this.trierBouteilles();
+                // this.filtrerBouteilles();
                 // Réinitialiser les filtres et tris
-                this.reinitialisationBouteilles();
+                // this.reinitialisationBouteilles();
             } catch (error) {
                 console.log(error);
+                console.log("hello");
             }
         },
         // supprimer une bouteille dans le cellier actif

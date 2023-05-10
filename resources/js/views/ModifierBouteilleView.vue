@@ -385,6 +385,7 @@ export default {
             formData.append("nbr_notes", this.nbr_notes);
             formData.append("pays_id", this.pays_id);
             formData.append("categorie_id", this.categorie_id);
+            formData.append("_method", "PUT");
 
             formData.append("annee", this.annee);
             formData.append("quantite", this.quantite);

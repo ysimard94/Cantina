@@ -14,7 +14,7 @@
                         {{ bouteille.categorie.nom }}
                     </div>
                     <img
-                        :src="bouteille.photo"
+                        :src="imageUrl(bouteille)"
                         :alt="bouteille.nom"
                         class="w-2/3 mt-4 mb-4 mx-auto"
                     />
@@ -116,6 +116,19 @@ export default {
         },
     },
     methods: {
+        // Retourne l'url de l'image de la bouteille en fonction de l'url de base
+        imageUrl(bouteille) {
+            const baseUrl = import.meta.env.VITE_BASE_URL || "";
+            if (
+                bouteille.photo !==
+                    "https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166" &&
+                bouteille.code_saq === null
+            ) {
+                return `${baseUrl}${bouteille.photo}`;
+            } else {
+                return bouteille.photo;
+            }
+        },
         categorieBgColor(categorieNom) {
             switch (categorieNom) {
                 case "Vin rouge":

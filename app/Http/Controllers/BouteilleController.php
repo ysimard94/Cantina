@@ -9,7 +9,6 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
 use Illuminate\Support\Facades\Validator;
 
 class BouteilleController extends Controller
@@ -55,7 +54,7 @@ class BouteilleController extends Controller
         $cellier = Cellier::findOrFail($cellierId);
 
         // Verifier  si le cellier appartiens a l'utilisateur connecté
-        if ($utilisateur->id === $cellier->utilisateur_id) { 
+        if ($utilisateur->id == $cellier->utilisateur_id) { 
             try {
 
                 // Valider la requête entrante
@@ -261,7 +260,6 @@ class BouteilleController extends Controller
     // Va mettre à jour les données d'une bouteille personnalisée
     public function updateBouteille(Bouteille $bouteille, Cellier $cellier, Request $request)
     {
-
         try {
             // Valider la requête entrante
             $validator = Validator::make($request->all(), [
@@ -274,32 +272,46 @@ class BouteilleController extends Controller
                 'categorie_id' => 'required',
                 'quantite' => 'required|integer|min:1',
             ]);
-
+           
             // Si les données ne sont pas valide, lancer une exception
 
             if ($validator->fails()) {
                 throw new ValidationException($validator);
             }
 
-            // Si une photo a été envoyée
-            // if ($request->hasFile('photo')) {
+            // Récupérer l'ancien chemin d'image de la base de données en utilisant l'ID de l'instance $bouteille
+           
+            $ancienneImageUrl = $bouteille->photo;
 
-            //     $path = "storage/" . $request->file('photo')->store('photos', 'public');
-            // } else {
-            //     $path = 'https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166';
-            // }
+            // Chemin d'image par défaut
+            $defaultImagePath = 'https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166';
+
+            // Vérifier si une nouvelle photo a été envoyée
+            if ($request->hasFile('photo')) {
+                // Supprimer l'ancien fichier image s'il ne s'agit pas de l'image par défaut
+                if ($ancienneImageUrl !== $defaultImagePath) {
+                    $oldImageLocalPath = str_replace("storage/", "", $ancienneImageUrl);
+                    Storage::disk('public')->delete($oldImageLocalPath);
+                }
+
+                // Stocker la nouvelle photo et mettre à jour le chemin
+                $path = "storage/" . $request->file('photo')->store('photos', 'public');
+            } else {
+                // Utiliser l'ancien chemin d'image si aucune nouvelle photo n'est envoyée
+                $path = $ancienneImageUrl;
+            }
 
             // Va mettre à jour les données des colonnes correspondantes avec celles de la requête
             $bouteille->fill($request->only($bouteille->getFillable()));
-
+         
              // Récupérer la quantité à partir de la requête
              $quantite = $request->input('quantite');
-
+           
             // Mettre à jour la quantité
             $cellier->bouteilles()->syncWithoutDetaching([$bouteille->id => ['quantite' => $quantite]]);
-
-            // $bouteille["photo"] = $path;
-
+          
+            $bouteille["photo"] = $path;
+      
             // Sauvegarde les nouvelles informations
             $bouteille->save();
 

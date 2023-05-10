@@ -6,14 +6,26 @@
     }" class="fixed inset-0 transition-all duration-500 mb-[60px]">
         <div class="w-full h-full bg-black bg-opacity-90 flex">
             <nav class="h-full w-full flex flex-col justify-center">
-                <router-link :to="{ name: 'saq-produits' }" class="w-full text-2xl text-white py-2 mt-auto"
-                    @click="fermerMenu">Obtenir les bouteilles SAQ</router-link>
-                <router-link :to="{ name: 'catalogue.index' }" class="w-full text-2xl text-white py-2"
-                    @click="fermerMenu">Catalogue</router-link>
-                <router-link :to="{ name: 'a-propos' }" class="w-full text-2xl text-white py-2 mt-auto"
-                    @click="fermerMenu">À propos</router-link>
-                <router-link :to="{ name: 'deconnexion' }" class="w-full text-2xl text-white py-2 mb-auto"
-                    @click="fermerMenu">Déconnexion</router-link>
+
+                <router-link
+                    :to="{ name: 'saq-produits' }"
+                    class="w-full text-2xl text-white py-2 mt-auto"
+                    @click="fermerMenu"
+                    >Obtenir les bouteilles SAQ</router-link
+                >
+                <!-- <router-link :to="{ name: 'catalogue.index' }" class="w-full text-2xl text-white py-2" @click="fermerMenu">Catalogue</router-link> -->
+                <router-link
+                    :to="{ name: 'a-propos' }"
+                    class="w-full text-2xl text-white py-2 mt-auto"
+                    @click="fermerMenu"
+                    >À propos</router-link
+                >
+                <router-link
+                    :to="{ name: 'deconnexion' }"
+                    class="w-full text-2xl text-white py-2 mb-auto"
+                    @click="fermerMenu"
+                    >Déconnexion</router-link
+                >
             </nav>
         </div>
         <!-- Bouton pour fermer le menu -->
