@@ -1,8 +1,26 @@
 <template>
     <div class="container mx-auto">
+        <transition enter-active-class="transition duration-300 ease-out opacity-0" enter-class="opacity-0"
+            enter-to-class="opacity-100" leave-active-class="transition duration-300 ease-in opacity-100"
+            leave-class="opacity-100" leave-to-class="opacity-0">
+            <!-- Message de succès -->
+            <div v-if="estSuccessPopup" class="m-6">
+                <div class="bg-green-500 text-white font-bold rounded-full px-4 py-2 flex items-center">
+                    <!-- Icône de succès (Google Material Icons) -->
+                    <span class="material-icons text-lg mr-2">check_circle</span>
+                    <span class="flex-1 text-center text-sm">{{
+                        message
+                    }}</span>
+                    <button @click="fermerPopup" class="ml-2 material-symbols-outlined">
+                        <!-- Icône de fermeture (Google Material Icons) -->
+                        <span> close </span>
+                    </button>
+                </div>
+            </div>
+        </transition>
+        <!-- Boucle à travers le tableau de bouteilles de la recherche -->
         <div v-for="bouteille in bouteilles" :key="bouteille.id">
             <div class="bg-bg_rose overflow-hidden shadow rounded-lg px-2 py-2 m-4">
-
                 <img :src="bouteille.photo" alt="Bottle image" class="w-16 h-32 object-cover mx-auto ">
                 <div class="px-4 py-4">
                     <h4 class="text-lg font-semibold text-vin_rouge text-left font-serif">{{ bouteille.nom }}</h4>
@@ -23,8 +41,8 @@
                         </div>
                     </div>
                 </div>
-                <p class="block text-md text-green-600">{{ bouteille.message }}</p>
                 <div class="flex justify-between items-center mx-3 mb-3 hover:text-geen-600">
+                    <!-- Champ select de tous les celliers de l'utilisateur -->
                     <select id="select-cellier"
                         class="p-2 font-sans w-full rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <option disabled>-- Sélectionner un cellier --</option>
@@ -34,7 +52,9 @@
                     <input type="number" :value="1" id="quantite"
                         class="p-2 font-sans rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-[40px] w-16 ml-1"
                         placeholder="Quantité" min="1">
-                    <button class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 focus:text-green-600 hover:scale-125 active:scale-90"
+                    <!-- Bouton pour ajouter la bouteille au cellier -->
+                    <button
+                        class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 focus:text-green-600 hover:scale-125 active:scale-90"
                         @click="ajouterBouteille(bouteille.id, $event, bouteille.quantite)">add</button>
                 </div>
             </div>
@@ -52,52 +72,54 @@ export default {
             bouteilles: [],
             celliers: [],
             message: "",
+            estSuccessPopup: false,
             bouteille: {
                 'quantite': 1,
             }
         };
     },
     methods: {
+        // Méthode pour récupérer les bouteilles avec la valeur de la recherche
         async obtenirBouteille() {
             try {
                 const reponse = await BouteilleDataService.getResultatsBouteilles(this.$route.params.valeur)
                 this.bouteilles = reponse.data
-                console.log(reponse.data)
             } catch (e) {
                 console.log(e)
             }
         },
+        // Méthode pour récupérer les celliers de l'utilisateur
         async fetchCelliers() {
             try {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
-                // Si il est existe au moins un cellier, on mis le premier comme cellier actif
-                if (this.celliers.length > 0) {
-                    this.cellierActif = this.celliers[0];
-                }
-                console.log(this.celliers)
             } catch (error) {
                 console.log(error);
             }
         },
-        handleChangerCellier() {
-            console.log(this.cellierActif)
-        },
+        // Méthode pour ajouter la bouteille au cellier sélectionné ainsi que la quantité
         async ajouterBouteille(bouteilleId, event) {
             let cellierId = event.target.parentNode.querySelector("#select-cellier").value;
             let quantite = event.target.parentNode.querySelector("#quantite").value;
             try {
-                const response = await BouteilleDataService.ajouterBouteilleAuCellier(cellierId, bouteilleId, quantite);
-                console.log(response.data);
-                const bouteilleAjoutee = this.bouteilles.find(bouteille => bouteille.id === bouteilleId);
-                bouteilleAjoutee.message = response.data.message;
+                const reponse = await BouteilleDataService.ajouterBouteilleAuCellier(cellierId, bouteilleId, quantite);
+
+                this.message = reponse.data.message
+                this.estSuccessPopup = true;
+                // Pour fermer le popup après 5 secondes
                 setTimeout(() => {
-                    bouteilleAjoutee.message = "";
-                }, 3000);
+                    this.message = "";
+                    this.estSuccessPopup = false;
+                }, 5000);
             } catch (error) {
                 console.log(reponse.data);
             }
-        }
+        },
+        // Pour fermer le popup au clic du bouton X
+        fermerPopup() {
+            this.message = ""
+            this.estSuccessPopup = false
+        },
     },
     async mounted() {
         await this.fetchCelliers()
@@ -111,8 +133,3 @@ export default {
     },
 };
 </script>
-<style>
-.add-button:hover {
-    color: rgb(14, 168, 14);
-}
-</style>
