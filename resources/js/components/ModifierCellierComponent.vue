@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-col items-start space-y-4">
-       <div v-if="errorMessage" class="bg-red-100 text-red-700 p-2 mt-4 rounded">
-                {{ errorMessage }}
-            </div>
+        <div v-if="errorMessage" class="bg-red-100 text-red-700 p-2 mt-4 rounded">
+            {{ errorMessage }}
+        </div>
 
         <form @submit.prevent="modifierCellier" class="flex items-center w-full">
             <input type="text" class="w-full border border-gray-300 rounded-md py-2 px-3 mr-2" v-model="nouveauNom" />
@@ -11,7 +11,8 @@
                     class="material-symbols-outlined mx-2 font-semibold text-white rounded-full bg-green-500 hover:bg-green-700 transform transition-all duration-200">
                     done
                 </button>
-                <button class="material-symbols-outlined mx-2 font-semibold text-white rounded-full bg-red-500 hover:bg-red-700 transform transition-all duration-200"
+                <button
+                    class="material-symbols-outlined mx-2 font-semibold text-white rounded-full bg-red-500 hover:bg-red-700 transform transition-all duration-200"
                     @click="annulerModification">
                     clear
                 </button>
@@ -35,7 +36,7 @@ export default {
             required: true
         }
     },
-    data() {
+    data () {
         return {
             nouveauNom: this.cellier.nom,
             successMessage: null,
@@ -43,7 +44,7 @@ export default {
         }
     },
     methods: {
-        async chargerCellier() {
+        async chargerCellier () {
             try {
 
                 const response = await CellierDataService.details(this.cellier.id)
@@ -52,33 +53,31 @@ export default {
                 console.log(error)
             }
         },
-        async modifierCellier() {
+        async modifierCellier () {
             if (!this.nouveauNom.trim()) {
-                this.errorMessage ='Le nom du cellier ne peut pas être vide.';
+                this.errorMessage = 'Le nom du cellier ne peut pas être vide.';
                 return;
             }
             try {
 
                 const cellier = { nom: this.nouveauNom }
                 const response = await CellierDataService.modifier(this.cellier.id, cellier)
-                console.log(response)
                 this.successMessage = 'Le cellier a été modifié avec succès.'
                 this.$emit('cellier-modifie', response.data)
-                 this.$router.push({
+                this.$router.push({
                     name: 'mes-celliers',
                     query: {
                         message: this.successMessage
                     }
-                 })
-                 this.$emit('close');
+                })
+                this.$emit('close');
             } catch (error) {
                 console.log(error)
             }
         },
-       async supprimerCellier() {
+        async supprimerCellier () {
             try {
                 const response = await CellierDataService.supprimer(this.cellier.id)
-                console.log(response)
                 this.successMessage = 'Le cellier a été supprimé avec succès.'
                 this.$router.push({
                     name: 'mes-celliers',
@@ -93,13 +92,13 @@ export default {
             }
         },
 
-        annulerModification() {
+        annulerModification () {
             this.nouveauNom = this.cellier.nom;
             this.$emit('close');
         }
     },
 
-    async created() {
+    async created () {
         await this.chargerCellier()
     },
     watch: {

@@ -246,7 +246,6 @@ export default {
             formData.append("nom", this.nom);
             formData.append("description", this.description);
             if (this.photo) {
-                console.log(this.photo);
                 formData.append("photo", this.photo);
             }
             formData.append("prix", this.prix);
@@ -256,7 +255,6 @@ export default {
             formData.append("categorie_id", this.categorie_id);
             formData.append("annee", this.annee);
             formData.append("quantite", this.quantite);
-            console.log(formData);
 
             try {
                 this.$emit("loading:start");
@@ -282,13 +280,11 @@ export default {
         },
         chargerPhoto (e) {
             this.photo = e.target.files[0];
-            console.log(this.photo);
         },
         getPays: async function () {
             try {
                 const reponse = await PaysDataService.getAll();
                 this.pays = reponse.data;
-                console.log(this.pays);
             } catch (error) {
                 console.error(error);
             } finally {
@@ -298,7 +294,6 @@ export default {
             try {
                 const reponse = await CategorieDataService.getAll();
                 this.categories = reponse.data.categories;
-                console.log(this.categories);
             } catch (error) {
                 console.error(error);
             } finally {

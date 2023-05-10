@@ -77,7 +77,6 @@ export default {
     },
     methods: {
         connexion: async function () {
-            console.log("connexion");
             this.v$.$touch(); // Déclenche la validation
             if (!this.v$.$invalid) {
                 await this.connecterUtilisateur();
@@ -94,7 +93,6 @@ export default {
                     key: "utilisateur_id",
                     value: reponse.data.utilisateur.id,
                 });
-                console.log(reponse.data.session);
                 localStorage.setItem("jwt-token", reponse.data.token);
                 this.$router.push({ name: "mes-celliers" });
             }

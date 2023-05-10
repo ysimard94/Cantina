@@ -34,7 +34,8 @@
                     <input type="number" :value="1" id="quantite"
                         class="p-2 font-sans rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-[40px] w-16 ml-1"
                         placeholder="Quantité" min="1">
-                    <button class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 focus:text-green-600 hover:scale-125 active:scale-90"
+                    <button
+                        class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 focus:text-green-600 hover:scale-125 active:scale-90"
                         @click="ajouterBouteille(bouteille.id, $event, bouteille.quantite)">add</button>
                 </div>
             </div>
@@ -47,7 +48,7 @@ import CellierDataService from "@/services/CellierDataService.js";
 
 export default {
     name: "ResultatView",
-    data() {
+    data () {
         return {
             bouteilles: [],
             celliers: [],
@@ -58,16 +59,15 @@ export default {
         };
     },
     methods: {
-        async obtenirBouteille() {
+        async obtenirBouteille () {
             try {
                 const reponse = await BouteilleDataService.getResultatsBouteilles(this.$route.params.valeur)
                 this.bouteilles = reponse.data
-                console.log(reponse.data)
             } catch (e) {
                 console.log(e)
             }
         },
-        async fetchCelliers() {
+        async fetchCelliers () {
             try {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
@@ -75,20 +75,18 @@ export default {
                 if (this.celliers.length > 0) {
                     this.cellierActif = this.celliers[0];
                 }
-                console.log(this.celliers)
             } catch (error) {
                 console.log(error);
             }
         },
-        handleChangerCellier() {
+        handleChangerCellier () {
             console.log(this.cellierActif)
         },
-        async ajouterBouteille(bouteilleId, event) {
+        async ajouterBouteille (bouteilleId, event) {
             let cellierId = event.target.parentNode.querySelector("#select-cellier").value;
             let quantite = event.target.parentNode.querySelector("#quantite").value;
             try {
                 const response = await BouteilleDataService.ajouterBouteilleAuCellier(cellierId, bouteilleId, quantite);
-                console.log(response.data);
                 const bouteilleAjoutee = this.bouteilles.find(bouteille => bouteille.id === bouteilleId);
                 bouteilleAjoutee.message = response.data.message;
                 setTimeout(() => {
@@ -99,13 +97,13 @@ export default {
             }
         }
     },
-    async mounted() {
+    async mounted () {
         await this.fetchCelliers()
         this.obtenirBouteille()
     },
     // Va vérifier si la route a changé et refaire la requête si c'est le cas
     watch: {
-        $route() {
+        $route () {
             this.obtenirBouteille();
         },
     },

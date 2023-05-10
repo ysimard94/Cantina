@@ -1,14 +1,9 @@
 <template>
-    <div
-        class="container mx-auto h-screen flex flex-col justify-center items-center"
-    >
+    <div class="container mx-auto h-screen flex flex-col justify-center items-center">
         <div v-show="isLoading" class="w-16 h-16">
             <LoadingSpinner />
         </div>
-        <h1
-            v-show="!isLoading"
-            class="text-xl font-serif font-semibold text-vin-rouge text-center mb-4"
-        >
+        <h1 v-show="!isLoading" class="text-xl font-serif font-semibold text-vin-rouge text-center mb-4">
             {{ message }}
         </h1>
     </div>
@@ -23,7 +18,7 @@ export default {
     components: {
         LoadingSpinner,
     },
-    data() {
+    data () {
         return {
             message:
                 "Veuillez patienter pendant que nous récupérons les données...",
@@ -32,7 +27,7 @@ export default {
     },
     methods: {
         // fetch le serveur et récupére les produit de la saq
-        async fetchSaqProduits() {
+        async fetchSaqProduits () {
             try {
                 const reponse = await SaqProduitsDataService.getAll();
                 this.message = reponse.data.message;
@@ -48,8 +43,7 @@ export default {
             }
         },
     },
-    async mounted() {
-        console.log("SuccessView mounted");
+    async mounted () {
         await this.fetchSaqProduits();
     },
 };
