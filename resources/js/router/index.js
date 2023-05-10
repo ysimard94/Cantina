@@ -34,10 +34,10 @@ const routes = [
         path: "/deconnexion",
         name: "deconnexion",
         component: LoginView,
-        beforeEnter: logout,
         meta: {
             requiresAuth: true,
         },
+        beforeEnter: logout,
     },
     {
         path: "/utilisateur/créer",
@@ -97,6 +97,16 @@ const routes = [
         meta: {
             requiresAuth: true,
         },
+        beforeEnter: (to, from, next) => {
+            const utilisateurId = to.params.utilisateurId; // id de l'utilisateur
+            if (utilisateurId == store.getters.session.utilisateur_id) {
+                // Si l'utilisateur est le même que celui connecté
+                next();
+            } else {
+                // Sinon, on le redirige vers la page d'accueil
+                next({ name: "accueil" });
+            }
+        },
     },
     {
         path: "/modifier-bouteille/:bouteilleId/:cellierId",
@@ -136,9 +146,13 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     store.dispatch("setLoading", true);
-
     if (to.matched.some((record) => record.meta.requiresAuth)) {
-        if (!localStorage.getItem("jwt-token")) {
+        const token = localStorage.getItem("jwt-token");
+        let utilisateurId = null;
+        if (store.getters.session.utilisateur_id) {
+            utilisateurId = store.getters.session.utilisateur_id;
+        }
+        if (!token || !utilisateurId) {
             next({ name: "connexion" });
         } else {
             next();

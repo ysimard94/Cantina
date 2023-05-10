@@ -17,6 +17,7 @@ class ArchiveController extends Controller
      */
     public function index(Utilisateur $utilisateur)
     {
+        Log::info($utilisateur);
         // Verifier  si le cellier appartiens a l'utilisateur connecté
         if ($utilisateur->id == Auth::user()->id) {
             try {

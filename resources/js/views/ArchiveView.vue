@@ -16,23 +16,19 @@ import BouteilleDataService from "@/services/BouteilleDataService";
 
 export default {
     name: "ArchiveView",
-
-    props: {
-        utilisateurId: {
-            type: Number,
-            required: true,
-        },
-    },
     data() {
         return {
             archives: [],
+            userId: null,
         };
     },
     methods: {
         async chargerArchives() {
             try {
                 const response =
-                    await BouteilleDataService.obtenirArchivesUtilisateur(1);
+                    await BouteilleDataService.obtenirArchivesUtilisateur(
+                        this.$store.getters.session.utilisateur_id
+                    );
                 this.archives = response.data.archives;
             } catch (error) {
                 console.log(error);
