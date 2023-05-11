@@ -47,8 +47,14 @@ class BouteilleDataService {
         return await apiClient.get(`/archives/${utilisateurId}`);
     }
 
+    // Obtenir les bouteilles de la recherche
     async getResultatsBouteilles(valeur) {
         return await apiClient.get(`/resultats/${valeur}`);
+    }
+
+    // Obtenir les bouteilles de la liste d'achats
+    async getListeBouteilles(utilisateurId) {
+        return await apiClient.get(`/liste-achats/${utilisateurId}`);
     }
 }
 

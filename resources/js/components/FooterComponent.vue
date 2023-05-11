@@ -10,7 +10,14 @@
                         home
                     </button>
                 </router-link>
-                <router-link class="w-full" :to="{ name: 'liste-achats' }">
+                <router-link class="w-full" 
+                    :to="{ 
+                        name: 'liste-achats',
+                        params: {
+                            utilisateurId: this.$store.getters.session.utilisateur_id,
+                        },
+                    }"
+                >
                     <button :class="{ 'actif': pageActive === 1 }"
                         class="material-symbols-outlined text-white text-2xl px-5 py-3 w-full"
                         @click=" fermerMenu(); changerPageActive(1);">

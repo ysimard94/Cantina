@@ -9,7 +9,7 @@ use App\Http\Controllers\SAQController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PaysController;
 use App\Http\Controllers\CellierController;
-
+use App\Http\Controllers\ListeAchatController;
 use App\Http\Controllers\UtilisateurController;
 
 
@@ -61,6 +61,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/archives/{cellier}/{bouteille}', [ArchiveController::class, 'store']); // Archiver une bouteille
     Route::get('/archives/{utilisateur}', [ArchiveController::class, 'index']); // Obtenir les archives d'un utilisateur
 
+    // Liste d'achats
+    Route::get('/liste-achats/{utilisateur}', [ListeAchatController::class, 'index']); // Obtenir la liste d'achats d'un utilisateur
+    
     // Résultats de recherche
     Route::get('/resultats/{valeur}', [BouteilleController::class, 'getResultatsBouteilles']); // Obtenir une bouteille
     // Pays
