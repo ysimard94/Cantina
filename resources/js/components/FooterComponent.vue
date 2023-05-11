@@ -24,7 +24,7 @@
                         'bg-vin-blanc': !rechercheActive,
                     }"
                     class="material-symbols-outlined  hover:bg-gray-700 text-white font-bold w-[68px] p-4 rounded-full transform transition-all absolute bottom-0 text-3xl"
-                    @click="afficherRecherche(); fermerMenu(); changerPageActive(-1)">
+                    @click="afficherRecherche(); fermerMenu(); changerPageActive(pageActive === 4 ? -1 : pageActive)">
                     add
                 </button>
                 <div class=" w-20" :class="{ 'actif': pageActive === 3 }"></div>
