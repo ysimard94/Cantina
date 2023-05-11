@@ -235,7 +235,12 @@ class BouteilleController extends Controller
 
             if ($bouteille) {
                 // Renvoyer la bouteille avec pays et catégorie
-                return $bouteille;
+
+
+                return response()->json([
+                    'status' => 'success',
+                    'bouteille' => $bouteille
+                ]);
 
             } else {
                 return response()->json([
