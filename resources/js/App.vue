@@ -24,6 +24,7 @@
         </main>
         <FooterComponent
             :page-active="pageActive"
+            :recherche-active="rechercheOuverte"
             @toggle-menu="menuOuvert = !menuOuvert"
             @toggle-recherche="rechercheOuverte = !rechercheOuverte"
             @fermer-menu="menuOuvert = false"

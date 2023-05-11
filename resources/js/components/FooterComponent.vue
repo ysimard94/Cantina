@@ -6,14 +6,14 @@
                 <router-link class="w-full" :to="{ name: 'mes-celliers' }">
                     <button :class="{ 'actif': pageActive === 0 }"
                         class="material-symbols-outlined text-white text-2xl px-5 py-3 w-full"
-                        @click="fermerMenu(); fermerRecherche(); changerPageActive(0); rechercheActive = false">
+                        @click="fermerMenu(); changerPageActive(0);">
                         home
                     </button>
                 </router-link>
                 <router-link class="w-full" :to="{ name: 'modifier-utilisateur' }">
                     <button :class="{ 'actif': pageActive === 1 }"
                         class="material-symbols-outlined text-white text-2xl px-5 py-3 w-full"
-                        @click=" fermerMenu(); fermerRecherche(); changerPageActive(1); rechercheActive = false">
+                        @click=" fermerMenu(); changerPageActive(1);">
                         account_circle
                     </button>
                 </router-link>
@@ -24,7 +24,7 @@
                         'bg-vin-blanc': !rechercheActive,
                     }"
                     class="material-symbols-outlined  hover:bg-gray-700 text-white font-bold w-[68px] p-4 rounded-full transform transition-all absolute bottom-0 text-3xl"
-                    @click="afficherRecherche(); fermerMenu(); rechercheActive = !rechercheActive">
+                    @click="afficherRecherche(); fermerMenu(); changerPageActive(-1)">
                     add
                 </button>
                 <div class=" w-20" :class="{ 'actif': pageActive === 3 }"></div>
@@ -38,7 +38,7 @@
                 >
                     <button :class="{ 'actif': pageActive === 3 }"
                         class="material-symbols-outlined text-white text-2xl px-5 py-3 w-full"
-                        @click=" fermerMenu(); fermerRecherche(); changerPageActive(3); rechercheActive = false">
+                        @click=" fermerMenu(); changerPageActive(3);">
                         menu_book
                     </button>
                 </router-link>
@@ -58,11 +58,7 @@ export default {
     name: "FooterComponent",
     props: {
         pageActive: Number,
-    },
-    data() {
-        return {
-            rechercheActive: false,
-        }
+        rechercheActive: Boolean,
     },
     computed: {
         estConnecter () {
