@@ -3,7 +3,7 @@
     <div :class="{
         'transform translate-x-full opacity-0': !menuOuvert,
         'transform translate-x-0 opacity-100': menuOuvert,
-    }" class="fixed inset-0 transition-all duration-500 mb-[60px]">
+    }" class="fixed inset-0 transition-all duration-500 mb-[56px]">
         <div class="w-full h-full bg-black bg-opacity-90 flex">
             <nav class="h-full w-full flex flex-col justify-center">
 
