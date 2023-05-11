@@ -19,7 +19,7 @@
                 </router-link>
                 <div class="w-20" :class="{ 'actif': pageActive === 1 }"></div>
                 <button :class="{ 'bg-gray-700 rotate-45': pageActive === 2 }"
-                    class="material-symbols-outlined bg-vin-blanc hover:bg-gray-700 text-white font-bold p-4 rounded-full transform transition-all duration-00 absolute bottom-0 text-3xl"
+                    class="material-symbols-outlined bg-vin-blanc hover:bg-gray-700 text-white font-bold w-[68px] p-4 rounded-full transform transition-all duration-00 absolute bottom-0 text-3xl"
                     @click="afficherMenu(); changerPageActive(pageActive === 2 ? -1 : 2)">
                     add
                 </button>
