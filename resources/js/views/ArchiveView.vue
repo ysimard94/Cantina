@@ -1,11 +1,9 @@
 <template>
     <div>
         <h1>Archives</h1>
-        <ul>
-            <li v-for="archive in archives" :key="archive.id">
-                <strong>Date:</strong> {{ archive.created_at }}<br />
-                <strong>Bouteille:</strong> {{ archive.bouteille.nom }}<br />
-                <strong>User:</strong> {{ archive.utilisateur.nom }}
+        <ul class="flex flex-col gap-2">
+            <li v-for="(archive, index) in archives" :key="archive.id">
+                <BouteilleComponentArchive :index="index" :archive="archive" />
             </li>
         </ul>
     </div>
@@ -13,9 +11,13 @@
 
 <script>
 import BouteilleDataService from "@/services/BouteilleDataService";
+import BouteilleComponentArchive from "@/components/BouteilleComponentArchive.vue";
 
 export default {
     name: "ArchiveView",
+    components: {
+        BouteilleComponentArchive,
+    },
     data() {
         return {
             archives: [],
