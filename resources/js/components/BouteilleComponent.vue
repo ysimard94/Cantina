@@ -8,7 +8,7 @@
             <div class="w-1/3">
                 <div class="relative">
                     <div
-                        class="text-center text-white font-bolder font-sans"
+                        class="text-center text-white font-bolder font-sans p-1"
                         :class="categorieBgColor(bouteille.categorie.nom)"
                     >
                         {{ bouteille.categorie.nom }}
@@ -96,12 +96,19 @@
                                     <img src="@assets/saq.svg" alt="SAQ Icon" />
                                 </a>
                             </div>
-
+                            <!-- Bouton pour supprimer qui va jouer une animation selon l'état du booléen -->
                             <button
-                                @click="supprimerBouteille(bouteille)"
-                                class="material-symbols-outlined hover:bg-bg-fonce w-10 h-10 rounded-lg text-white font-semibold bg-vin-rouge ml-2 transform transition-all duration-200"
+                                @click="supprimerBouteille(bouteille);"
+                                class="hover:bg-bg-fonce w-10 h-10 rounded-lg text-white font-semibold bg-vin-rouge ml-2"
+                                :class="{
+                                    'material-symbols-sharp': !bouteille.animationSupprimer,
+                                    
+                                }"
                             >
-                                wine_bar
+                                <span class="transform transition-all duration-500" :class="{'material-symbols-outlined rotate-90': bouteille.animationSupprimer}">
+                                    wine_bar
+                                </span>
+                                
                             </button>
                         </div>
                     </div>
@@ -124,6 +131,11 @@ export default {
             type: Number,
             required: true,
         },
+    },
+    data() {
+        return {
+            animationSupprimer: false,
+        };
     },
     methods: {
         // Retourne l'url de l'image de la bouteille en fonction de l'url de base
@@ -156,7 +168,13 @@ export default {
             this.$emit("bouteille-modifie", bouteille);
         },
         async supprimerBouteille(bouteille) {
-            this.$emit("bouteille-supprime", bouteille);
+            // Débuter l'animation de suppression
+            bouteille.animationSupprimer = true;
+            // Demander la suppression de la bouteille après la fin de l'animation
+            setTimeout(() => {
+                bouteille.animationSupprimer = false;
+                this.$emit("bouteille-supprime", bouteille);
+            }, 500);
         },
     },
 };
