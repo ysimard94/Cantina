@@ -1,9 +1,11 @@
 <template>
     <!-- Animation qui change selon si l'utilisateur ferme le menu ou non -->
     <div :class="{
-        'transform translate-x-full opacity-0': !menuOuvert,
-        'transform translate-x-0 opacity-100': menuOuvert,
-    }" class="fixed inset-0 transition-all duration-500 mb-[56px]">
+            'transform translate-x-full opacity-0': !menuOuvert,
+            'transform translate-x-0 opacity-100': menuOuvert,
+        }" 
+        class="fixed inset-0 transition-all duration-500 mb-[56px]"
+    >
         <div class="w-full h-full bg-black bg-opacity-90 flex">
             <nav class="h-full w-full flex flex-col justify-center">
 
@@ -35,7 +37,7 @@
         }" class="material-symbols-outlined text-white text-6xl absolute top-5 left-5 transition-all duration-500"
             @click="
                 fermerMenu();
-            reinitialiserPage();
+                reinitialiserPage();
             ">
             close
         </button>

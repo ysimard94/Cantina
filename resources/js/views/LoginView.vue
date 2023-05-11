@@ -1,7 +1,7 @@
 <template>
-    <section class="mt-12">
+    <section class="mt-8">
         <div class="mb-12">
-            <p class="text-vin-rouge text-3xl font-bold">Bienvenue sur Cantina</p>
+            <p class="text-vin-rouge text-2xl font-bold font-sans text-start mx-5">Gérez votre collection de vin et partagez votre expertise avec les autres membres de notre communauté!</p>
         </div>
         <div class="bg-bg-rose m-4 p-3 shadow-md rounded">
             <form @submit.prevent="connexion">
@@ -35,7 +35,7 @@
                     </p>
                 </div>
                 <div>
-                    <button type="submit" class="mb-4 mt4 bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5">
+                    <button type="submit" class="mb-4 mt4 font-sans bg-vin-rouge text-vin-blanc rounded pt-1 pb-1 pr-5 pl-5">
                         Se Connecter
                     </button>
                 </div>

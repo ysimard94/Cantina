@@ -83,7 +83,7 @@ const routes = [
         },
     },
     {
-        path: "/ajouter-bouteille/:cellierId",
+        path: "/ajouter-bouteille",
         name: "ajouter-bouteille",
         component: AjouterBouteilleView,
         meta: {
