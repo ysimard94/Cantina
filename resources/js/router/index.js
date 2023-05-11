@@ -124,10 +124,23 @@ const routes = [
         props: true,
     },
     {
-        path: "/liste-achats",
+        path: "/liste-achats/:utilisateurId",
         name: "liste-achats",
         component: ListeAchatsView,
         props: true,
+        meta: {
+            requiresAuth: true,
+        },
+        beforeEnter: (to, from, next) => {
+            const utilisateurId = to.params.utilisateurId; // id de l'utilisateur
+            if (utilisateurId == store.getters.session.utilisateur_id) {
+                // Si l'utilisateur est le même que celui connecté
+                next();
+            } else {
+                // Sinon, on le redirige vers la page d'accueil
+                next({ name: "accueil" });
+            }
+        },
     },
     {
         path: "/:pathMatch(.*)*",
