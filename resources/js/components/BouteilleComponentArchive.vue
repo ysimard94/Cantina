@@ -1,6 +1,6 @@
 <template>
     <div
-        class="h-[162px] bg-bg_rose flex items-stretch overflow-hidden rounded-lg shadow h-full mx-2"
+        class="h-[162px] bg-bg_rose flex items-stretch overflow-hidden rounded-lg shadow mx-2"
     >
         <!-- catégorie -->
         <div
@@ -21,18 +21,28 @@
         >
             <!-- Titre -->
             <div class="w-full flex flex-col items-start gap-2">
-                <router-link
-                    :to="{
-                        name: 'bouteille-details',
-                        params: { id: archive.bouteille.id },
-                    }"
-                >
-                    <h4
-                        class="w-[25ch] font-serif text-[15px] font-semibold text-vin-rouge text-left leading-tight underline"
+                <div class="w-full flex justify-between">
+                    <router-link
+                        :to="{
+                            name: 'bouteille-details',
+                            params: { id: archive.bouteille.id },
+                        }"
                     >
-                        {{ archive.bouteille.nom }}
-                    </h4>
-                </router-link>
+                        <h4
+                            class="w-[25ch] flex font-serif text-[15px] font-semibold text-vin-rouge text-left leading-tight underline"
+                        >
+                            {{ archive.bouteille.nom }}
+                        </h4>
+                    </router-link>
+                    <span
+                        v-if="archive.bouteille.code_saq"
+                        class="w-[25px] my-auto block"
+                    >
+                        <a :href="archive.bouteille.url_saq" target="_blank">
+                            <img src="@assets/saq.svg" alt="SAQ Icon" />
+                        </a>
+                    </span>
+                </div>
                 <span>
                     {{ archive.bouteille.pays.nom }}
                 </span>
