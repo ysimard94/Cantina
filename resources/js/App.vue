@@ -17,11 +17,17 @@
                 @fermer-menu="menuOuvert = false"
                 @reinitialiser-page="pageActive = -1"
             />
+            <RechercheComponent 
+                :recherche-ouverte="rechercheOuverte"
+                @reinitialiser-page="pageActive = -1; rechercheOuverte = false"
+            />
         </main>
         <FooterComponent
             :page-active="pageActive"
             @toggle-menu="menuOuvert = !menuOuvert"
+            @toggle-recherche="rechercheOuverte = !rechercheOuverte"
             @fermer-menu="menuOuvert = false"
+            @fermer-recherche="rechercheOuverte = false"
             @changer-page-active="pageActive = $event"
         />
     </div>
@@ -32,6 +38,7 @@ import HeaderComponent from "@/components/HeaderComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
 import MenuComponent from "@/components/MenuComponent.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
+import RechercheComponent from "@/components/RechercheComponent.vue";
 import BouteilleDataService from "@/services/BouteilleDataService";
 
 export default {
@@ -40,6 +47,7 @@ export default {
         return {
             bouteillesSAQ: [],
             menuOuvert: false,
+            rechercheOuverte: false,
             pageActive: -1,
         };
     },
@@ -48,6 +56,7 @@ export default {
         FooterComponent,
         LoadingSpinner,
         MenuComponent,
+        RechercheComponent,
     },
     methods: {
         onLoadingStart() {
