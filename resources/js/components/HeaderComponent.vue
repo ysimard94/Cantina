@@ -4,15 +4,15 @@
             <div class="flex justify-between">
                 <div class="flex items-center w-full">
                     <!-- Logo -->
-                    <div class="mr-4">
+                    <div class="mx-auto">
                         <router-link
                             v-if="estConnecter"
                             class="flex-shrink-0 flex items-center"
                             :to="{ name: 'mes-celliers' }"
                         >
                             <img
-                                class="max-w-[54px]"
-                                src="@assets/vino-logo.png"
+                                class="max-h-[60px]"
+                                src="@assets/logo.svg"
                                 alt="Vino Logo"
                             />
                         </router-link>
@@ -22,63 +22,12 @@
                             :to="{ name: 'connexion' }"
                         >
                             <img
-                                class="max-w-[54px]"
-                                src="@assets/vino-logo.png"
+                                class="max-h-[60px]"
+                                src="@assets/logo.svg"
                                 alt="Vino Logo"
                             />
                         </router-link>
                     </div>
-                    <form
-                        v-if="estConnecter"
-                        @submit.prevent=""
-                        class="flex-grow"
-                    >
-                        <div class="relative">
-                            <label class="relative flex items-center">
-                                <input
-                                    v-model="valeurRecherche"
-                                    type="text"
-                                    class="w-full py-1 pl-2 pr-[32px] rounded"
-                                    placeholder="Recherchez une bouteille SAQ"
-                                    @keyup="recherche"
-                                />
-                                <button
-                                    class="material-symbols-outlined absolute right-0 p-1"
-                                >
-                                    search
-                                </button>
-                            </label>
-                            <ul
-                                class="absolute mt-3 bg-white w-full rounded shadow z-10 transform transition-all duration-300"
-                                :class="{
-                                    'transform -translate-y-1 opacity-0':
-                                        rechercheVide,
-                                    'transform translate-y-0 opacity-100':
-                                        !rechercheVide,
-                                }"
-                            >
-                                <li
-                                    class="mx-4 flex text-left"
-                                    :class="{
-                                        'border-b-2':
-                                            index !== bouteilles.length - 1,
-                                    }"
-                                    v-for="(bouteille, index) in bouteilles"
-                                >
-                                    <router-link
-                                        :to="{
-                                            name: 'resultat-recherche',
-                                            params: { valeur: bouteille.nom },
-                                        }"
-                                        @click="reinitialiserRecherche()"
-                                        class="pt-1"
-                                    >
-                                        {{ bouteille.nom }}
-                                    </router-link>
-                                </li>
-                            </ul>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>

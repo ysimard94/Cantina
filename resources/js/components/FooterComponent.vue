@@ -49,8 +49,6 @@
                     menu
                 </button>
             </div>
-            <!-- Sinon montrer le logo -->
-            <img src="@assets/vino-logo.png" alt="Logo Vino" v-if="!estConnecter" class="w-[48px] py-3 m-auto">
         </div>
     </footer>
 </template>
