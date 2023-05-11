@@ -14,7 +14,7 @@
                     <button :class="{ 'actif': pageActive === 1 }"
                         class="material-symbols-outlined text-white text-2xl px-5 py-3 w-full"
                         @click=" fermerMenu(); changerPageActive(1);">
-                        account_circle
+                        feed
                     </button>
                 </router-link>
                 <div class="w-20" :class="{ 'actif': pageActive === 1 }"></div>

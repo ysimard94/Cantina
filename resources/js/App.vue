@@ -14,7 +14,7 @@
             </router-view>
             <MenuComponent
                 :menu-ouvert="menuOuvert"
-                @fermer-menu="menuOuvert = false"
+                @fermer-menu="menuOuvert = false; pageActive = -1"
                 @reinitialiser-page="pageActive = -1"
             />
             <RechercheComponent 
@@ -27,7 +27,7 @@
             :recherche-active="rechercheOuverte"
             @toggle-menu="menuOuvert = !menuOuvert"
             @toggle-recherche="rechercheOuverte = !rechercheOuverte"
-            @fermer-menu="menuOuvert = false"
+            @fermer-menu="menuOuvert = false;"
             @fermer-recherche="rechercheOuverte = false"
             @changer-page-active="pageActive = $event"
         />

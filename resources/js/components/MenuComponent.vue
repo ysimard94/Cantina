@@ -15,10 +15,15 @@
                     @click="fermerMenu"
                     >Obtenir les bouteilles SAQ</router-link
                 >
-                <!-- <router-link :to="{ name: 'catalogue.index' }" class="w-full text-2xl text-white py-2" @click="fermerMenu">Catalogue</router-link> -->
+                <router-link
+                    :to="{ name: 'modifier-utilisateur' }"
+                    class="w-full text-2xl text-white py-2"
+                    @click="fermerMenu"
+                    >Modifier profil</router-link
+                >
                 <router-link
                     :to="{ name: 'a-propos' }"
-                    class="w-full text-2xl text-white py-2 mt-auto"
+                    class="w-full text-2xl text-white py-2"
                     @click="fermerMenu"
                     >À propos</router-link
                 >
