@@ -1,59 +1,66 @@
 <template>
-    <div class="bg-bg_rose flex overflow-hidden rounded-lg shadow h-full mx-2">
+    <div
+        class="h-[162px] bg-bg_rose flex items-stretch overflow-hidden rounded-lg shadow h-full mx-2"
+    >
+        <!-- catégorie -->
         <div
-            class="w-6 self-stretch"
+            class="w-[12px]"
             :class="categorieBgColor(archive.bouteille.categorie.nom)"
         ></div>
-        <div class="flex items-center justify-center my-4 mx-2">
-            <div class="relative flex items-center justify-center">
-                <img
-                    :src="imageUrl(archive.bouteille)"
-                    :alt="archive.bouteille.nom"
-                    class="mx-auto"
-                />
-            </div>
-            <div class="flex flex-col items-start gap-4">
-                <div class="flex flex-col items-start gap-2">
-                    <router-link
-                        :to="{
-                            name: 'bouteille-details',
-                            params: { id: archive.bouteille.id },
-                        }"
+        <!-- Image -->
+        <div class="w-[75px] flex items-center justify-center">
+            <img
+                :src="imageUrl(archive.bouteille)"
+                :alt="archive.bouteille.nom"
+                class="mx-auto"
+            />
+        </div>
+
+        <div
+            class="flex flex-1 flex-col items-center justify-between my-2 mx-2 font-sans"
+        >
+            <!-- Titre -->
+            <div class="w-full flex flex-col items-start gap-2">
+                <router-link
+                    :to="{
+                        name: 'bouteille-details',
+                        params: { id: archive.bouteille.id },
+                    }"
+                >
+                    <h4
+                        class="w-[25ch] font-serif text-[15px] font-semibold text-vin-rouge text-left leading-tight underline"
                     >
-                        <h4
-                            class="font-serif text-[15px] font-semibold text-vin-rouge text-left leading-tight underline"
-                        >
-                            {{ archive.bouteille.nom }}
-                        </h4>
-                    </router-link>
-                    <span>
-                        {{ archive.bouteille.pays.nom }}
-                    </span>
-                </div>
-                <div class="w-full flex items-end justify-between">
-                    <span class="text-left block">
-                        Bu le <br />
-                        {{ formatDate(archive.created_at) }}
-                    </span>
-                    <!-- Notes -->
-                    <div class="text-gray-700 font-medium mb-2">
-                        <div class="flex items-center">
-                            <template v-for="i in 5" :key="i">
-                                <svg
-                                    :class="{
-                                        'text-vin-blanc':
-                                            archive.bouteille.note / 20 >= i,
-                                    }"
-                                    class="w-4 h-4 fill-current"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M12 2 L15.09 8.09 L23 9.54 L17.91 15.5 L19.64 23.54 L12 20.59 L4.36 23.54 L6.09 15.5 L1 9.54 L8.91 8.09 L12 2 Z"
-                                    />
-                                </svg>
-                            </template>
-                        </div>
+                        {{ archive.bouteille.nom }}
+                    </h4>
+                </router-link>
+                <span>
+                    {{ archive.bouteille.pays.nom }}
+                </span>
+            </div>
+            <div class="w-full flex items-end justify-between">
+                <!-- Pays -->
+                <span class="text-left block">
+                    Bu le <br />
+                    {{ formatDate(archive.created_at) }}
+                </span>
+                <!-- Notes -->
+                <div class="text-gray-700 font-medium mb-2">
+                    <div class="flex items-center">
+                        <template v-for="i in 5" :key="i">
+                            <svg
+                                :class="{
+                                    'text-vin-blanc':
+                                        archive.bouteille.note / 20 >= i,
+                                }"
+                                class="w-4 h-4 fill-current"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    d="M12 2 L15.09 8.09 L23 9.54 L17.91 15.5 L19.64 23.54 L12 20.59 L4.36 23.54 L6.09 15.5 L1 9.54 L8.91 8.09 L12 2 Z"
+                                />
+                            </svg>
+                        </template>
                     </div>
                 </div>
             </div>
