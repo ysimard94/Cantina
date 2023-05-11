@@ -173,7 +173,7 @@ function logout(to, from, next) {
     localStorage.removeItem("jwt-token");
 
     // Effacer le token de session
-    store.commit("resetSession");
+    // store.commit("resetSession");
 
     // Redirigé vers la page de connexion
     next();
