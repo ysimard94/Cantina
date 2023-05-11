@@ -23,9 +23,10 @@ class ArchiveController extends Controller
             try {
 
                 // Récupérer les bouteilles archivées de l'utilisateur avec les information de la bouteille et de l'utilisateur
-                $archives = Archive::with('bouteille', 'utilisateur')
+                $archives = Archive::with('bouteille.categorie', 'bouteille.pays', 'utilisateur')
                 ->where('utilisateur_id', $utilisateur->id)
                 ->get();
+
 
                 Log::info($archives);
 
