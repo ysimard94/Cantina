@@ -9,7 +9,7 @@ import ModifierUtilView from "@/views/ModifierUtilView.vue";
 import AjouterBouteilleView from "@/views/AjouterBouteilleView.vue";
 import PageNonTrouveView from "@/views/PageNonTrouveView.vue";
 import ModifierBouteilleView from "@/views/ModifierBouteilleView.vue";
-import BouteilleDetailsView from "@/views/BouteilleDetailsView.vue";
+import DetailsBouteilleView from "@/views/DetailsBouteilleView.vue";
 import ArchiveView from "@/views/ArchiveView.vue";
 
 import ResultatView from "@/views/ResultatView.vue";
@@ -120,7 +120,7 @@ const routes = [
     {
         path: "/bouteilles/:id",
         name: "bouteille-details",
-        component: BouteilleDetailsView,
+        component: DetailsBouteilleView,
         props: true,
     },
     {
