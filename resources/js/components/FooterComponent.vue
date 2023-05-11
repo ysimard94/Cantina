@@ -20,7 +20,7 @@
                 <div class="w-20" :class="{ 'actif': pageActive === 1 }"></div>
                 <button :class="{ 'bg-gray-700 rotate-45': pageActive === 2 }"
                     class="material-symbols-outlined bg-vin-blanc hover:bg-gray-700 text-white font-bold w-[68px] p-4 rounded-full transform transition-all duration-00 absolute bottom-0 text-3xl"
-                    @click="afficherMenu(); changerPageActive(pageActive === 2 ? -1 : 2)">
+                    @click="afficherMenu(); changerPageActive(pageActive === 2 || pageActive === 4 ? -1 : 2)">
                     add
                 </button>
                 <div class=" w-20" :class="{ 'actif': pageActive === 3 }"></div>
@@ -41,7 +41,7 @@
                 <!-- Si la page active est déjà celle-ci, le status de pageActive est réinitialisée à sa valeur initiale -->
                 <button :class="{ 'actif': pageActive === 4 }"
                     class="material-symbols-outlined text-white text-2xl w-full"
-                    @click="afficherMenu(); changerPageActive(pageActive === 4 ? -1 : 4)">
+                    @click="afficherMenu(); changerPageActive(pageActive === 4 || pageActive === 2 ? -1 : 4)">
                     menu
                 </button>
             </div>
