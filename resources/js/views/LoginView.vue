@@ -1,7 +1,7 @@
 <template>
     <section class="mt-8">
         <div class="mb-12">
-            <p class="text-vin-rouge text-2xl font-bold font-sans text-start mx-5">Gérez votre collection de vin et partagez votre expertise avec les autres membres de notre communauté!</p>
+            <p class="text-vin-rouge text-l font-bold font-sans text-center mx-5">Gérez votre collection de vin et partagez votre expertise avec les autres membres de notre communauté!</p>
         </div>
         <div class="bg-bg-rose m-4 p-3 shadow-md rounded">
             <form @submit.prevent="connexion">
