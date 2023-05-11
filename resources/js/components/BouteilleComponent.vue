@@ -105,10 +105,9 @@
                                     
                                 }"
                             >
-                                <span class="transform transition-all duration-500" :class="{'material-symbols-outlined rotate-90': bouteille.animationSupprimer}">
+                                <span class="transform transition-all duration-500" :class="{'material-symbols-outlined rotate-45': bouteille.animationSupprimer}">
                                     wine_bar
                                 </span>
-                                
                             </button>
                         </div>
                     </div>
