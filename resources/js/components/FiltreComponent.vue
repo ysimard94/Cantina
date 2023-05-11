@@ -3,14 +3,19 @@
         <div class="relative w-full h-full bg-white overflow-y-scroll">
             <header class="flex justify-between items-center px-4 py-4">
                 <button>
-                    <i @click="fermerFiltre" class="material-icons text-3xl text-vin-rouge">
+                    <i
+                        @click="fermerFiltre"
+                        class="material-icons text-3xl text-vin-rouge"
+                    >
                         chevron_left
                     </i>
                 </button>
 
                 <h3 class="text-xl font-semibold text-vin-rouge">Filtrer</h3>
                 <button>
-                    <span class="text-vin-rouge" @click="reinitialiserFiltre">Réinitialiser</span>
+                    <span class="text-vin-rouge" @click="reinitialiserFiltre"
+                        >Réinitialiser</span
+                    >
                 </button>
             </header>
             <!-- Barre de séparation  -->
@@ -23,37 +28,51 @@
                             Sources
                         </h4>
 
-                        <button @click="showSource = !showSource" class="text-vin-rouge flex items-center justify-center">
-                            <i class="ml-2 material-icons text-3xl text-vin-rou rouge">
+                        <button
+                            @click="showSource = !showSource"
+                            class="text-vin-rouge flex items-center justify-center"
+                        >
+                            <i
+                                class="ml-2 material-icons text-3xl text-vin-rou rouge"
+                            >
                                 {{ showSource ? "expand_less" : "expand_more" }}
                             </i>
                         </button>
                     </div>
                     <div v-show="showSource" class="flex gap-2 my-4">
-                        <div v-for="(source, index) in sources" :key="source.id" @click="toggleSource(source)" :class="[
-                            'flex',
-                            'gap-2',
-                            'items-center',
-                            'justify-center',
-                            'text-md',
-                            'py-1',
-                            'px-4',
-                            'rounded-full',
-                            'cursor-pointer',
-                            selectedSources.some(
-                                (sourceItem) => sourceItem.id === source.id
-                            )
-                                ? 'bg-vin-rouge hover:bg-vin-rouge text-white'
-                                : 'bg-gray-200 hover:bg-gray-300 text-vin-rouge',
-                        ]">
+                        <div
+                            v-for="(source, index) in sources"
+                            :key="source.id"
+                            @click="toggleSource(source)"
+                            :class="[
+                                'flex',
+                                'gap-2',
+                                'items-center',
+                                'justify-center',
+                                'text-md',
+                                'py-1',
+                                'px-4',
+                                'rounded-full',
+                                'cursor-pointer',
+                                selectedSources.some(
+                                    (sourceItem) => sourceItem.id === source.id
+                                )
+                                    ? 'bg-vin-rouge hover:bg-vin-rouge text-white'
+                                    : 'bg-gray-200 hover:bg-gray-300 text-vin-rouge',
+                            ]"
+                        >
                             <span>{{ source.nom }}</span>
-                            <span class="material-icons text-xl" :class="selectedSources.some(
-                                (sourceItem) =>
-                                    sourceItem.id === source.id
-                            )
-                                    ? 'text-white'
-                                    : 'text-vin-rouge'
-                                ">
+                            <span
+                                class="material-icons text-xl"
+                                :class="
+                                    selectedSources.some(
+                                        (sourceItem) =>
+                                            sourceItem.id === source.id
+                                    )
+                                        ? 'text-white'
+                                        : 'text-vin-rouge'
+                                "
+                            >
                                 check
                             </span>
                         </div>
@@ -67,20 +86,30 @@
                         <h4 class="text-vin-rouge text-md font-semibold">
                             Catégories
                         </h4>
-                        <button @click="showCategories = !showCategories"
-                            class="text-vin-rouge flex items-center justify-center">
-                            <i class="ml-2 material-icons text-3xl text-vin-rou rouge">
+                        <button
+                            @click="showCategories = !showCategories"
+                            class="text-vin-rouge flex items-center justify-center"
+                        >
+                            <i
+                                class="ml-2 material-icons text-3xl text-vin-rou rouge"
+                            >
                                 {{
                                     showCategories
-                                    ? "expand_less"
-                                    : "expand_more"
+                                        ? "expand_less"
+                                        : "expand_more"
                                 }}
                             </i>
                         </button>
                     </div>
-                    <div v-show="showCategories" class="flex flex-wrap gap-4 my-4">
-                        <div v-for="(categorie, index) in categories" :key="categorie.id"
-                            @click="toggleCategorie(categorie)" :class="[
+                    <div
+                        v-show="showCategories"
+                        class="flex flex-wrap gap-4 my-4"
+                    >
+                        <div
+                            v-for="(categorie, index) in categories"
+                            :key="categorie.id"
+                            @click="toggleCategorie(categorie)"
+                            :class="[
                                 'flex',
                                 'gap-2',
                                 'items-center',
@@ -97,15 +126,20 @@
                                 )
                                     ? 'bg-vin-rouge hover:bg-vin-rouge text-white'
                                     : 'bg-gray-200 hover:bg-gray-300 text-vin-rouge',
-                            ]">
+                            ]"
+                        >
                             <span>{{ categorie.nom }}</span>
-                            <span class="material-icons text-xl" :class="selectedCategories.some(
-                                (categorieItem) =>
-                                    categorieItem.id === categorie.id
-                            )
-                                    ? 'text-white'
-                                    : 'text-vin-rouge'
-                                ">
+                            <span
+                                class="material-icons text-xl"
+                                :class="
+                                    selectedCategories.some(
+                                        (categorieItem) =>
+                                            categorieItem.id === categorie.id
+                                    )
+                                        ? 'text-white'
+                                        : 'text-vin-rouge'
+                                "
+                            >
                                 check
                             </span>
                         </div>
@@ -119,37 +153,51 @@
                         <h4 class="text-vin-rouge text-md font-semibold">
                             Pays
                         </h4>
-                        <button @click="showPays = !showPays" class="text-vin-rouge flex items-center justify-center">
-                            <i class="ml-2 material-icons text-3xl text-vin-rou rouge">
+                        <button
+                            @click="showPays = !showPays"
+                            class="text-vin-rouge flex items-center justify-center"
+                        >
+                            <i
+                                class="ml-2 material-icons text-3xl text-vin-rou rouge"
+                            >
                                 {{ !showPays ? "expand_less" : "expand_more" }}
                             </i>
                         </button>
                     </div>
                     <div v-show="!showPays" class="flex flex-wrap gap-4 my-4">
-                        <div v-for="(oPays, index) in pays" :key="oPays.id" @click="togglePays(oPays)" :class="[
-                            'flex',
-                            'gap-2',
-                            'items-center',
-                            'justify-center',
-                            'text-md',
-                            'py-1',
-                            'px-4',
-                            'rounded-full',
-                            'cursor-pointer',
+                        <div
+                            v-for="(oPays, index) in pays"
+                            :key="oPays.id"
+                            @click="togglePays(oPays)"
+                            :class="[
+                                'flex',
+                                'gap-2',
+                                'items-center',
+                                'justify-center',
+                                'text-md',
+                                'py-1',
+                                'px-4',
+                                'rounded-full',
+                                'cursor-pointer',
 
-                            selectedPays.some(
-                                (PaysItem) => PaysItem.id === oPays.id
-                            )
-                                ? 'bg-vin-rouge hover:bg-vin-rouge text-white'
-                                : 'bg-gray-200 hover:bg-gray-300 text-vin-rouge',
-                        ]">
+                                selectedPays.some(
+                                    (PaysItem) => PaysItem.id === oPays.id
+                                )
+                                    ? 'bg-vin-rouge hover:bg-vin-rouge text-white'
+                                    : 'bg-gray-200 hover:bg-gray-300 text-vin-rouge',
+                            ]"
+                        >
                             <span>{{ oPays.nom }}</span>
-                            <span class="material-icons text-xl" :class="selectedPays.some(
-                                (PaysItem) => PaysItem.id === oPays.id
-                            )
-                                    ? 'text-white'
-                                    : 'text-vin-rouge'
-                                ">
+                            <span
+                                class="material-icons text-xl"
+                                :class="
+                                    selectedPays.some(
+                                        (PaysItem) => PaysItem.id === oPays.id
+                                    )
+                                        ? 'text-white'
+                                        : 'text-vin-rouge'
+                                "
+                            >
                                 check
                             </span>
                         </div>
@@ -163,19 +211,34 @@
                         <h4 class="text-vin-rouge text-md font-semibold">
                             Prix
                         </h4>
-                        <div class="flex gap-2 items-center justify-center text-vin-rouge">
+                        <div
+                            class="flex gap-2 items-center justify-center text-vin-rouge"
+                        >
                             <div>
-                                <input :style="{ width: inputPrixMinWidth }" type="text" v-model="prixMin" />
+                                <input
+                                    :style="{ width: inputPrixMinWidth }"
+                                    type="text"
+                                    v-model="prixMin"
+                                />
                                 <span>$</span>
                             </div>
                             <span> - </span>
                             <div>
-                                <input :style="{ width: inputPrixMaxWidth }" type="text" v-model="prixMax" />
+                                <input
+                                    :style="{ width: inputPrixMaxWidth }"
+                                    type="text"
+                                    v-model="prixMax"
+                                />
                                 <span>$</span>
                             </div>
 
-                            <button @click="showPrix = !showPrix" class="text-vin-rouge flex items-center justify-center">
-                                <i class="ml-2 material-icons text-3xl text-vin-rou rouge">
+                            <button
+                                @click="showPrix = !showPrix"
+                                class="text-vin-rouge flex items-center justify-center"
+                            >
+                                <i
+                                    class="ml-2 material-icons text-3xl text-vin-rou rouge"
+                                >
                                     {{
                                         showPrix ? "expand_less" : "expand_more"
                                     }}
@@ -186,11 +249,23 @@
                     <div v-show="showPrix">
                         <div class="flex my-4">
                             <label class="mr-4" for="prixMin">Min </label>
-                            <input type="range" :min="calcPrixMin" :max="calcPrixMax" step="5" v-model="prixMin" />
+                            <input
+                                type="range"
+                                :min="calcPrixMin"
+                                :max="calcPrixMax"
+                                step="5"
+                                v-model="prixMin"
+                            />
                         </div>
                         <div class="flex">
                             <label class="mr-4" for="prixMax">Max </label>
-                            <input type="range" :min="prixMin" :max="calcPrixMax" step="5" v-model="prixMax" />
+                            <input
+                                type="range"
+                                :min="prixMin"
+                                :max="calcPrixMax"
+                                step="5"
+                                v-model="prixMax"
+                            />
                         </div>
                     </div>
                 </div>
@@ -202,8 +277,13 @@
                         <h4 class="text-vin-rouge text-md font-semibold">
                             Notes
                         </h4>
-                        <button @click="showEtoiles = !showEtoiles" class="text-vin-rouge flex items-center justify-center">
-                            <i class="ml-2 material-icons text-3xl text-vin-rou rouge">
+                        <button
+                            @click="showEtoiles = !showEtoiles"
+                            class="text-vin-rouge flex items-center justify-center"
+                        >
+                            <i
+                                class="ml-2 material-icons text-3xl text-vin-rou rouge"
+                            >
                                 {{
                                     showEtoiles ? "expand_less" : "expand_more"
                                 }}
@@ -211,17 +291,35 @@
                         </button>
                     </div>
                     <div v-show="showEtoiles">
-                        <div v-for="line in 4" :key="'line-' + line" class="flex justify-start items-center">
-                            <label class="flex justify-start items-center" :for="'option-' + line">
-                                <i v-for="star in line" :key="'star-' + star"
-                                    class="material-icons text-3xl text-vin-blanc">
+                        <div
+                            v-for="line in 4"
+                            :key="'line-' + line"
+                            class="flex justify-start items-center"
+                        >
+                            <label
+                                class="flex justify-start items-center"
+                                :for="'option-' + line"
+                            >
+                                <i
+                                    v-for="star in line"
+                                    :key="'star-' + star"
+                                    class="material-icons text-3xl text-vin-blanc"
+                                >
                                     stars
                                 </i>
 
-                                <span class="text-vin-rouge mx-6">& plus</span></label>
+                                <span class="text-vin-rouge mx-6"
+                                    >& plus</span
+                                ></label
+                            >
 
-                            <input type="radio" :id="'option-' + line" :value="line" v-model="nbrEtoileFiltrer"
-                                class="ml-auto mr-2" />
+                            <input
+                                type="radio"
+                                :id="'option-' + line"
+                                :value="line"
+                                v-model="nbrEtoileFiltrer"
+                                class="ml-auto mr-2"
+                            />
                         </div>
                     </div>
                 </div>
@@ -229,11 +327,16 @@
                 <div class="border-t border-gray-300 mb-6"></div>
                 <!-- Validation -->
                 <div class="mb-8">
-                    <button :disabled="filteredBouteilles.length === 0" @click="handleValiderFiltre"
-                        class="w-full text-white py-2 px-4 rounded-full" :class="filteredBouteilles.length === 0
+                    <button
+                        :disabled="filteredBouteilles.length === 0"
+                        @click="handleValiderFiltre"
+                        class="w-full text-white py-2 px-4 rounded-full"
+                        :class="
+                            filteredBouteilles.length === 0
                                 ? 'bg-gray-500'
                                 : 'bg-vin-rouge  hover:bg-vin-rouge'
-                            ">
+                        "
+                    >
                         Voir ({{ filteredBouteilles.length }}) résultats
                     </button>
                 </div>
@@ -254,8 +357,12 @@ export default {
             type: [],
             required: true,
         },
+        parent: {
+            type: String,
+            required: true,
+        },
     },
-    data () {
+    data() {
         return {
             filteredBouteilles: [],
             categories: [],
@@ -280,10 +387,10 @@ export default {
     },
     computed: {
         adjustedPrixMax: {
-            get () {
+            get() {
                 return this.prixMax;
             },
-            set (newValue) {
+            set(newValue) {
                 if (newValue < this.prixMin) {
                     this.prixMax = this.prixMin;
                 } else {
@@ -292,14 +399,14 @@ export default {
             },
         },
         // ajuster la largeur des inputs de prix
-        inputPrixMinWidth () {
+        inputPrixMinWidth() {
             return `${this.prixMin.toString().length * 12}px`;
         },
-        inputPrixMaxWidth () {
+        inputPrixMaxWidth() {
             return `${this.prixMax.toString().length * 12}px`;
         },
         // Calculer le prix minimum de l’ensemble des prix de bouteilles
-        calcPrixMin () {
+        calcPrixMin() {
             if (this.bouteilles.length > 0) {
                 return Math.min(
                     ...this.bouteilles.map((bouteille) => {
@@ -311,7 +418,7 @@ export default {
             }
         },
         //  Calculer le prix maximum de l’ensemble des prix de bouteilles
-        calcPrixMax () {
+        calcPrixMax() {
             if (this.bouteilles.length > 0) {
                 return Math.max(
                     ...this.bouteilles.map((bouteille) => {
@@ -325,7 +432,7 @@ export default {
 
         // Filtrer les bouteilles selon les critères sélectionnés, la fonction est appelé à chaque changement de valeur
         // Vérifier si la bouteille correspond aux critères sélectionnés (catégorie, pays, source, prix)
-        filteredItems () {
+        filteredItems() {
             return this.bouteilles.filter((bouteille) => {
                 const estCategorieSelectionnee =
                     this.selectedCategories.length === 0 ||
@@ -358,7 +465,7 @@ export default {
                     estSourceSelectionnee &&
                     estPrixInclus &&
                     Math.floor((bouteille.note * 5) / 100) >=
-                    this.nbrEtoileFiltrer
+                        this.nbrEtoileFiltrer
                 );
             });
         },
@@ -399,22 +506,37 @@ export default {
         },
     },
     methods: {
-        handleValiderFiltre () {
-            this.setCellierFiltreValeurs({
-                storeSelectedCategories: this.selectedCategories,
-                storeSelectedPays: this.selectedPays,
-                storeSelectedSources: this.selectedSources,
-                storeSelectedPrixMin: this.prixMin,
-                storeSelectedPrixMax: this.prixMax,
-                storeSelectedNbrEtoileFiltrer: this.nbrEtoileFiltrer,
-            });
+        handleValiderFiltre() {
+            switch (this.parent) {
+                case "cellier":
+                    this.setCellierFiltreValeurs({
+                        storeSelectedCategories: this.selectedCategories,
+                        storeSelectedPays: this.selectedPays,
+                        storeSelectedSources: this.selectedSources,
+                        storeSelectedPrixMin: this.prixMin,
+                        storeSelectedPrixMax: this.prixMax,
+                        storeSelectedNbrEtoileFiltrer: this.nbrEtoileFiltrer,
+                    });
+                    break;
+                case "archive":
+                    this.setArchiveFiltreValeurs({
+                        storeSelectedCategories: this.selectedCategories,
+                        storeSelectedPays: this.selectedPays,
+                        storeSelectedSources: this.selectedSources,
+                        storeSelectedPrixMin: this.prixMin,
+                        storeSelectedPrixMax: this.prixMax,
+                        storeSelectedNbrEtoileFiltrer: this.nbrEtoileFiltrer,
+                    });
+                    break;
+            }
+
             this.filtrer();
             this.$emit("fermer-filtre");
         },
-        filtrer () {
+        filtrer() {
             this.$emit("filtrer-bouteilles", this.filteredBouteilles);
         },
-        updateFiltredBouteille () {
+        updateFiltredBouteille() {
             this.filteredBouteilles = this.filteredItems;
         },
         // Fetch les catégories
@@ -448,7 +570,7 @@ export default {
         },
 
         // Mettre à jour les catégories sélectionnées
-        toggleCategorie (oCategorie) {
+        toggleCategorie(oCategorie) {
             const selectedIndex = this.selectedCategories.findIndex(
                 (categorie) => categorie.id === oCategorie.id
             );
@@ -460,7 +582,7 @@ export default {
         },
 
         // Mettre à jour les sources sélectionnées
-        toggleSource (oSource) {
+        toggleSource(oSource) {
             const selectedIndex = this.selectedSources.findIndex(
                 (source) => source.id === oSource.id
             );
@@ -473,7 +595,7 @@ export default {
         },
 
         // Mettre à jour les pays sélectionnés
-        togglePays (oPays) {
+        togglePays(oPays) {
             const selectedIndex = this.selectedPays.findIndex(
                 (pays) => pays.id === oPays.id
             );
@@ -486,12 +608,12 @@ export default {
         },
 
         // Fermer le filtre en déclenchant l'action fermer-filtre du parent
-        fermerFiltre () {
+        fermerFiltre() {
             this.$emit("fermer-filtre");
         },
 
         // Réinitialiser les filtres
-        reinitialiserFiltre () {
+        reinitialiserFiltre() {
             this.filteredBouteilles = this.bouteilles;
             this.selectedCategories = [];
             this.selectedPays = [];
@@ -500,56 +622,45 @@ export default {
             this.prixMax = this.calcPrixMax;
             this.nbrEtoileFiltrer = 0;
         },
-        ...mapMutations(["setCellierFiltreValeurs"]),
+        ...mapMutations(["setCellierFiltreValeurs", "setArchiveFiltreValeurs"]),
     },
-    mounted () {
+    mounted() {
+        let storeValeur = null;
+        switch (this.$props.parent) {
+            case "cellier":
+                storeValeur = this.$store.getters.cellierFiltreValeurs;
+                break;
+            case "archive":
+                storeValeur = this.$store.getters.archiveFiltreValeurs;
+                break;
+            default:
+                storeValeur = this.$store.getters.cellierFiltreValeurs;
+                break;
+        }
         //  Initialiser les valeurs des filtres
         this.fetchCategories();
         this.pays = this.extrairePays(this.bouteilles);
-        this.selectedCategories = this.$store.getters.cellierFiltreValeurs
-            .storeSelectedCategories
-            ? JSON.parse(
-                JSON.stringify(
-                    this.$store.getters.cellierFiltreValeurs
-                        .storeSelectedCategories
-                )
-            )
+        this.selectedCategories = storeValeur.storeSelectedCategories
+            ? JSON.parse(JSON.stringify(storeValeur.storeSelectedCategories))
             : [];
-        this.selectedPays = this.$store.getters.cellierFiltreValeurs
-            .storeSelectedPays
-            ? JSON.parse(
-                JSON.stringify(
-                    this.$store.getters.cellierFiltreValeurs.storeSelectedPays
-                )
-            )
+        this.selectedPays = storeValeur.storeSelectedPays
+            ? JSON.parse(JSON.stringify(storeValeur.storeSelectedPays))
             : [];
-        this.selectedSources = this.$store.getters.cellierFiltreValeurs
-            .storeSelectedSources
-            ? JSON.parse(
-                JSON.stringify(
-                    this.$store.getters.cellierFiltreValeurs
-                        .storeSelectedSources
-                )
-            )
+        this.selectedSources = storeValeur.storeSelectedSources
+            ? JSON.parse(JSON.stringify(storeValeur.storeSelectedSources))
             : [];
-        this.prixMin = this.$store.getters.cellierFiltreValeurs
-            .storeSelectedPrixMin
-            ? this.$store.getters.cellierFiltreValeurs.storeSelectedPrixMin
+        this.prixMin = storeValeur.storeSelectedPrixMin
+            ? storeValeur.storeSelectedPrixMin
             : this.calcPrixMin;
 
-        this.prixMax = this.$store.getters.cellierFiltreValeurs
-            .storeSelectedPrixMax
-            ? this.$store.getters.cellierFiltreValeurs.storeSelectedPrixMax
+        this.prixMax = storeValeur.storeSelectedPrixMax
+            ? storeValeur.storeSelectedPrixMax
             : this.calcPrixMax;
 
-        this.nbrEtoileFiltrer = this.$store.getters.cellierFiltreValeurs
-            .storeSelectedNbrEtoileFiltrer
+        this.nbrEtoileFiltrer = storeValeur.storeSelectedNbrEtoileFiltrer
             ? JSON.parse(
-                JSON.stringify(
-                    this.$store.getters.cellierFiltreValeurs
-                        .storeSelectedNbrEtoileFiltrer
-                )
-            )
+                  JSON.stringify(storeValeur.storeSelectedNbrEtoileFiltrer)
+              )
             : 0;
     },
 };
