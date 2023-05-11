@@ -217,22 +217,7 @@
                 </p>
             </div>
         </div>
-        <!-- Bouton temporaire pour afficher la page des archives -->
-        <router-link
-            :to="{
-                name: 'archive-bouteille',
-                params: {
-                    utilisateurId: this.$store.getters.session.utilisateur_id,
-                },
-            }"
-            class="transition duration-1000 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-        >
-            <button
-                class="material-symbols-outlined bg-vin_blanc hover:bg-gray-700 focus:bg-gray-700 text-white font-bold py-4 px-4 rounded-full transform transition-all duration-00"
-            >
-                inbox_customize
-            </button>
-        </router-link>
+
         <router-link
             :to="{
                 name: 'ajouter-bouteille',
