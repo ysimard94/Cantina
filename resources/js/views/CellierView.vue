@@ -158,7 +158,7 @@
                 </div>
                 <div class="flex flex-col text-left mt-4">
                     <label for="commentaire">Commentaire</label>
-                    <textarea name="commentaire" id="commentaire" class="mt-2" rows="4"></textarea>
+                    <textarea v-model="commentaire" id="commentaire" class="mt-2" rows="4"></textarea>
                 </div>
                 <div class="flex flex-row-reverse mt-4">
                     <button type="submit">
@@ -177,6 +177,7 @@
 import BouteilleComponent from "@/components/BouteilleComponent.vue";
 import FiltreComponent from "@/components/FiltreComponent.vue";
 import BouteilleDataService from "@/services/BouteilleDataService.js";
+import AvisDataService from "@/services/AvisDataService.js";
 import CellierDataService from "@/services/CellierDataService.js";
 import AjouterCellierComponent from "@/components/AjouterCellierComponent.vue";
 import ModifierCellierComponent from "@/components/ModifierCellierComponent.vue";
@@ -207,8 +208,9 @@ export default {
             estSHow: false,
             estConfirmé: false,
             note: 0,
+            commentaire: "",
             afficheModale: false,
-            bouteilleasup: []
+            bouteilleasupprimer: []
         };
     },
     async mounted () {
@@ -307,12 +309,12 @@ export default {
             this.estConfirmé = true
             this.afficheModale = false
 
-            this.supprimerBouteille(this.bouteilleasup)
+            this.supprimerBouteille(this.bouteilleasupprimer)
         },
         //fait apparaître une modale puis supprimer une bouteille dans le cellier actif puis l'archiver
         async supprimerBouteille (bouteille) {
             if (!this.estConfirmé) {
-                this.bouteilleasup = bouteille
+                this.bouteilleasupprimer = bouteille
                 this.ouvrirModale()
             } else if (this.estConfirmé) {
                 try {
@@ -340,6 +342,20 @@ export default {
                 } catch (error) {
                     console.log(error);
                 }
+            }
+        },
+
+        async sendAvis () {
+            try {
+                await AvisDataService.sendAvisBouteille({
+                    bouteille_id: this.bouteilleasupprimer.id,
+                    utilisateur_id: this.$store.getters.session.utilisateur_id,
+                    note: this.note,
+                    commentaire: this.commentaire,
+                })
+                this.afficheModale = false
+            } catch (error) {
+                console.log(error.response)
             }
         },
 

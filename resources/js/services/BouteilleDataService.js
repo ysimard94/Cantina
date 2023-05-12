@@ -62,10 +62,6 @@ class BouteilleDataService {
             `/liste-achats/${listeId}+${quantite}+${utilisateurId}`
         );
     }
-    async AvisBouteille(bouteilleId) {
-        return await apiClient.get( `/avis/${bouteilleId}`
-        );
-    }
 }
 
 export default new BouteilleDataService();
