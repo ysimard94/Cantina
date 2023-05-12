@@ -23,7 +23,13 @@
             <div class="bg-bg_rose overflow-hidden shadow rounded-lg px-2 py-2 m-4">
                 <img :src="bouteille.photo" alt="Bottle image" class="w-16 h-32 object-cover mx-auto ">
                 <div class="px-4 py-4">
-                    <h4 class="text-lg font-semibold text-vin_rouge text-left font-serif">{{ bouteille.nom }}</h4>
+                    <router-link
+                            :to="{
+                                name: 'bouteille-details',
+                                params: { id: bouteille.id },
+                            }"
+                        >
+                    <h4 class="text-lg font-semibold text-vin_rouge text-left font-serif underline">{{ bouteille.nom }}</h4></router-link>
                     <div class="text-left font-serif font-bold mt-2 text-lg">$ {{ bouteille.prix }}</div>
                     <div class="mt-2 flex justify-between items-center">
                         <div class="font-sans">

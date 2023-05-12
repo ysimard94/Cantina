@@ -1,5 +1,5 @@
 <template>
-    <div 
+    <div
     :class="{
                 'transform translate-y-5 opacity-0': !rechercheOuverte,
                 'transform translate-y-0 opacity-100': rechercheOuverte,
@@ -28,7 +28,7 @@
                                     index !== bouteilles.length - 1,
                             }"
                             v-for="(bouteille, index) in bouteilles"
-                        >
+                        :key="index">
                             <router-link
                                 :to="{
                                     name: 'resultat-recherche',
@@ -58,7 +58,7 @@
                 </div>
             </form>
             <span>
-                <router-link 
+                <router-link
                     :to=" { name: 'ajouter-bouteille' }"
                     @click="reinitialiserRecherche(); reinitialiserPage();"
                     class="text-vin-rouge border-b border-vin-rouge hover:text-red-700 ml-2"
