@@ -24,7 +24,7 @@
                 <div class="w-full flex justify-between">
                     <router-link
                         :to="{
-                            name: 'bouteille-details',
+                           name: 'bouteille-details',
                             params: { id: archive.bouteille.id },
                         }"
                     >
