@@ -11,6 +11,7 @@ use App\Http\Controllers\PaysController;
 use App\Http\Controllers\CellierController;
 use App\Http\Controllers\ListeAchatController;
 use App\Http\Controllers\UtilisateurController;
+use App\Http\Controllers\AvisController;
 
 
 
@@ -56,7 +57,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/bouteille/{bouteille}', [BouteilleController::class, 'destroyBouteille']); // Supprimer une bouteille
     Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}+{quantite}', [BouteilleController::class, 'ajoutBouteilleAuCellier']); // Ajouter une bouteille à un cellier
     Route::delete('/celliers/{cellier}/{bouteille}', [BouteilleController::class, 'supprimerBouteilleDansCellier']); // Supprimer une bouteille dans un cellier
-    
+
     // Archives
     Route::post('/archives/{cellier}/{bouteille}', [ArchiveController::class, 'store']); // Archiver une bouteille
     Route::get('/archives/{utilisateur}', [ArchiveController::class, 'index']); // Obtenir les archives d'un utilisateur
@@ -64,8 +65,11 @@ Route::middleware('auth:api')->group(function () {
     // Liste d'achats
     Route::get('/liste-achats/{utilisateur}', [ListeAchatController::class, 'index']); // Obtenir la liste d'achats d'un utilisateur
     Route::delete('/liste-achats/{listeId}+{quantite}+{utilisateurId}', [ListeAchatController::class, 'destroy']); // Ajouter une bouteille à la liste d'achats
-    
+
+    //Avis
+    Route::get('/avis/{bouteilleId}', [AvisController::class, 'index']); // afficher les avis pour chaque bouteille
     // Résultats de recherche
+
     Route::get('/resultats/{valeur}', [BouteilleController::class, 'getResultatsBouteilles']); // Obtenir une bouteille
     // Pays
     Route::get('/pays', [PaysController::class, 'index']); // Obtenir tous les pays
