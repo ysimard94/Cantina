@@ -63,6 +63,7 @@ Route::middleware('auth:api')->group(function () {
 
     // Liste d'achats
     Route::get('/liste-achats/{utilisateur}', [ListeAchatController::class, 'index']); // Obtenir la liste d'achats d'un utilisateur
+    Route::delete('/liste-achats/{listeId}+{quantite}+{utilisateurId}', [ListeAchatController::class, 'destroy']); // Ajouter une bouteille à la liste d'achats
     
     // Résultats de recherche
     Route::get('/resultats/{valeur}', [BouteilleController::class, 'getResultatsBouteilles']); // Obtenir une bouteille

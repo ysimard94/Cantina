@@ -163,7 +163,7 @@ class BouteilleController extends Controller
             // Retourner une réponse
             return response()->json([
                 'status' => 'success',
-                'message' => 'Votre bouteille a été ajoutée avec succès!',
+                'message' => 'Votre bouteille a été ajoutée au cellier avec succès!',
             ], 201);
 
         } catch (\Exception $e) {

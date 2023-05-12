@@ -43,7 +43,7 @@
                 </div>
                 <div class="flex justify-between items-center mx-3 mb-3 hover:text-geen-600">
                     <!-- Champ select de tous les celliers de l'utilisateur -->
-                    <select id="select-cellier"
+                    <select id="cellier"
                         class="p-2 font-sans w-full rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <option disabled>-- Sélectionner un cellier --</option>
                         <option v-for="(cellier) in celliers" :value="cellier.id" :key="cellier.id">{{ cellier.nom }}
@@ -55,7 +55,7 @@
                     <!-- Bouton pour ajouter la bouteille au cellier -->
                     <button
                         class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 focus:text-green-600 hover:scale-125 active:scale-90"
-                        @click="ajouterBouteille(bouteille.id, $event, bouteille.quantite)">add</button>
+                        @click="ajouterBouteille(bouteille.id, $event)">add</button>
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@ export default {
 
         // Méthode pour ajouter la bouteille au cellier sélectionné ainsi que la quantité
         async ajouterBouteille(bouteilleId, event) {
-            let cellierId = event.target.parentNode.querySelector("#select-cellier").value;
+            let cellierId = event.target.parentNode.querySelector("#cellier").value;
             let quantite = event.target.parentNode.querySelector("#quantite").value;
             try {
                 const reponse = await BouteilleDataService.ajouterBouteilleAuCellier(cellierId, bouteilleId, quantite);
