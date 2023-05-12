@@ -229,9 +229,7 @@ class BouteilleController extends Controller
     {
         try {
             // Vérifier si la bouteille se trouve dans le cellier de l'utilisateur authentifié
-            $bouteille = Bouteille::whereHas('celliers', function ($query) {
-                $query->where('utilisateur_id', Auth::id());
-            })->with('categorie', 'pays')->find($bouteille->id);
+            $bouteille = Bouteille::with('categorie', 'pays')->find($bouteille->id);
 
             if ($bouteille) {
                 // Renvoyer la bouteille avec pays et catégorie
