@@ -58,7 +58,13 @@ class BouteilleDataService {
     }
 
     async supprimerBouteilleDeLaListe(listeId, quantite, utilisateurId) {
-        return await apiClient.delete(`/liste-achats/${listeId}+${quantite}+${utilisateurId}`);
+        return await apiClient.delete(
+            `/liste-achats/${listeId}+${quantite}+${utilisateurId}`
+        );
+    }
+    async AvisBouteille(bouteilleId) {
+        return await apiClient.get( `/avis/${bouteilleId}`
+        );
     }
 }
 

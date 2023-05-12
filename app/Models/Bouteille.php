@@ -48,4 +48,8 @@ class Bouteille extends Model
     {
         return $this->hasMany(Archive::class);
     }
+    public function avis()
+    {
+        return $this->hasMany(Avis::class);
+    }
 }

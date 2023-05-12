@@ -66,4 +66,8 @@ class Utilisateur extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Archive::class);
     }
+    public function avis()
+    {
+        return $this->hasMany(Avis::class);
+    }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="p-4 sm:p-6 md:p-8 max-w-5xl mx-auto">
+    <div class="p-4 sm:p-6 md:p-8 max-w-5xl">
         <button @click="$router.go(-1)"
             class="bg-vin_blanc hover:bg-gray-700 focus:bg-gray-700 text-white font-bold rounded-full cursor-pointer transform transition-all duration-200 flex items-center">
             <i class="material-symbols-outlined py-4 px-4">arrow_back</i>
@@ -10,10 +10,10 @@
                 <img :src="bouteille.photo" :alt="bouteille.nom" class="w-full h-auto">
             </div>
 
-            <div class="absolute top-0 right-0 z-10 flex flex-col items-center justify-center">
+            <!--<div class="absolute top-0 right-0 z-10 flex flex-col items-center justify-center">
                 <span
                     class="material-symbols-outlined hover:bg-white w-10 h-10 rounded-lg text-vin-rouge text-4xl m-2">format_list_bulleted_add</span>
-            </div>
+            </div> -->
 
             <h1 class="text-xl md:text-4xl font-bold text-vin-rouge mb-4">{{ bouteille.nom }}</h1>
 
@@ -37,7 +37,7 @@
             </div>
         </section>
 
-        <ReviewsBouteilleComponent />
+        <ReviewsBouteilleComponent  :bouteilleId="bouteille.id" v-if="bouteille.id"/>
     </div>
 </template>
 
