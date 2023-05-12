@@ -208,6 +208,7 @@ export default {
             estConfirmé: false,
             note: 0,
             afficheModale: false,
+            bouteilleasup: []
         };
     },
     async mounted () {
@@ -298,17 +299,22 @@ export default {
                 console.log(error);
             }
         },
+        //ouvrir et fermer la modale, fermer renvoie la bouteille à supprimer vers la fonction supprimerBouteille
         ouvrirModale () {
             this.afficheModale = true
         },
         fermerModale () {
-            this.afficheModale = false
             this.estConfirmé = true
+            this.afficheModale = false
+
+            this.supprimerBouteille(this.bouteilleasup)
         },
-        // supprimer une bouteille dans le cellier actif puis l'archiver
+        //fait apparaître une modale puis supprimer une bouteille dans le cellier actif puis l'archiver
         async supprimerBouteille (bouteille) {
-            this.ouvrirModale()
-            if (this.estConfirmé) {
+            if (!this.estConfirmé) {
+                this.bouteilleasup = bouteille
+                this.ouvrirModale()
+            } else if (this.estConfirmé) {
                 try {
                     // Archiver la bouteille
 
