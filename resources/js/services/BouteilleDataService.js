@@ -56,6 +56,10 @@ class BouteilleDataService {
     async getListeBouteilles(utilisateurId) {
         return await apiClient.get(`/liste-achats/${utilisateurId}`);
     }
+
+    async supprimerBouteilleDeLaListe(listeId, quantite, utilisateurId) {
+        return await apiClient.delete(`/liste-achats/${listeId}+${quantite}+${utilisateurId}`);
+    }
 }
 
 export default new BouteilleDataService();

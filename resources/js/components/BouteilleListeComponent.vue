@@ -1,6 +1,7 @@
 <template>
+    
     <div
-        class="h-[162px] bg-bg_rose flex items-stretch overflow-hidden rounded-lg shadow mx-2"
+        class=" min-h-[162px] bg-bg_rose flex items-stretch overflow-hidden rounded-lg shadow mx-2"
     >
         <!-- catégorie -->
         <div
@@ -17,7 +18,7 @@
         </div>
 
         <div
-            class="flex flex-1 flex-col items-center justify-between my-2 mx-2 font-sans"
+            class="flex flex-1 flex-col items-center justify-between my-2 mx-2 font-sans text-sm"
         >
             <!-- Titre -->
             <div class="w-full flex flex-col items-start gap-2">
@@ -37,9 +38,9 @@
                     {{ liste.bouteille.pays.nom }}
                 </span>
             </div>
-            <div class="w-full flex justify-between">
+            <div class="w-full flex justify-between" :class="{'flex-col': celliers.length >= 2}">
                 <!-- Pays -->
-                <div>
+                <div fl>
                     <span class="text-left block">
                         Qté: {{ liste.quantite }}
                     </span>
@@ -48,14 +49,37 @@
                     </span>
                 </div>
                 <!-- Notes -->
-                <div class="text-gray-700 font-medium mt-auto align-bottom">
-                    <div class="flex items-center">
+                <div class="text-gray-700 font-medium mt-auto align-bottom p">
+                    <div class="flex items-center" >
+                        <template v-if="celliers.length === 1">
+                            <select id="cellier" hidden>
+                                <option
+                                    v-for="cellier in celliers"
+                                    :key="cellier.id"
+                                    :value="cellier.id"
+                                >
+                                </option>
+                            </select>
+                        </template>
+                        <template v-else>
+                            <select id="cellier" class="p-2 font-sans w-full mr-2 rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option disabled>Choisir un cellier</option>
+                                <option
+                                    v-for="cellier in celliers"
+                                    :key="cellier.id"
+                                    :value="cellier.id"
+                                >
+                                    {{ cellier.nom }}
+                                </option>
+                            </select>
+                        </template>
+                        <input type="hidden" :value="liste.quantite" id="quantite">
                         <button
                         class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 focus:text-green-600 hover:scale-125 active:scale-90"
-                        @click="ajouterBouteille(bouteille.id, $event, bouteille.quantite)">add</button>
+                        @click="ajouterBouteille(liste.bouteille.id, $event, liste)">add</button>
                         <button
                         class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-red-600 focus:text-red-600 hover:scale-110 active:scale-90"
-                        @click="liste.bouteille.quantite - 1">delete</button>
+                        @click="supprimerBouteille(liste); messageSupprimer()">delete</button>
                     </div>
                 </div>
             </div>
@@ -64,19 +88,12 @@
 </template>
 
 <script>
+import BouteilleDataService from "@/services/BouteilleDataService.js";
 export default {
     name: "BouteilleListeComponent",
     props: {
-        liste: {
-            type: Object,
-            required: true,
-            default: () => [],
-        },
-        index: {
-            type: Number,
-            required: true,
-            default: 0,
-        },
+        liste: Array,
+        celliers: Array,
     },
     methods: {
         getBouteille() {
@@ -113,6 +130,61 @@ export default {
                     return "bg-gray-500";
             }
         },
+        async ajouterBouteille(bouteilleId, event, liste) {
+            let cellierId = event.target.parentNode.querySelector("#cellier").value;
+
+            try {
+                const reponse = await BouteilleDataService.ajouterBouteilleAuCellier(cellierId, bouteilleId, 1);
+
+                this.message = reponse.data.message
+                this.$emit("succesPopup", {
+                    succes: true,
+                    message: this.message,
+                });
+
+                this.supprimerBouteille(liste)
+                // Pour fermer le popup après 5 secondes
+                setTimeout(() => {
+                    this.message = "";
+                    this.$emit("succesPopup", {
+                        succes: false,
+                        message: "",
+                    });
+                }, 5000);
+            } catch (error) {
+                console.log(reponse.data);
+            }
+        },
+        async supprimerBouteille(liste){
+            try {
+                if(liste.quantite >= 1){
+                    liste.quantite = liste.quantite - 1
+                } 
+                if (liste.quantite === 0) {
+                    this.$emit("supprimerBouteille", liste.id)
+                }
+
+                const reponse = await BouteilleDataService.supprimerBouteilleDeLaListe(liste.id, liste.quantite, liste.utilisateur_id);
+
+                this.message = reponse.data.message
+            } catch (error) {
+                console.log(reponse.data);
+            }
+        },
+        messageSupprimer() {
+            this.$emit("succesPopup", {
+                    succes: true,
+                    message: "La bouteille a été supprimée avec succès",
+                });
+                // Pour fermer le popup après 5 secondes
+                setTimeout(() => {
+                    this.message = "";
+                    this.$emit("succesPopup", {
+                        succes: false,
+                        message: "",
+                    });
+                }, 5000);
+        }
     },
     mounted() {
         setTimeout(() => {

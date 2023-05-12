@@ -25,15 +25,15 @@ class ListeAchatController extends Controller
 
                 // Récupérer les bouteilles archivées de l'utilisateur avec les information de la bouteille et de l'utilisateur
                 $liste_achats = ListeAchat::with('bouteille.categorie', 'bouteille.pays', 'utilisateur')
-                ->where('utilisateur_id', $utilisateur->id)
-                ->get();
+                    ->where('utilisateur_id', $utilisateur->id)
+                    ->get();
 
 
                 Log::info($liste_achats);
 
                 return response()->json(['liste' => $liste_achats, 'message' => 'Bouteille archivée avec succès']); // retourner un message de succès
             } catch (\Throwable $th) {
-                return response()->json([ 'status' => 'échec', 'message' => 'Une erreur est survenue, veuillez réessayer plus tard'], 500); // retourner une message d'erreur du serveur
+                return response()->json(['status' => 'échec', 'message' => 'Une erreur est survenue, veuillez réessayer plus tard'], 500); // retourner une message d'erreur du serveur
             }
         } else {
             //
@@ -84,8 +84,28 @@ class ListeAchatController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($listeId, $quantite, $utilisateurId)
     {
         //
+        if ($utilisateurId == Auth::user()->id) {
+            try {
+                Log::info($quantite);
+                Log::info($listeId);
+                Log::info($utilisateurId);
+                // Récupérer les bouteilles archivées de l'utilisateur avec les information de la bouteille et de l'utilisateur
+                $liste_achat = ListeAchat::where('id', $listeId)->first();
+                if($quantite > 0){
+                    $liste_achat->quantite = $quantite;
+                    $liste_achat->save();
+                }else{
+                    $liste_achat->delete();
+                }
+            } catch (\Throwable $th) {
+                return response()->json(['status' => 'échec', 'message' => 'Une erreur est survenue, veuillez réessayer plus tard'], 500); // retourner une message d'erreur du serveur
+            }
+        } else {
+            //
+            return response()->json(['message' => 'Accès non autorisé'], 404); // retourner un message d'erreur avec code 404 si l'utilisateur n'est pas propriétaire du cellier
+        }
     }
 }
