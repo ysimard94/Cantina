@@ -1,7 +1,7 @@
 <template>
     <div 
     :class="{
-                'transform translate-y-5 opacity-0': !rechercheOuverte,
+                'transform translate-y-5 opacity-0 -z-10': !rechercheOuverte,
                 'transform translate-y-0 opacity-100': rechercheOuverte,
             }"
     class="flex w-full fixed bottom-[56px] mb-5 transition-all duration-300">
