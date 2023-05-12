@@ -1,10 +1,10 @@
 <template>
-   <div class="bg-gray-100 p-4 rounded-lg min-w-0">
+    <div class="bg-gray-100 p-4 rounded-lg min-w-0">
         <div class="mt-4">
             <h3 class="text-lg font-bold mb-2">Avis récents</h3>
             <div v-for="review in avis" :key="review.id" class="bg-white rounded-lg shadow p-4 mb-4 text-left">
                 <p class="text-l font-bold mb-2">
-                   {{ review.utilisateur.courriel.replace(review.utilisateur.courriel.split('@')[0].substr(1), '***') }}
+                    {{ review.utilisateur.courriel.replace(review.utilisateur.courriel.split('@')[0].substr(1), '***') }}
 
                     <span class="text-yellow-500">
                         <!-- Ajouter autant d'étoiles jaunes que le nombre d'étoiles souhaité -->
@@ -22,17 +22,16 @@
                 <p class="text-gray-700">{{ review.commentaire }}</p>
 
             </div>
-     <div v-if="!avis.length" class="bg-white rounded-lg shadow p-4 mb-4 text-left">
-            <p class="text-vin-rouge text-center">Soyez la première personne à laisser un avis</p>
-          </div>
+            <div v-if="!avis.length" class="bg-white rounded-lg shadow p-4 mb-4 text-left">
+                <p class="text-vin-rouge text-center">Soyez la première personne à laisser un avis</p>
+            </div>
         </div>
     </div>
-
 </template>
 
 <script>
 
-import BouteilleDataService from "@/services/BouteilleDataService.js";
+import AvisDataService from "@/services/BouteilleDataService.js";
 export default {
     props: {
         bouteilleId: {
@@ -40,20 +39,20 @@ export default {
             required: true
         }
     },
-    data() {
+    data () {
 
         return {
             avis: []
         };
     },
-    created() {
+    created () {
 
         this.getAvisBouteille();
     },
     methods: {
-        async getAvisBouteille() {
+        async getAvisBouteille () {
             // Récupérer les avis depuis l'API
-            const reponse = await BouteilleDataService.AvisBouteille(this.bouteilleId)
+            const reponse = await AvisDataService.avisBouteille(this.bouteilleId)
             this.avis = reponse.data
             console.log(this.avis)
         }

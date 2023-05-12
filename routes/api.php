@@ -68,6 +68,7 @@ Route::middleware('auth:api')->group(function () {
 
     //Avis
     Route::get('/avis/{bouteilleId}', [AvisController::class, 'index']); // afficher les avis pour chaque bouteille
+    Route::post('/avis', [AvisController::class, 'store']);
     // Résultats de recherche
 
     Route::get('/resultats/{valeur}', [BouteilleController::class, 'getResultatsBouteilles']); // Obtenir une bouteille
