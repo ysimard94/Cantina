@@ -53,9 +53,7 @@ class AvisController extends Controller
      */
     public function show(Avis $avis)
     {
-        return response()->json([
-            'data' => $avis,
-        ]);
+        //
     }
 
     /**
@@ -67,26 +65,7 @@ class AvisController extends Controller
      */
     public function update(Request $request, Avis $avis)
     {
-        $request->validate([
-            'bouteille_id' => 'sometimes|required|exists:bouteilles,id',
-            'utilisateur_id' => 'sometimes|required|exists:utilisateurs,id',
-            'commentaire' => 'nullable|string',
-            'note' => 'nullable|integer|min:1|max:5',
-            // add any other validation rules you want
-        ]);
-
-        $avis->update($request->only([
-            'bouteille_id',
-            'utilisateur_id',
-            'commentaire',
-            'note',
-            // add any other fields you want to update
-        ]));
-
-        return response()->json([
-            'message' => 'Avis updated successfully',
-            'data' => $avis,
-        ]);
+        //
     }
 
     /**
@@ -97,10 +76,6 @@ class AvisController extends Controller
      */
     public function destroy(Avis $avis)
     {
-        $avis->delete();
-
-        return response()->json([
-            'message' => 'Avis deleted successfully',
-        ]);
+        //
     }
 }
