@@ -357,4 +357,22 @@ class BouteilleController extends Controller
 
         return response()->json($bouteilles);
     }
+    public function updateQuantite($id, Request $request)
+    {
+
+        try {
+            $cellierId = $request->input('cellier_id');
+            $bouteilleId = $id;
+            $quantite = $request->input('quantite');
+
+            $cellier = Cellier::findOrFail($cellierId);
+
+            $cellier->bouteilles()->updateExistingPivot($bouteilleId, ['quantite' => $quantite]);
+
+            return response()->json(['message' => 'Quantité mise à jour avec succès']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 }

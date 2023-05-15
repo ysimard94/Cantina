@@ -62,6 +62,17 @@ class BouteilleDataService {
             `/liste-achats/${listeId}+${quantite}+${utilisateurId}`
         );
     }
+    async updateQuantite(bouteillePivotId, bouteillePivotQuantite, cellierId) {
+        try {
+            await apiClient.put(`/bouteille_cellier/${bouteillePivotId}`, {
+                quantite: bouteillePivotQuantite,
+                cellier_id: cellierId,
+            });
+            console.log("Quantité mise à jour avec succès");
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 export default new BouteilleDataService();
