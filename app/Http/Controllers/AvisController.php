@@ -26,7 +26,6 @@ class AvisController extends Controller
     {
         $request->validate([
             'bouteille_id' => 'required|exists:bouteilles,id',
-            'utilisateur_id' => 'required|exists:utilisateurs,id',
             'commentaire' => 'nullable|string',
             'note' => 'nullable|integer|min:1|max:5',
             // add any other validation rules you want
@@ -34,7 +33,7 @@ class AvisController extends Controller
 
         $avis = Avis::create([
             'bouteille_id' => $request->bouteille_id,
-            'utilisateur_id' => $request->utilisateur_id,
+            'utilisateur_id' => auth()->user()->id,
             'commentaire' => $request->commentaire,
             'note' => $request->note,
             // add any other fields you want to fill in

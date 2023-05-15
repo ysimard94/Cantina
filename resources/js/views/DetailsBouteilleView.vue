@@ -4,7 +4,6 @@
             class="bg-vin_blanc hover:bg-gray-700 focus:bg-gray-700 text-white font-bold rounded-full cursor-pointer transform transition-all duration-200 flex items-center">
             <i class="material-symbols-outlined py-4 px-4">arrow_back</i>
         </button>
-
         <section class="grid grid-cols-1 md:grid-cols-2 gap- items-center relative my-4">
             <div class="mx-auto md:mx-0 p-2">
                 <img :src="bouteille.photo" :alt="bouteille.nom" class="w-full h-auto">
@@ -37,17 +36,17 @@
             </div>
         </section>
 
-        <ReviewsBouteilleComponent  :bouteilleId="bouteille.id" v-if="bouteille.id"/>
+        <AvisBouteilleComponent  :bouteilleId="bouteille.id" v-if="bouteille.id"/>
     </div>
 </template>
 
 <script>
 import BouteilleDataService from "@/services/BouteilleDataService.js";
-import ReviewsBouteilleComponent from "@/components/ReviewsBouteilleComponent.vue";
+import AvisBouteilleComponent from "@/components/AvisBouteilleComponent.vue";
 
 export default {
     components: {
-        ReviewsBouteilleComponent,
+        AvisBouteilleComponent,
     },
     name: "BouteilleDetailsView",
     props: {
@@ -62,10 +61,11 @@ export default {
         };
     },
     mounted() {
-        // Call a method to fetch the bottle details using the id prop
+        //Appeler une méthode pour récupérer les détails de la bouteille en utilisant la propriété id.
         this.fetchBouteille(this.id);
     },
     methods: {
+
         async fetchBouteille(id) {
             try {
                 const response = await BouteilleDataService.get(id);
