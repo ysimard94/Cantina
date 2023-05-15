@@ -33,11 +33,11 @@
                                         Qté:
                                     </div>
                                     <div class="flex items-center">
-                                        <button class="bg-gray-300  text-vin-rouge font-bold  px-2 rounded">-</button>
+                                        <button class="bg-gray-300  text-vin-rouge font-bold  px-2 rounded" @click="decrementQuantite(bouteille)">-</button>
                                         <div class="text-center   px-2">{{ bouteille.pivot.quantite }}
                                         </div>
                                         <button
-                                            class="bg-gray-300  text-vin-rouge font-bold  px-2 rounded">+</button>
+                                            class="bg-gray-300  text-vin-rouge font-bold  px-2 rounded" @click="incrementQuantite(bouteille)">+</button>
                                     </div>
 
                                 <!-- Notes -->
@@ -101,6 +101,8 @@
 </template>
 
 <script>
+import BouteilleDataService from "@/services/BouteilleDataService.js";
+
 export default {
     name: "BouteilleComponent",
     props: {
@@ -113,6 +115,7 @@ export default {
             type: Number,
             required: true,
         },
+
     },
     data() {
         return {
@@ -158,6 +161,28 @@ export default {
                 this.$emit("bouteille-supprime", bouteille);
             }, 500);
         },
-    },
+        async decrementQuantite(bouteille) {
+            if (bouteille.pivot.quantite > 1) {
+                bouteille.pivot.quantite--;
+                await this.updateQuantite(bouteille);
+            }
+        },
+        async incrementQuantite(bouteille) {
+            bouteille.pivot.quantite++;
+            await this.updateQuantite(bouteille);
+        },
+
+  async updateQuantite(bouteille) {
+        try {
+            await BouteilleDataService.updateQuantite(bouteille.id, bouteille.pivot.quantite, this.cellierId);
+            console.log(bouteille.id, bouteille.pivot.quantite, this.cellierId)
+            console.log("Quantité mise à jour avec succès");
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+ },
+
 };
 </script>

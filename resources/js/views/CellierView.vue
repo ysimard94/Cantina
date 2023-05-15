@@ -441,6 +441,9 @@ export default {
                     // Montrer le message de confirmation
                     this.showSuccessPopup();
                     this.bouteilleASupprimer = [];
+                    this.estConfirmé = false;
+                    this.note = 0;
+                    this.commentaire = "";
                 } catch (error) {
                     console.log(error);
                 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Utilisateur;
 use App\Models\Cellier;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
@@ -19,28 +20,6 @@ class AuthController extends Controller
      */
     public function sauvegarder(Request $request)
     {
-
-       /* Pour personnalisé un message de validation on peut utiliser la manière suivante
-            $request->validate([
-                'nom_du_champ' => 'règles_1| règles_2| règles_3',
-            ],
-            [
-                'nom_du_champ.règles_1' => 'Message d\'erreur pour la règle 1',
-                'nom_du_champ.règles_2' => 'Message d\'erreur pour la règle 2',
-            ]);
-
-            Si le tableau d'erreur est vide, le message par défaut sera affiché à la place pour chaque champ concerné.
-
-            Afin de récupérer les messages d'erreurs dans vue, ajouter la ligne suivante dans le bloc catch
-
-            catch (error) {
-                if (error.response && error.response.status === 422) {
-                    this.serverErrors = error.response.data.errors;
-                }
-            }
-
-            Si non, si on décide de ne pas personnaliser les messages d'erreurs et en afficher seulement un message générique, on peut utiliser la manière ci-dessous
-        */
         try {
             // Créer un validateur pour les données
             $validateur = Validator::make($request->all(), [
@@ -49,27 +28,34 @@ class AuthController extends Controller
                 'mdp' => 'required|min:3',
                 'mdp_confirmation' => 'required|same:mdp',
             ]);
-    
+
             // Valider les données reçues avec le validateur
             $validateur->validate();
-    
+
             // Créer un nouveau utilisateur
             $utilisateur = new Utilisateur;
-    
+
             // Sauvegarder les données
             $utilisateur->fill($request->all());
             $utilisateur->mdp = Hash::make($request->mdp);
             $utilisateur->save();
-    
+
             // Créer un nouveau cellier pour l'utilisateur
             $cellier = new Cellier;
             $cellier->nom = "Cellier de " . $utilisateur->nom;
             $cellier->utilisateur_id = $utilisateur->id;
             $cellier->save();
-    
+
+            // Attacher le role utilisateur pour l'utilisateur créé
+     
+            $utilisateurRole = Role::where('nom', 'utilisateur')->first();
+            if ($utilisateurRole) {
+                $utilisateur->roles()->attach($utilisateurRole);
+            }
+
             // Générer un token
             $token = JWTAuth::fromUser($utilisateur);
-    
+
             // Retourner une réponse avec le token
             return response()->json([
                 'status' => 'success',
@@ -77,7 +63,6 @@ class AuthController extends Controller
                 'user' => $utilisateur,
                 'token' => $token,
             ], 201);
-    
         } catch (ValidationException $e) {
             $erreurs = $e->validator->errors();
             if ($erreurs->has('courriel')) {
@@ -88,7 +73,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
             error_log($e->getMessage());
-    
+
             // Retourner un message d'erreur général au client
             return response()->json(['erreur' => 'Nous nous excusons, une erreur s\'est produite sur le serveur. Veuillez réessayer plus tard.'], 500);
         }
@@ -106,13 +91,13 @@ class AuthController extends Controller
                 'courriel' => 'required|email',
                 'mdp' => 'required|min:3'
             ]);
-    
+
             // Valider les données reçues avec le validateur
             $validateur->validate();
-    
+
             // Chercher l'utilisateur
-            $utilisateur = Utilisateur::where('courriel', $request->courriel)->first();
-    
+            $utilisateur = Utilisateur::with('roles')->where('courriel', $request->courriel)->first();
+
             // Vérifier si l'utilisateur existe
             if (!$utilisateur) {
                 throw new \Exception('Adresse e-mail non trouvée.');
@@ -122,29 +107,28 @@ class AuthController extends Controller
                 throw new \Exception('Mot de passe incorrect.');
             }
             $token = JWTAuth::fromUser($utilisateur);
-    
+
             // Retourner une réponse
             return response()->json([
                 'status' => 'success',
                 'utilisateur' => $utilisateur,
                 'token' => $token,
             ], 201);
-    
         } catch (ValidationException $e) {
             return response()->json(['erreur' => 'Les données sont invalide, veuillez remplir les champs correctement'], 422);
         } catch (\Exception $e) {
             // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
             error_log($e->getMessage());
-    
+
             // Retourner un message d'erreur général au client
             return response()->json(['erreur' => $e->getMessage()], 422);
         }
     }
-    
+
 
     /**
      * Déconnecter l'utilisateur et renvoyer une réponse 
-     */ 
+     */
     public function deconnecter(Request $request)
     {
         try {

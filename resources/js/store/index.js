@@ -62,6 +62,18 @@ const store = createStore({
         cellierFiltreValeurs: (state) => state.cellierFiltreValeurs,
         archiveFiltreValeurs: (state) => state.archiveFiltreValeurs,
         cellierActif: (state) => state.cellierActif,
+        isAdmin: (state) => {
+            if (
+                state.session &&
+                state.session.utilisateur &&
+                state.session.utilisateur.roles
+            ) {
+                return state.session.utilisateur.roles.some(
+                    (role) => role.nom === "admin"
+                );
+            }
+            return false;
+        },
     },
 });
 

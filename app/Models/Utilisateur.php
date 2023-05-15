@@ -70,4 +70,8 @@ class Utilisateur extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Avis::class);
     }
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_utilisateur');
+    }
 }

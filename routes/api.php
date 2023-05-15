@@ -57,6 +57,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/bouteille/{bouteille}', [BouteilleController::class, 'destroyBouteille']); // Supprimer une bouteille
     Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}+{quantite}', [BouteilleController::class, 'ajoutBouteilleAuCellier']); // Ajouter une bouteille à un cellier
     Route::delete('/celliers/{cellier}/{bouteille}', [BouteilleController::class, 'supprimerBouteilleDansCellier']); // Supprimer une bouteille dans un cellier
+    Route::put('/bouteille_cellier/{id}', [BouteilleController::class, 'updateQuantite']);
 
     // Archives
     Route::post('/archives/{cellier}/{bouteille}', [ArchiveController::class, 'store']); // Archiver une bouteille
@@ -76,10 +77,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/pays', [PaysController::class, 'index']); // Obtenir tous les pays
     // Categories
     Route::get('/categorie', [CategorieController::class, 'index']); // Obtenir toutes les catégories
+    Route::get('/saq-produits', [SAQController::class, 'index']);
 });
 
 
-Route::get('/saq-produits', [SAQController::class, 'index']);
 Route::get('/saq-produits/{bouteille}', [SAQController::class, 'getBouteilles']);
 
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
