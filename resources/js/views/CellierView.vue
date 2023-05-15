@@ -140,7 +140,7 @@
         </div>
         <div v-if="afficheModale" class="bg-zinc-950/25 fixed right-0 left-0 top-0 bottom-0 z-10"></div>
         <dialog v-show="afficheModale" class="bg-bg-rose mx-2 rounded z-20 fixed inset-0 flex items-center justify-center">
-            <form @submit.prevent="">
+            <form @submit.prevent="sendAvis()">
                 <div class="flex flex-row-reverse">
                     <span class="material-symbols-outlined text-3xl" @click="fermerModale()">
                         close
@@ -158,7 +158,7 @@
                 </div>
                 <div class="flex flex-col text-left mt-4">
                     <label for="commentaire">Commentaire</label>
-                    <textarea v-model="commentaire" id="commentaire" class="mt-2" rows="4"></textarea>
+                    <textarea v-model="commentaire" id="commentaire" class="mt-2 p-1 rounded" rows="4"></textarea>
                 </div>
                 <div class="flex flex-row-reverse mt-4">
                     <button type="submit">
@@ -210,7 +210,7 @@ export default {
             note: 0,
             commentaire: "",
             afficheModale: false,
-            bouteilleasupprimer: []
+            bouteilleASupprimer: []
         };
     },
     async mounted () {
@@ -309,12 +309,12 @@ export default {
             this.estConfirmé = true
             this.afficheModale = false
 
-            this.supprimerBouteille(this.bouteilleasupprimer)
+            this.supprimerBouteille(this.bouteilleASupprimer)
         },
         //fait apparaître une modale puis supprimer une bouteille dans le cellier actif puis l'archiver
         async supprimerBouteille (bouteille) {
             if (!this.estConfirmé) {
-                this.bouteilleasupprimer = bouteille
+                this.bouteilleASupprimer = bouteille
                 this.ouvrirModale()
             } else if (this.estConfirmé) {
                 try {
@@ -348,14 +348,16 @@ export default {
         async sendAvis () {
             try {
                 await AvisDataService.sendAvisBouteille({
-                    bouteille_id: this.bouteilleasupprimer.id,
+                    bouteille_id: this.bouteilleASupprimer.id,
                     utilisateur_id: this.$store.getters.session.utilisateur_id,
                     note: this.note,
                     commentaire: this.commentaire,
                 })
+                this.estConfirmé = true
                 this.afficheModale = false
+                this.supprimerBouteille(this.bouteilleASupprimer)
             } catch (error) {
-                console.log(error.response)
+                console.log(error)
             }
         },
 
