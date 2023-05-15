@@ -2,29 +2,19 @@
     <!-- Add your template code here -->
     <div class="slider-component">
         <div ref="slider" class="slider">
-            <div
-                class="slider-touch-left"
-                :style="{ left: touchLeftPos + 'px' }"
-                @mousedown="onStart($event, 'left')"
-                @touchstart="onStart($event, 'left')"
-            >
+            <div class="slider-touch-left" :style="{ left: touchLeftPos + 'px' }" @mousedown="onStart($event, 'left')"
+                @touchstart="onStart($event, 'left')">
                 <span></span>
             </div>
-            <div
-                class="slider-touch-right"
-                :style="{ left: touchRightPos + 'px' }"
-                @mousedown="onStart($event, 'right')"
-                @touchstart="onStart($event, 'right')"
-            >
+            <div class="slider-touch-right" :style="{ left: touchRightPos + 'px' }" @mousedown="onStart($event, 'right')"
+                @touchstart="onStart($event, 'right')">
                 <span></span>
             </div>
             <div class="slider-line">
-                <span
-                    :style="{
-                        marginLeft: lineSpanMarginLeft + 'px',
-                        width: lineSpanWidth + 'px',
-                    }"
-                ></span>
+                <span :style="{
+                    marginLeft: lineSpanMarginLeft + 'px',
+                    width: lineSpanWidth + 'px',
+                }"></span>
             </div>
         </div>
         <div>Min: {{ minValue }} Max: {{ maxValue }}</div>
@@ -47,19 +37,8 @@ export default {
         defaultMin: Number,
         defaultMax: Number,
     },
-    data() {
-        return {
-            // Add your data properties here
-        };
-    },
-    mounted() {
-        // Add your mounted code here
-    },
     methods: {
-        onStart() {
-            // Add your onStart code here
-        },
-        onMove() {
+        onMove () {
             const { minValue, maxValue } = calculateValues(
                 this.touchLeftPos,
                 this.touchRightPos,
@@ -72,10 +51,7 @@ export default {
             this.minValue = minValue;
             this.maxValue = maxValue;
         },
-        onStop() {
-            // Add your onStop code here
-        },
-        setInitialValues() {
+        setInitialValues () {
             this.touchLeftPos = setMinValue(
                 this.defaultMin,
                 this.min,
@@ -96,7 +72,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-/* Add your component styling here */
-</style>

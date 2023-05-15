@@ -52,7 +52,6 @@ export default {
     },
     methods: {
         getUtilisateur: async function () {
-            // this.$emit("loading:start");
             try {
                 const reponse = await UtilisateurDataService.getUtilisateur(
                     this.$store.state.session.utilisateur_id
@@ -60,8 +59,6 @@ export default {
                 return reponse.data;
             } catch (error) {
                 console.error(error);
-            } finally {
-                // this.$emit("loading:end");
             }
         },
         editUtilisateur: async function () {

@@ -138,6 +138,7 @@
                 </p>
             </div>
         </div>
+        <!-- Modale d'ajout d'avis -->
         <div v-if="afficheModale" class="bg-zinc-950/25 fixed right-0 left-0 top-0 bottom-0 z-10"></div>
         <dialog v-show="afficheModale" class="bg-bg-rose mx-2 rounded z-20 fixed inset-0 flex items-center justify-center">
             <form @submit.prevent="sendAvis()">
@@ -292,11 +293,6 @@ export default {
                         this.cellierActif.id
                     );
                 this.bouteilles = response.data.bouteilles;
-                //   Trier et filtrer les bouteilles en fonction des critères actifs
-                // this.trierBouteilles();
-                // this.filtrerBouteilles();
-                // Réinitialiser les filtres et tris
-                // this.reinitialisationBouteilles();
             } catch (error) {
                 console.log(error);
             }
@@ -339,6 +335,7 @@ export default {
 
                     // Montrer le message de confirmation
                     this.showSuccessPopup();
+                    this.bouteilleASupprimer = []
                 } catch (error) {
                     console.log(error);
                 }
@@ -461,12 +458,6 @@ export default {
             this.celliers = this.celliers.filter(
                 (c) => c.id !== this.cellierActif.id
             );
-
-            // Filtrer les bouteilles qui ne sont pas associées au cellier supprimé
-            // console.log(this.bouteilles);
-            // this.bouteilles = this.bouteilles.filter(
-            //     (b) => b.cellier.id !== this.cellierActif.id
-            // );
 
             if (this.celliers.length > 0) {
                 this.cellierActif = this.celliers[0];

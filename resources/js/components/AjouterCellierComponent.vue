@@ -56,7 +56,6 @@ export default {
                     },
                 });
                 this.$emit("close");
-                //window.location.reload();
             } catch (error) {
                 console.log(error);
             }
