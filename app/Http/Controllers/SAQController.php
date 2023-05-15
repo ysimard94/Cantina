@@ -15,6 +15,11 @@ use App\Models\Bouteille;
 
 class SAQController extends Controller
 {
+    public function __construct()
+    {
+        Log::debug('SAQController::__construct');
+        $this->middleware('admin')->only('index');
+    }
     // Récupère les produits de la SAQ et les enregistre dans la table bouteilles
     public function index()
     {

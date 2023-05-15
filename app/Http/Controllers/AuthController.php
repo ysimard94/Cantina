@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Utilisateur;
 use App\Models\Cellier;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
@@ -44,6 +45,13 @@ class AuthController extends Controller
             $cellier->nom = "Cellier de " . $utilisateur->nom;
             $cellier->utilisateur_id = $utilisateur->id;
             $cellier->save();
+
+            // Attacher le role utilisateur pour l'utilisateur créé
+     
+            $utilisateurRole = Role::where('nom', 'utilisateur')->first();
+            if ($utilisateurRole) {
+                $utilisateur->roles()->attach($utilisateurRole);
+            }
 
             // Générer un token
             $token = JWTAuth::fromUser($utilisateur);
@@ -88,7 +96,7 @@ class AuthController extends Controller
             $validateur->validate();
 
             // Chercher l'utilisateur
-            $utilisateur = Utilisateur::where('courriel', $request->courriel)->first();
+            $utilisateur = Utilisateur::with('roles')->where('courriel', $request->courriel)->first();
 
             // Vérifier si l'utilisateur existe
             if (!$utilisateur) {
