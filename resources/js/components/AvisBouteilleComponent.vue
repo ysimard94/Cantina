@@ -3,7 +3,7 @@
         <div class="mt-4">
             <h3 class="text-lg font-bold mb-2">Avis récents</h3>
             <!--button pour ajouter un avis par l'utilisateur-->
-            <button class="bg-vin-blanc text-white px-4 py-2 rounded-lg mb-2" @click="showForm = true">
+            <button class="bg-vin-blanc text-white px-4 py-2 rounded-lg mb-4" @click="showForm = true">
                 Ajouter un avis
             </button>
             <!-- formulaire pour ajouter un avis -->
@@ -26,13 +26,12 @@
                         <textarea v-model="commentaire" id="commentaire" class="mt-2 bg-gray-200" rows="4"></textarea>
                     </div>
                     <div class="flex flex-row-reverse mt-4">
-                        <button type="submit">
-                            <span
-                                class="material-symbols-outlined w-14 h-10 rounded-lg text-white font-semibold bg-vin-rouge flex items-center justify-center">
-                                send
-                            </span>
+                        <button type="submit" :disabled="note === 0 || commentaire.trim() === ''"
+                            :class="{ 'bg-vin-rouge': !(note === 0 || commentaire.trim() === ''), 'bg-gray-500': note === 0 || commentaire.trim() === '' }"
+                            class="material-symbols-outlined w-14 h-10 rounded-lg text-white font-semibold flex items-center justify-center">
+                            send
                         </button>
-                        <button class="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2" @click="annuler">
+                        <button class="bg-vin-blanc text-white px-4 py-2 rounded-lg mr-2" @click="annuler">
                             Annuler
                         </button>
                     </div>
@@ -47,7 +46,7 @@
             <div v-for="review in avis.slice(0, limit)" :key="review.id"
                 class="bg-white rounded-lg shadow p-4 mb-4 text-left">
                 <p class="text-l font-bold mb-2">
-                    {{ review.utilisateur.nom[0] + '***' + review.utilisateur.nom.slice(-1) }}
+                    {{ review.utilisateur.nom }}
 
                     <span class="text-yellow-500">
                         <!-- Ajouter autant d'étoiles jaunes que le nombre d'étoiles souhaité -->
@@ -89,7 +88,7 @@ export default {
             required: true
         }
     },
-    data () {
+    data() {
 
         return {
             avis: [],
@@ -100,21 +99,21 @@ export default {
             limit: 5
         };
     },
-    created () {
+    created() {
 
         this.getAvisBouteille();
     },
     methods: {
 
-        async getAvisBouteille () {
+        async getAvisBouteille() {
             // Récupérer les avis depuis l'API
             const reponse = await AvisDataService.avisBouteille(this.bouteilleId)
             this.avis = reponse.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         },
-        setNote (note) {
+        setNote(note) {
             this.note = note;
         },
-        async submitAvis () {
+        async submitAvis() {
             const data = {
                 bouteille_id: this.bouteilleId, // remplacez par l'ID de la bouteille correspondante
                 note: this.note,
@@ -136,7 +135,7 @@ export default {
             // Mettre à jour la liste des avis
             await this.getAvisBouteille();
         },
-        annuler () {
+        annuler() {
             this.showForm = false;
             this.note = 0;
             this.commentaire = "";
