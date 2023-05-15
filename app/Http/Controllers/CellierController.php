@@ -6,16 +6,16 @@ use App\Models\Cellier;
 use App\Models\Bouteille;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
+
 class cellierController extends Controller
 {
     public function index()
     {
         $celliers = Cellier::where('utilisateur_id', Auth::user()->id)
-                ->orderBy('updated_at', 'desc')
-                ->get();
-    return response()->json($celliers);
+            ->orderBy('updated_at', 'desc')
+            ->get();
+        return response()->json($celliers);
     }
 
     public function store(Request $request)
@@ -36,8 +36,6 @@ class cellierController extends Controller
         $cellier->save();
 
         return response()->json($cellier);
-
-
     }
     public function getById($id)
     {
@@ -57,7 +55,7 @@ class cellierController extends Controller
         $cellier = Cellier::findOrFail($id);
 
         $cellier->nom = $request->input('nom');
-        $cellier->utilisateur_id =auth()->user()->id;
+        $cellier->utilisateur_id = auth()->user()->id;
         $cellier->save();
 
         return response()->json($cellier);
@@ -100,7 +98,7 @@ class cellierController extends Controller
         try {
             // Récupérer l'enregistrement pivot pour la bouteille et le cellier
             $pivot = $cellier->bouteilles()->where('bouteille_id', $bouteille->id)->firstOrFail();
-    
+
             // Retourner l'enregistrement pivot
             return response()->json($pivot);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
@@ -119,5 +117,4 @@ class cellierController extends Controller
             ], 500);
         }
     }
-
 }

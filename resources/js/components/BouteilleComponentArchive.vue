@@ -71,9 +71,6 @@ export default {
         },
     },
     methods: {
-        getBouteille () {
-
-        },
 
         // Retourne la date au format YYYY-MM-DD
         formatDate (dateString) {
@@ -105,11 +102,6 @@ export default {
                     return "bg-gray-500";
             }
         },
-    },
-    mounted () {
-        setTimeout(() => {
-            this.getBouteille();
-        }, 500);
     },
 };
 </script>
