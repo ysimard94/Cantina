@@ -78,7 +78,13 @@ export default {
                 }
 
             } catch (error) {
-                console.log(error);
+                    if (error.response && error.response.status === 404) {
+                    // Rediriger vers la page "celliers"
+                        this.$router.push({
+                            name: "mes-celliers",
+                        })
+                }
+
             }
         },
 
