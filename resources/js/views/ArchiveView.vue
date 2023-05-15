@@ -1,75 +1,99 @@
 <template>
-    <div class="mx-2">
-        <h3 class="mb-4 text-vin-rouge font-bold text-xl mt-6">
+    <div class="mx-2 mt-8">
+        <!-- <h3 class="mb-4 text-vin-rouge font-bold text-xl mt-6">
             Historique des bouteilles bues
-        </h3>
-        <!-- Section pour filtre et tri -->
-        <div class="md:col-span-2 flex justify-between items-center">
-            <button
-                class="mr-auto rounded pt-1 pb-1 pl-1 pr-10"
-                @click="estOuvertFiltre = !estOuvertFiltre"
-            >
-                <span
-                    class="material-symbols-outlined text-4xl font-medium text-vin-rouge"
-                    >tune</span
+        </h3> -->
+        <h1 class="text-5xl mb-4 text-vin-rouge">Historique</h1>
+        <template v-if="archives.length === 0">
+            <p>Il n'y a aucune bouteille archivée</p>
+        </template>
+        <!-- Sinon itérer à travers pour montrer les bouteilles dans la liste -->
+        <template v-else>
+            <!-- recherche dans les archives -->
+            <div class="flex items-center mx-auto p-2 mb-4">
+                <form @submit.prevent="" class="w-full">
+                    <label class="relative flex items-center">
+                        <input
+                            v-model="recherche"
+                            type="text"
+                            class="w-full py-1 pl-2 pr-[32px] rounded"
+                            placeholder="Rechercher dans les archives"
+                            @input="rechercheBouteillesCellier"
+                        />
+                        <button
+                            class="material-symbols-outlined absolute right-0 p-1"
+                            @click="rechercheBouteillesCellier"
+                        >
+                            search
+                        </button>
+                    </label>
+                </form>
+            </div>
+            <!-- Section pour filtre et tri -->
+            <div class="md:col-span-2 flex justify-between items-center mb-4">
+                <button
+                    class="mr-auto rounded pt-1 pb-1 pl-1 pr-10 material-symbols-outlined text-4xl font-medium text-vin-rouge"
+                    @click="estOuvertFiltre = !estOuvertFiltre"
                 >
-            </button>
-            <transition
-                enter-active-class="transition duration-500 ease-in-out transform"
-                enter-from-class="-translate-x-full"
-                enter-to-class="translate-x-0"
-                leave-active-class="transition duration-500 ease-in-out transform"
-                leave-from-class="translate-x-0"
-                leave-to-class="-translate-x-full"
-            >
-                <FiltreComponent
-                    v-if="estOuvertFiltre"
-                    @filtrer-bouteilles="filtrerBouteilles"
-                    @fermer-filtre="fermerFiltre"
-                    :bouteilles="getBouteilles"
-                    parent="archive"
-                    class="w-full fixed inset-0 mb-15 z-50"
-                />
-            </transition>
-            <button
-                class="rounded"
-                @click="
-                    reinitialisationBouteilles();
-                    rotation();
-                "
-            >
-                <span
-                    class="material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1"
+                    tune
+                </button>
+                <transition
+                    enter-active-class="transition duration-500 ease-in-out transform"
+                    enter-from-class="-translate-x-full"
+                    enter-to-class="translate-x-0"
+                    leave-active-class="transition duration-500 ease-in-out transform"
+                    leave-from-class="translate-x-0"
+                    leave-to-class="-translate-x-full"
+                >
+                    <FiltreComponent
+                        v-if="estOuvertFiltre"
+                        @filtrer-bouteilles="filtrerBouteilles"
+                        @fermer-filtre="fermerFiltre"
+                        :bouteilles="getBouteilles"
+                        parent="archive"
+                        class="w-full fixed inset-0 mb-15 z-50"
+                    />
+                </transition>
+                <button
+                    class="rounded material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1"
                     :class="{
                         'rotate-[360deg] ease-in-out duration-500': estRotation,
                     }"
+                    @click="
+                        reinitialisationBouteilles();
+                        rotation();
+                    "
                 >
                     refresh
-                </span>
-            </button>
+                </button>
 
-            <button class="rounded" @click="fTriParNom">
-                <span
-                    class="material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1 ease-in-out duration-500"
+                <button
+                    class="rounded material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1 ease-in-out duration-500"
                     :class="{ '-scale-y-100': triParNom }"
+                    @click="fTriParNom"
                 >
                     swap_vert
-                </span>
-            </button>
-            <button class="rounded" @click="fTriParDate">
-                <span
-                    class="material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1 ease-in-out duration-500"
+                </button>
+                <button
+                    class="rounded material-symbols-outlined text-4xl font-medium text-vin-rouge pr-1 ease-in-out duration-500"
                     :class="{ '-scale-y-100': triParDate }"
+                    @click="fTriParDate"
                 >
                     date_range
-                </span>
-            </button>
-        </div>
-        <ul class="flex flex-col gap-2">
-            <li v-for="(archive, index) in archivesAffiches" :key="archive.id">
-                <BouteilleComponentArchive :index="index" :archive="archive" />
-            </li>
-        </ul>
+                </button>
+            </div>
+            <ul class="flex flex-col gap-2">
+                <li
+                    v-for="(archive, index) in archivesAffiches"
+                    :key="archive.id"
+                >
+                    <BouteilleComponentArchive
+                        :index="index"
+                        :archive="archive"
+                    />
+                </li>
+            </ul>
+        </template>
     </div>
 </template>
 
@@ -96,6 +120,8 @@ export default {
             est180: false,
             triParNom: false,
             triParDate: false,
+            bouteillesRecherche: [],
+            recherche: "",
         };
     },
     computed: {
@@ -142,10 +168,12 @@ export default {
         },
         // Fonction de tri
         triCellier() {},
-        reinitialisationBouteilles() {
+        async reinitialisationBouteilles() {
             this.filteredBouteilles = [];
             // Mettre à jour les valeurs du filtre
             this.setArchiveFiltreValeurs({});
+
+            await this.chargerArchives();
         },
         async chargerArchives() {
             try {
@@ -160,6 +188,7 @@ export default {
         },
         // Fonction de tri par nom
         fTriParNom() {
+            console.log("tri par nom");
             this.triParNom = !this.triParNom;
             this.triParDate = false;
 
@@ -189,6 +218,18 @@ export default {
 
                 return this.triParDate ? dateA - dateB : dateB - dateA;
             });
+        },
+        //Applique le résultat de la recherche avec les filtres ou non dans le celliers
+        async rechercheBouteillesCellier() {
+            this.bouteillesRecherche = this.archives.filter((archive) => {
+                return archive.bouteille.nom
+                    .toLowerCase()
+                    .includes(this.recherche.toLowerCase());
+            });
+            if (this.recherche === "") {
+                await this.chargerArchives();
+            }
+            console.log(this.bouteillesRecherche);
         },
         ...mapMutations(["setArchiveFiltreValeurs"]),
     },
