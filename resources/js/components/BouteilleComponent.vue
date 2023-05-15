@@ -29,9 +29,17 @@
                                 {{ bouteille.pays.nom }}
                             </div>
                             <div class="flex items-center justify-between">
-                                <div class="font-medium text-left">
-                                    Qté: {{ bouteille.pivot.quantite }}
-                                </div>
+                                    <div class="font-medium text-left ">
+                                        Qté:
+                                    </div>
+                                    <div class="flex items-center">
+                                        <button class="bg-gray-300  text-vin-rouge font-bold  px-2 rounded">-</button>
+                                        <div class="text-center   px-2">{{ bouteille.pivot.quantite }}
+                                        </div>
+                                        <button
+                                            class="bg-gray-300  text-vin-rouge font-bold  px-2 rounded">+</button>
+                                    </div>
+
                                 <!-- Notes -->
                                 <div class="text-gray-700 font-medium mr-2">
                                     <div class="flex items-center">
@@ -106,14 +114,14 @@ export default {
             required: true,
         },
     },
-    data () {
+    data() {
         return {
             animationSupprimer: false,
         };
     },
     methods: {
         // Retourne l'url de l'image de la bouteille en fonction de l'url de base
-        imageUrl (bouteille) {
+        imageUrl(bouteille) {
             const baseUrl = import.meta.env.VITE_BASE_URL || "";
             if (
                 bouteille.photo !==
@@ -125,7 +133,7 @@ export default {
                 return bouteille.photo;
             }
         },
-        categorieBgColor (categorieNom) {
+        categorieBgColor(categorieNom) {
             switch (categorieNom) {
                 case "Vin rouge":
                     return "bg-vin-rouge";
@@ -138,10 +146,10 @@ export default {
             }
         },
         // Supprimer la bouteille dans cellier puis l'archiver
-        async modifierBouteille (bouteille) {
+        async modifierBouteille(bouteille) {
             this.$emit("bouteille-modifie", bouteille);
         },
-        async supprimerBouteille (bouteille) {
+        async supprimerBouteille(bouteille) {
             // Débuter l'animation de suppression
             bouteille.animationSupprimer = true;
             // Demander la suppression de la bouteille après la fin de l'animation
