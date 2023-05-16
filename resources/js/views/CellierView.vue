@@ -1,17 +1,17 @@
 <template>
-    <div class="container mx-auto px-2 h-full">
+    <div v-if="testBol" class="container mx-auto px-2 h-full">
         <transition
-            enter-active-class="transition-all duration-300 ease-out"
+            enter-active-class="transform transition-all duration-300 ease-in"
             enter-class="transform translate-y-full opacity-0"
             enter-to-class="transform translate-y-0  opacity-100"
-            leave-active-class="transition-all duration-300 ease-in"
+            leave-active-class="transform transition-all duration-300 ease-in"
             leave-class="transform translate-y-0  opacity-100"
             leave-to-class="transform translate-y-full  opacity-0"
         >
             <!-- Success Message -->
             <div
                 v-show="estSuccessPopup"
-                class="fixed bottom-0 left-0 right-0 flex justify-center mb-20"
+                class="fixed bottom-0 left-0 right-0 flex justify-center mb-20 z-50"
             >
                 <div
                     class="bg-green-500 text-white font-bold rounded-lg px-4 py-2 flex items-center h-24 max-w-md shadow-lg w-full mx-2"
@@ -301,6 +301,7 @@ export default {
 
     data() {
         return {
+            testBol: false,
             bouteilles: [],
             filteredBouteilles: [],
             celliers: [],
@@ -403,6 +404,8 @@ export default {
                 this.bouteilles = response.data.bouteilles;
             } catch (error) {
                 console.log(error);
+            } finally {
+                this.testBol = true;
             }
         },
         //ouvrir et fermer la modale, fermer renvoie la bouteille à supprimer vers la fonction supprimerBouteille
