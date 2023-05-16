@@ -90,6 +90,7 @@
                     <BouteilleComponentArchive
                         :index="index"
                         :archive="archive"
+                        @ajouter-bouteille-a-la-liste="ajouterBouteilleALaListe"
                     />
                 </li>
             </ul>
@@ -185,6 +186,21 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+        // Va ajouter la bouteille à la liste d'achats de l'utilisateur
+        async ajouterBouteilleALaListe(bouteilleId){
+            try {
+                const reponse = await BouteilleDataService.ajouterBouteilleALaListe(this.$store.state.session.utilisateur_id ,bouteilleId);
+
+                this.$router.push({ name: "liste-achats" });
+            } catch (error) {
+                console.log(reponse.data);
+            }
+        },
+        // Pour fermer le popup au clic du bouton X
+        fermerPopup() {
+            this.message = ""
+            this.estSuccessPopup = false
         },
         // Fonction de tri par nom
         fTriParNom() {

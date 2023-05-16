@@ -19,6 +19,7 @@ class ListeAchat extends Model
     protected $fillable = [
         'bouteille_id',
         'utilisateur_id',
+        'quantite',
     ];
 
     /**

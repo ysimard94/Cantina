@@ -47,21 +47,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-between items-center mx-3 mb-3 hover:text-geen-600">
+                <div class="flex items-center mx-3 mb-3 hover:text-geen-600">
                     <!-- Champ select de tous les celliers de l'utilisateur -->
                     <select id="cellier"
-                        class="p-2 font-sans w-full rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        class="p-2 font-sans w-full rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" :class="{ 'hidden': this.celliers.length === 1 }">
                         <option disabled>-- Sélectionner un cellier --</option>
                         <option v-for="(cellier) in celliers" :value="cellier.id" :key="cellier.id">{{ cellier.nom }}
                         </option>
                     </select>
                     <input type="number" :value="1" id="quantite"
-                        class="p-2 font-sans rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-[40px] w-16 ml-1"
+                        class="p-2 font-sans rounded-md shadow-sm bg-slate-100 border-gray-300 border-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-[40px] w-16 ml-1 mr-auto"
                         placeholder="Quantité" min="1">
                     <!-- Bouton pour ajouter la bouteille au cellier -->
                     <button
                         class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 focus:text-green-600 hover:scale-125 active:scale-90"
                         @click="ajouterBouteille(bouteille.id, $event)">add</button>
+                    <button
+                        class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 focus:text-green-600 hover:scale-125 active:scale-90"
+                        @click="ajouterBouteilleALaListe(bouteille.id)">post_add</button>
                 </div>
             </div>
         </div>
@@ -120,6 +123,20 @@ export default {
             try {
                 const reponse = await BouteilleDataService.ajouterBouteilleAuCellier(cellierId, bouteilleId, quantite);
 
+                this.message = reponse.data.message
+                this.estSuccessPopup = true;
+                // Pour fermer le popup après 5 secondes
+                setTimeout(() => {
+                    this.message = "";
+                    this.estSuccessPopup = false;
+                }, 5000);
+            } catch (error) {
+                console.log(reponse.data);
+            }
+        },
+        async ajouterBouteilleALaListe(bouteilleId){
+            try {
+                const reponse = await BouteilleDataService.ajouterBouteilleALaListe(this.$store.state.session.utilisateur_id ,bouteilleId);
                 this.message = reponse.data.message
                 this.estSuccessPopup = true;
                 // Pour fermer le popup après 5 secondes
