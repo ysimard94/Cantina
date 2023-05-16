@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-2 mt-8">
+    <div v-if="afficherTemplate" class="mx-2 mt-8">
         <!-- <h3 class="mb-4 text-vin-rouge font-bold text-xl mt-6">
             Historique des bouteilles bues
         </h3> -->
@@ -112,6 +112,7 @@ export default {
     },
     data() {
         return {
+            afficherTemplate: false,
             archives: [],
             bouteilles: [],
             userId: null,
@@ -185,12 +186,18 @@ export default {
                 this.archives = response.data.archives;
             } catch (error) {
                 console.log(error);
+            } finally {
+                this.afficherTemplate = true;
             }
         },
         // Va ajouter la bouteille à la liste d'achats de l'utilisateur
-        async ajouterBouteilleALaListe(bouteilleId){
+        async ajouterBouteilleALaListe(bouteilleId) {
             try {
-                const reponse = await BouteilleDataService.ajouterBouteilleALaListe(this.$store.state.session.utilisateur_id ,bouteilleId);
+                const reponse =
+                    await BouteilleDataService.ajouterBouteilleALaListe(
+                        this.$store.state.session.utilisateur_id,
+                        bouteilleId
+                    );
 
                 this.$router.push({ name: "liste-achats" });
             } catch (error) {
@@ -199,8 +206,8 @@ export default {
         },
         // Pour fermer le popup au clic du bouton X
         fermerPopup() {
-            this.message = ""
-            this.estSuccessPopup = false
+            this.message = "";
+            this.estSuccessPopup = false;
         },
         // Fonction de tri par nom
         fTriParNom() {
