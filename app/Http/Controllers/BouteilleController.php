@@ -291,8 +291,6 @@ class BouteilleController extends Controller
                 'nom' => 'required|min:2',
                 'description'=> 'nullable|min:2',
                 'prix' => 'numeric',
-                'note' => 'numeric',
-                'nbr_notes' => 'integer',
                 'pays_id' => 'required',
                 'categorie_id' => 'required',
                 'quantite' => 'required|integer|min:1',
