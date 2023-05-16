@@ -79,10 +79,10 @@ Route::middleware('auth:api')->group(function () {
     // Categories
     Route::get('/categorie', [CategorieController::class, 'index']); // Obtenir toutes les catégories
     Route::get('/saq-produits', [SAQController::class, 'index']);
+    Route::get('/saq-produits/{bouteille}', [SAQController::class, 'getBouteilles']);
 });
 
 
-Route::get('/saq-produits/{bouteille}', [SAQController::class, 'getBouteilles']);
 
 Route::post('/enregistrer', [AuthController::class, 'sauvegarder']);
 
