@@ -15,7 +15,7 @@ class ListeAchatController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Utilisateur $utilisateur)
+    public function getListe(Utilisateur $utilisateur)
     {
         Log::info($utilisateur);
         // Verifier  si le cellier appartiens a l'utilisateur connecté

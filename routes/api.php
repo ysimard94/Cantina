@@ -64,7 +64,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/archives/{utilisateur}', [ArchiveController::class, 'index']); // Obtenir les archives d'un utilisateur
 
     // Liste d'achats
-    Route::get('/liste-achats/{utilisateur}', [ListeAchatController::class, 'index']); // Obtenir la liste d'achats d'un utilisateur
+    Route::get('/liste-achats/{utilisateur}', [ListeAchatController::class, 'getListe']); // Obtenir la liste d'achats d'un utilisateur
     Route::delete('/liste-achats/{listeId}+{quantite}+{utilisateurId}', [ListeAchatController::class, 'destroy']); // Ajouter une bouteille à la liste d'achats
 
     //Avis
