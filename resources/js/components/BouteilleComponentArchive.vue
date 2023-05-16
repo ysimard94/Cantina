@@ -16,7 +16,7 @@
             />
         </div>
 
-        <div class="flex flex-col justify-between my-2 mx-2 font-sans">
+        <div class="flex flex-col w-full justify-between my-2 mx-2 font-sans">
             <!-- Titre -->
             <div class="w-full flex flex-col items-start gap-1">
                 <div class="w-full flex justify-between">
@@ -45,14 +45,14 @@
                     {{ archive.bouteille.pays.nom }}
                 </span>
             </div>
-            <div class="w-full flex items-end justify-between">
+            <div class="w-full flex items-end">
                 <!-- Pays -->
                 <span class="text-left block">
                     <span class="block">Bu le</span>
                     {{ formatDate(archive.created_at) }}
                 </span>
                 <!-- Notes -->
-                <div class="text-gray-700 font-medium mb-2">
+                <div class="text-gray-700 font-medium mb-2 ml-auto">
                     <div class="flex items-center">
                         <template v-for="i in 5" :key="i">
                             <svg
@@ -71,6 +71,9 @@
                         </template>
                     </div>
                 </div>
+                <button
+                        class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 focus:text-green-600 hover:scale-125 active:scale-90"
+                        @click="ajouterBouteilleALaListe(archive.bouteille.id)">post_add</button>
             </div>
         </div>
     </div>
@@ -109,6 +112,9 @@ export default {
             } else {
                 return bouteille.photo;
             }
+        },
+        ajouterBouteilleALaListe(bouteilleId) {
+            this.$emit("ajouter-bouteille-a-la-liste", bouteilleId)
         },
         categorieBgColor(categorieNom) {
             switch (categorieNom) {

@@ -65,6 +65,7 @@ Route::middleware('auth:api')->group(function () {
 
     // Liste d'achats
     Route::get('/liste-achats/{utilisateur}', [ListeAchatController::class, 'getListe']); // Obtenir la liste d'achats d'un utilisateur
+    Route::post('/liste-achats/{utilisateurId}+{bouteilleId}', [ListeAchatController::class, 'ajouterBouteilleALaListe']); // Ajouter une bouteille à la liste d'achats
     Route::delete('/liste-achats/{listeId}+{quantite}+{utilisateurId}', [ListeAchatController::class, 'destroy']); // Ajouter une bouteille à la liste d'achats
 
     //Avis

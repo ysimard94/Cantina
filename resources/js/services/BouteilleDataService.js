@@ -62,6 +62,11 @@ class BouteilleDataService {
             `/liste-achats/${listeId}+${quantite}+${utilisateurId}`
         );
     }
+
+    async ajouterBouteilleALaListe(utilisateurId, bouteilleId) {
+        return await apiClient.post(`/liste-achats/${utilisateurId}+${bouteilleId}`);
+    }
+
     async updateQuantite(bouteillePivotId, bouteillePivotQuantite, cellierId) {
         try {
             await apiClient.put(`/bouteille_cellier/${bouteillePivotId}`, {
