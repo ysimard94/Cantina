@@ -56,7 +56,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/bouteille/{bouteille}/{cellier}', [BouteilleController::class, 'updateBouteille']); // Modifier une bouteille
     Route::delete('/bouteille/{bouteille}', [BouteilleController::class, 'destroyBouteille']); // Supprimer une bouteille
     Route::post('/celliers/{cellierId}/bouteilles/{bouteilleId}+{quantite}', [BouteilleController::class, 'ajoutBouteilleAuCellier']); // Ajouter une bouteille à un cellier
-    Route::delete('/celliers/{cellier}/{bouteille}', [BouteilleController::class, 'supprimerBouteilleDansCellier']); // Supprimer une bouteille dans un cellier
+    Route::post('/celliers/{cellier}/{bouteille}', [BouteilleController::class, 'supprimerBouteilleDansCellier']); // Supprimer une bouteille dans un cellier
     Route::put('/bouteille_cellier/{id}', [BouteilleController::class, 'updateQuantite']);
 
     // Archives

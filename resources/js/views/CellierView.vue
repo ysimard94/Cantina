@@ -419,19 +419,30 @@ export default {
                 this.ouvrirModale();
             } else if (this.estConfirmé) {
                 try {
+                    // Supprimer la bouteille du cellier
+                    const response =
+                        await BouteilleDataService.supprimerBouteilleDansCellier(
+                            this.cellierActif.id,
+                            bouteille.id
+                        );
+
+                    this.bouteilles = this.bouteilles.map((bouteilleItem) => {
+                        if (bouteilleItem.id === bouteille.id) {
+                            // Mettre à jour la quantité de la bouteille
+                            bouteilleItem.pivot.quantite =
+                                response.data.quantite;
+                        }
+                        return bouteilleItem;
+                    });
+                    this.bouteilles = this.bouteilles.filter(
+                        (bouteilleItem) => bouteilleItem.pivot.quantite !== 0
+                    );
+
                     // Archiver la bouteille
 
                     await BouteilleDataService.archiverBouteille(
                         this.cellierActif.id,
                         bouteille.id
-                    );
-                    // Supprimer la bouteille du cellier
-                    await BouteilleDataService.supprimerBouteilleDansCellier(
-                        this.cellierActif.id,
-                        bouteille.id
-                    );
-                    this.bouteilles = this.bouteilles.filter(
-                        (bouteilleItem) => bouteilleItem.id !== bouteille.id
                     );
 
                     // initier le message de confirmation
@@ -446,6 +457,7 @@ export default {
                     this.commentaire = "";
                 } catch (error) {
                     console.log(error);
+                } finally {
                 }
             }
         },
