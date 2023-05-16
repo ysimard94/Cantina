@@ -183,22 +183,46 @@ class BouteilleController extends Controller
      */
 
      public function supprimerBouteilleDansCellier(Cellier $cellier, Bouteille $bouteille )
-    {
-        $utilisateur = Auth::user();
+        {
+            $utilisateur = Auth::user();
 
-        // Verifier  si le cellier appartiens a l'utilisateur connecté
-        if ($utilisateur->id == $cellier->utilisateur_id) {
-            try {
-                // Détacher la bouteille du cellier
-                $cellier->bouteilles()->detach($bouteille->id);
-            } catch (\Throwable $th) {
-                return response()->json([ 'status' => 'échec', 'message' => 'Une erreur est survenue lors de la suppression de la bouteille du cellier'], 500); // retourner une message d'erreur du serveur
+            // Vérifier si le cellier appartient à l'utilisateur connecté
+            if ($utilisateur->id == $cellier->utilisateur_id) {
+                try {
+                    // Fetch la bouteille dans le  cellier
+                    $bouteilleDansCellier = $cellier->bouteilles()
+                        ->wherePivot('bouteille_id', $bouteille->id)
+                        ->wherePivot('cellier_id', $cellier->id)
+                        ->first();
+
+                    if (!$bouteilleDansCellier) {
+                        return response()->json([ 'status' => 'échec', 'message' => 'La bouteille n\'est pas dans le cellier.'], 404);
+                    }
+
+                    $quantite = $bouteilleDansCellier->pivot->quantite;
+                    $updatedQuantity = $quantite;
+
+                    // Si la quantité est supérieure à 1, décrémenter la quantité
+                    if ($quantite > 1) {
+                        $updatedQuantity = $quantite - 1;
+                        $cellier->bouteilles()->updateExistingPivot($bouteille->id, ['quantite' => $updatedQuantity]);
+                    } else {
+                        // Si la quantité est 1, détacher la bouteille du cellier
+                        $cellier->bouteilles()->detach($bouteille->id);
+                        $updatedQuantity = 0;
+                    }
+
+                    return response()->json([ 'status' => 'success', 'message' => 'La bouteille a été supprimée du cellier avec succès.', 'quantite' => $updatedQuantity]);
+                } catch (\Throwable $th) {
+                    return response()->json([ 'status' => 'échec', 'message' => 'Une erreur est survenue lors de la suppression de la bouteille du cellier'], 500); // retourner une message d'erreur du serveur
+                }
+            } else {
+                return response()->json([ 'status' => 'échec', 'message' => 'Vous n\'avez pas la permission de supprimer cette bouteille.'], 403); // retourner une message d'erreur de permission
             }
-        } else {
-            //
-            return response()->json(['message' => 'Cellier non trouvé'], 404); // retourner un message d'erreur avec code 404 si l'utilisateur n'est pas propriétaire du cellier
         }
-    }
+
+
+     
 
     /**
      * Obtenir toutes les bouteilles d'un cellier

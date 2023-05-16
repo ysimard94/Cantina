@@ -1,19 +1,22 @@
 <template>
-    <div class="container mx-auto px-2">
+    <div class="container mx-auto px-2 h-full">
         <transition
-            enter-active-class="transition duration-300 ease-out opacity-0"
-            enter-class="opacity-0"
-            enter-to-class="opacity-100"
-            leave-active-class="transition duration-300 ease-in opacity-100"
-            leave-class="opacity-100"
-            leave-to-class="opacity-0"
+            enter-active-class="transition-all duration-300 ease-out"
+            enter-class="transform translate-y-full opacity-0"
+            enter-to-class="transform translate-y-0  opacity-100"
+            leave-active-class="transition-all duration-300 ease-in"
+            leave-class="transform translate-y-0  opacity-100"
+            leave-to-class="transform translate-y-full  opacity-0"
         >
-            <!-- Message de succès -->
-            <div v-if="estSuccessPopup" class="m-6">
+            <!-- Success Message -->
+            <div
+                v-show="estSuccessPopup"
+                class="fixed bottom-0 left-0 right-0 flex justify-center mb-20"
+            >
                 <div
-                    class="bg-green-500 text-white font-bold rounded-full px-4 py-2 flex items-center"
+                    class="bg-green-500 text-white font-bold rounded-lg px-4 py-2 flex items-center h-24 max-w-md shadow-lg w-full mx-2"
                 >
-                    <!-- Icône de succès (Google Material Icons) -->
+                    <!-- Success Icon (Google Material Icons) -->
                     <span class="material-icons text-lg mr-2"
                         >check_circle</span
                     >
@@ -24,7 +27,7 @@
                         @click="fermerPopup"
                         class="ml-2 material-symbols-outlined"
                     >
-                        <!-- Icône de fermeture (Google Material Icons) -->
+                        <!-- Close Icon (Google Material Icons) -->
                         <span> close </span>
                     </button>
                 </div>
@@ -419,19 +422,30 @@ export default {
                 this.ouvrirModale();
             } else if (this.estConfirmé) {
                 try {
+                    // Supprimer la bouteille du cellier
+                    const response =
+                        await BouteilleDataService.supprimerBouteilleDansCellier(
+                            this.cellierActif.id,
+                            bouteille.id
+                        );
+
+                    this.bouteilles = this.bouteilles.map((bouteilleItem) => {
+                        if (bouteilleItem.id === bouteille.id) {
+                            // Mettre à jour la quantité de la bouteille
+                            bouteilleItem.pivot.quantite =
+                                response.data.quantite;
+                        }
+                        return bouteilleItem;
+                    });
+                    this.bouteilles = this.bouteilles.filter(
+                        (bouteilleItem) => bouteilleItem.pivot.quantite !== 0
+                    );
+
                     // Archiver la bouteille
 
                     await BouteilleDataService.archiverBouteille(
                         this.cellierActif.id,
                         bouteille.id
-                    );
-                    // Supprimer la bouteille du cellier
-                    await BouteilleDataService.supprimerBouteilleDansCellier(
-                        this.cellierActif.id,
-                        bouteille.id
-                    );
-                    this.bouteilles = this.bouteilles.filter(
-                        (bouteilleItem) => bouteilleItem.id !== bouteille.id
                     );
 
                     // initier le message de confirmation
@@ -446,6 +460,7 @@ export default {
                     this.commentaire = "";
                 } catch (error) {
                     console.log(error);
+                } finally {
                 }
             }
         },
@@ -601,7 +616,7 @@ export default {
                     query: { ...this.$route.query, message: "" },
                 });
                 this.estPopupOuvert = false;
-            }, 2000);
+            }, 3000);
         },
         fermerPopup() {
             this.estPopupOuvert = false;
@@ -611,3 +626,5 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped></style>

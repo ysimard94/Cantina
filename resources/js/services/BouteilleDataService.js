@@ -36,7 +36,7 @@ class BouteilleDataService {
     }
     // Détacher la bouteille du cellier
     async supprimerBouteilleDansCellier(cellierId, bouteilleId) {
-        return await apiClient.delete(`/celliers/${cellierId}/${bouteilleId}`);
+        return await apiClient.post(`/celliers/${cellierId}/${bouteilleId}`);
     }
     // Archiver une bouteille
     async archiverBouteille(cellierId, bouteilleId) {
@@ -64,7 +64,9 @@ class BouteilleDataService {
     }
 
     async ajouterBouteilleALaListe(utilisateurId, bouteilleId) {
-        return await apiClient.post(`/liste-achats/${utilisateurId}+${bouteilleId}`);
+        return await apiClient.post(
+            `/liste-achats/${utilisateurId}+${bouteilleId}`
+        );
     }
 
     async updateQuantite(bouteillePivotId, bouteillePivotQuantite, cellierId) {
