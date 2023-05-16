@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         $adminRole = Role::where('nom', 'admin')->first();
         $utilisateurRole = Role::where('nom', 'utilisateur')->first();
 
-        $user = Utilisateur::create([
+        $utilisateur = Utilisateur::create([
             'nom' => 'Test User',
             'courriel' => 'test@example.com',
             'mdp' => Hash::make('password'),
@@ -36,9 +36,11 @@ class DatabaseSeeder extends Seeder
 
         //  Créer un cellier pour le test utilisateur 
         $cellier = new Cellier;
-        $cellier->nom = "Cellier de " . $user->nom;
-        $cellier->utilisateur_id = $user->id;
+        $cellier->nom = "Cellier de " . $utilisateur->nom;
+        $cellier->utilisateur_id = $utilisateur->id;
         $cellier->save();
+
+  
 
         // Créer un admin utilisateur
         $admin = Utilisateur::create([
@@ -47,13 +49,19 @@ class DatabaseSeeder extends Seeder
             'mdp' => Hash::make('password'),
         ]);
 
+        //  Créer un cellier pour l'admin 
+        $cellier = new Cellier;
+        $cellier->nom = "Cellier de " . $admin->nom;
+        $cellier->utilisateur_id = $admin->id;
+        $cellier->save();
+
          // Attacher a l'utilisateur admin le role admin
          if ($adminRole) {
             $admin->roles()->attach($adminRole);
         }
          // Attacher a l'utilisateur test le role utilisateur
          if ($utilisateurRole) {
-            $user->roles()->attach($utilisateurRole);
+            $utilisateur->roles()->attach($utilisateurRole);
         }
 
     }
