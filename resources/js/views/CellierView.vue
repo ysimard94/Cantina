@@ -1,5 +1,5 @@
 <template>
-    <div v-if="testBol" class="container mx-auto px-2 h-full">
+    <div v-if="afficherTemplate" class="container mx-auto px-2 h-full">
         <transition
             enter-active-class="transform transition-all duration-300 ease-in"
             enter-class="transform translate-y-full opacity-0"
@@ -301,7 +301,7 @@ export default {
 
     data() {
         return {
-            testBol: false,
+            afficherTemplate: false,
             bouteilles: [],
             filteredBouteilles: [],
             celliers: [],
@@ -405,7 +405,7 @@ export default {
             } catch (error) {
                 console.log(error);
             } finally {
-                this.testBol = true;
+                this.afficherTemplate = true;
             }
         },
         //ouvrir et fermer la modale, fermer renvoie la bouteille à supprimer vers la fonction supprimerBouteille

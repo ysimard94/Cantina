@@ -19,8 +19,6 @@ class Bouteille extends Model
         'photo',
         'code_saq',
         'prix',
-        'note',
-        'nbr_notes',
         'pays_id',
         'categorie_id',
         'url_saq',
