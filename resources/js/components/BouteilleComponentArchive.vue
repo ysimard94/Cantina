@@ -58,7 +58,7 @@
                             <svg
                                 :class="{
                                     'text-vin-blanc':
-                                        archive.bouteille.note / 20 >= i,
+                                        archive.bouteille.moyenneNotes >= i,
                                 }"
                                 class="w-4 h-4 fill-current"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -72,8 +72,11 @@
                     </div>
                 </div>
                 <button
-                        class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 focus:text-green-600 hover:scale-125 active:scale-90"
-                        @click="ajouterBouteilleALaListe(archive.bouteille.id)">post_add</button>
+                    class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 focus:text-green-600 hover:scale-125 active:scale-90"
+                    @click="ajouterBouteilleALaListe(archive.bouteille.id)"
+                >
+                    post_add
+                </button>
             </div>
         </div>
     </div>
@@ -114,7 +117,7 @@ export default {
             }
         },
         ajouterBouteilleALaListe(bouteilleId) {
-            this.$emit("ajouter-bouteille-a-la-liste", bouteilleId)
+            this.$emit("ajouter-bouteille-a-la-liste", bouteilleId);
         },
         categorieBgColor(categorieNom) {
             switch (categorieNom) {

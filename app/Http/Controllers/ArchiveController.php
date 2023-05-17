@@ -23,12 +23,26 @@ class ArchiveController extends Controller
             try {
 
                 // Récupérer les bouteilles archivées de l'utilisateur avec les information de la bouteille et de l'utilisateur
-                $archives = Archive::with('bouteille.categorie', 'bouteille.pays', 'utilisateur')
-                ->where('utilisateur_id', $utilisateur->id)
-                ->get();
+                $archives = Archive::with(['bouteille.categorie', 'bouteille.pays', 
+                'bouteille.avis' => function($query) {
+                    $query->selectRaw('bouteille_id, AVG(note) as moyenneNotes')
+                        ->groupBy('bouteille_id');
+                }, 
+                'utilisateur'])
+            ->where('utilisateur_id', $utilisateur->id)
+            ->get();
+            
+            foreach ($archives as $archive) {
+                $bouteille = $archive->bouteille;
+                if(!$bouteille->avis->isEmpty()){
+                    $avis = $bouteille->avis->first();
+                    $bouteille->moyenneNotes = $avis->moyenneNotes;
+                } else {
+                    $bouteille->moyenneNotes = 0;
+                }
+            }
+            
 
-
-                Log::info($archives);
 
                 return response()->json(['archives' => $archives, 'message' => 'Bouteille archivée avec succès']); // retourner un message de succès
             } catch (\Throwable $th) {
