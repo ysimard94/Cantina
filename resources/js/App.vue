@@ -2,21 +2,41 @@
     <div class="relative min-h-screen">
         <HeaderComponent />
         <main class="bg-[#D9D9D9]">
-            <router-view v-slot="{ Component }" @loading:start="onLoadingStart" @loading:end="onLoadingEnd">
+            <router-view
+                v-slot="{ Component }"
+                @loading:start="onLoadingStart"
+                @loading:end="onLoadingEnd"
+            >
                 <LoadingSpinner v-if="$store.getters.isLoading" />
                 <transition name="moveUp" mode="out-in">
                     <component :is="Component" ::key="$route.path" />
                 </transition>
             </router-view>
-            <MenuComponent :menu-ouvert="menuOuvert" @fermer-menu="menuOuvert = false; pageActive = -1"
-                @reinitialiser-page="pageActive = -1" />
-            <RechercheComponent :recherche-ouverte="rechercheOuverte"
-                @reinitialiser-page="pageActive = -1; rechercheOuverte = false" />
+            <MenuComponent
+                :menu-ouvert="menuOuvert"
+                @fermer-menu="
+                    menuOuvert = false;
+                    pageActive = -1;
+                "
+                @reinitialiser-page="pageActive = -1"
+            />
+            <RechercheComponent
+                :recherche-ouverte="rechercheOuverte"
+                @reinitialiser-page="
+                    pageActive = -1;
+                    rechercheOuverte = false;
+                "
+            />
         </main>
-        <FooterComponent :page-active="pageActive" :recherche-active="rechercheOuverte"
-            @toggle-menu="menuOuvert = !menuOuvert" @toggle-recherche="rechercheOuverte = !rechercheOuverte"
-            @fermer-menu="menuOuvert = false;" @fermer-recherche="rechercheOuverte = false"
-            @changer-page-active="pageActive = $event" />
+        <FooterComponent
+            :page-active="pageActive"
+            :recherche-active="rechercheOuverte"
+            @toggle-menu="menuOuvert = !menuOuvert"
+            @toggle-recherche="rechercheOuverte = !rechercheOuverte"
+            @fermer-menu="menuOuvert = false"
+            @fermer-recherche="rechercheOuverte = false"
+            @changer-page-active="pageActive = $event"
+        />
     </div>
 </template>
 
@@ -30,7 +50,7 @@ import BouteilleDataService from "@/services/BouteilleDataService";
 
 export default {
     name: "App",
-    data () {
+    data() {
         return {
             bouteillesSAQ: [],
             menuOuvert: false,
@@ -46,10 +66,10 @@ export default {
         RechercheComponent,
     },
     methods: {
-        onLoadingStart () {
+        onLoadingStart() {
             this.$store.dispatch("setLoading", true);
         },
-        onLoadingEnd () {
+        onLoadingEnd() {
             this.$store.dispatch("setLoading", false);
         },
     },

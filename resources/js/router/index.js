@@ -184,7 +184,12 @@ function logout(to, from, next) {
     localStorage.removeItem("jwt-token");
 
     // Effacer le token de session
-    // store.commit("resetSession");
+    sessionStorage.removeItem("session");
+
+    // Effacer le session state in Vuex
+    store.commit("resetSession");
+
+    console.log(store.getters.session);
 
     // Redirigé vers la page de connexion
     next();
