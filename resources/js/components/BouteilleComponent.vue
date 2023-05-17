@@ -188,6 +188,7 @@ export default {
 
             const notes = avis.map((avis) => avis.note);
             const sommeNotes = notes.reduce((acc, note) => acc + note, 0);
+            if(sommeNotes === 0) return 0
             const moyenneNotes = sommeNotes / avis.length;
             return moyenneNotes.toFixed(0);
         },
