@@ -402,7 +402,6 @@ export default {
                         this.cellierActif.id
                     );
                 this.bouteilles = response.data.bouteilles;
-                console.log(this.bouteilles);
             } catch (error) {
                 console.log(error);
             } finally {

@@ -247,7 +247,6 @@ export default {
                             this.mdp_nouveau !== "" ? this.mdp_nouveau : null,
                     }
                 );
-                console.log("hello");
 
                 if (reponse.data.erreur) {
                     this.erreurServeur = reponse.data.erreur;

@@ -211,7 +211,6 @@ export default {
         },
         // Fonction de tri par nom
         fTriParNom() {
-            console.log("tri par nom");
             this.triParNom = !this.triParNom;
             this.triParDate = false;
 
@@ -252,15 +251,12 @@ export default {
             if (this.recherche === "") {
                 await this.chargerArchives();
             }
-            console.log(this.bouteillesRecherche);
         },
         ...mapMutations(["setArchiveFiltreValeurs"]),
     },
     async mounted() {
         //  Charger les archive de l'utilisateur
         await this.chargerArchives();
-
-        console.log(this.archives);
         this.reinitialisationBouteilles();
     },
 };

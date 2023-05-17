@@ -35,8 +35,8 @@ class SAQController extends Controller
         $totalItems = isset($matches[1]) ? intval($matches[1]) : 0;
 
         // Calculer le nombre total de pages
-        // $totalPage = ceil($totalItems / 96);
-        $totalPage = 1;
+        $totalPage = ceil($totalItems / 96);
+
 
 
 
@@ -71,7 +71,7 @@ class SAQController extends Controller
 
     public function getBouteilles($valeur)
     {
-        $bouteilles = Bouteille::where('nom','LIKE', '%' . $valeur . '%')->take(5)->get();
+        $bouteilles = Bouteille::where('nom','LIKE', '%' . $valeur . '%')->get();
 
         return response()->json($bouteilles);
     }
