@@ -259,6 +259,8 @@ export default {
     async mounted() {
         //  Charger les archive de l'utilisateur
         await this.chargerArchives();
+
+        console.log(this.archives);
         this.reinitialisationBouteilles();
     },
 };
