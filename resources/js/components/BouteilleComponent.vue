@@ -46,7 +46,7 @@
                                         <template v-for="i in 5" :key="i">
                                             <svg :class="{
                                                 'text-vin-blanc':
-                                                    bouteille.note / 20 >=
+                                                  bouteille.moyenneNotes >=
                                                     i,
                                             }" class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 24 24">
@@ -102,7 +102,7 @@
 
 <script>
 import BouteilleDataService from "@/services/BouteilleDataService.js";
-
+import AvisDataService from "@/services/AvisDataService.js";
 export default {
     name: "BouteilleComponent",
     props: {
@@ -120,6 +120,7 @@ export default {
     data() {
         return {
             animationSupprimer: false,
+            moyenneNotes: 0,
         };
     },
     methods: {
@@ -180,9 +181,25 @@ export default {
         } catch (error) {
             console.log(error);
         }
-    }
 
- },
+    }, async getAvisBouteille(bouteille) {
+            const reponse = await AvisDataService.avisBouteille(bouteille.id);
+            const avis = reponse.data;
+
+            const notes = avis.map((avis) => avis.note);
+            const sommeNotes = notes.reduce((acc, note) => acc + note, 0);
+            const moyenneNotes = sommeNotes / avis.length;
+            return moyenneNotes.toFixed(0);
+        },
+
+    },
+    async created() {
+        for (const bouteille of this.bouteilles) {
+            const moyenneNotes = await this.getAvisBouteille(bouteille);
+            bouteille.moyenneNotes = moyenneNotes;
+            console.log (bouteille.moyenneNotes)
+        }
+    }
 
 };
 </script>
