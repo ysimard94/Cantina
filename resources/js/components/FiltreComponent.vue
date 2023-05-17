@@ -464,7 +464,7 @@ export default {
                     estPaysSelectionne &&
                     estSourceSelectionnee &&
                     estPrixInclus &&
-                    Math.floor((bouteille.note * 5) / 100) >=
+                    bouteille.note >=
                         this.nbrEtoileFiltrer
                 );
             });
