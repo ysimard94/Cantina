@@ -111,7 +111,7 @@
                 </div>
                 <!-- Image -->
                 <div class="mb-4">
-                    <label for="photo" class="block text-md text-left font-bold text-vin-rouge">Select an image:</label>
+                    <label for="photo" class="block text-md text-left font-bold text-vin-rouge">Sélectionner une image:</label>
                     <input @change="chargerPhoto" id="photo" type="file" accept="image/*" name="photo"
                         class="w-full text-md rounded pt-2 pb-2 pl-1 pr-1 bg-white" />
                 </div>
