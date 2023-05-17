@@ -11,16 +11,12 @@ use Illuminate\Support\Facades\Log;
 
 class ListeAchatController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Retourne les bouteilles de la liste d'achats de l'utilisateur
     public function getListe(Utilisateur $utilisateur)
     {
         // Verifier  si le le id d'utilisateur envoyé est le même que celui connecté
         if ($utilisateur->id == Auth::user()->id) {
             try {
-                Log::info('gagagaga');
-
                 // Récupérer les bouteilles archivées de l'utilisateur avec les information de la bouteille et de l'utilisateur
                 $liste_achats = ListeAchat::with('bouteille.categorie', 'bouteille.pays', 'utilisateur')
                     ->where('utilisateur_id', $utilisateur->id)
@@ -44,16 +40,12 @@ class ListeAchatController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Ajoute une bouteille à la liste d'achats de l'utilisateur
     public function ajouterBouteilleALaListe($utilisateurId, $bouteilleId)
     {
         // Verifier  si le le id d'utilisateur envoyé est le même que celui connecté
         if ($utilisateurId == Auth::user()->id) {
             try {
-                Log::info('gagagaga');
-
                 // Récupérer les bouteilles archivées de l'utilisateur avec les information de la bouteille et de l'utilisateur
                 $listeAchat = ListeAchat::where('utilisateur_id', $utilisateurId)
                     ->where('bouteille_id', $bouteilleId)
@@ -105,17 +97,12 @@ class ListeAchatController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Supprime la bouteille de la liste d'achats
     public function destroy($listeId, $quantite, $utilisateurId)
     {
         //
         if ($utilisateurId == Auth::user()->id) {
             try {
-                Log::info($quantite);
-                Log::info($listeId);
-                Log::info($utilisateurId);
                 // Récupérer les bouteilles archivées de l'utilisateur avec les information de la bouteille et de l'utilisateur
                 $liste_achat = ListeAchat::where('id', $listeId)->first();
                 if ($quantite > 0) {

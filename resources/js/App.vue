@@ -52,18 +52,7 @@ export default {
         onLoadingEnd () {
             this.$store.dispatch("setLoading", false);
         },
-        // async fetchBouteilles() {
-        //     try {
-        //         const response = await BouteilleDataService.getAll();
-        //         this.bouteillesSAQ = response.data;
-        //     } catch (error) {
-        //         console.log(error.response);
-        //     }
-        // },
     },
-    // async mounted() {
-    //     await this.fetchBouteilles();
-    // },
 };
 </script>
 <style>
@@ -74,14 +63,6 @@ export default {
     color: #2c3e50;
 }
 
-/* .fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.3s;
-}
-.fade-enter,
-.fade-leave-to {
-    opacity: 0;
-} */
 .moveUp-enter-active {
     animation: fadeIn 0.2s ease-in;
 }
@@ -116,8 +97,8 @@ export default {
 
 main {
     min-height: 100vh;
-    padding-bottom: 96px;
-    margin-bottom: 56px;
+    padding-bottom: 152px;
+    /* margin-bottom: 56px; */
     display: flex;
     flex-direction: column;
 }

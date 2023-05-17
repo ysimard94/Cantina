@@ -35,63 +35,13 @@
 </template>
 
 <script>
-import SaqProduitsDataService from "@/services/SaqProduitsDataService";
-
 export default {
     name: "HeaderComponent",
-    data() {
-        return {
-            menuMobile: false,
-            valeurRecherche: "",
-            tempsRecherche: null,
-            rechercheVide: true,
-            bouteilles: [],
-        };
-    },
-    methods: {
-        afficherMenu() {
-            this.menuMobile = !this.menuMobile;
-        },
-        async recherche() {
-            clearTimeout(this.tempsRecherche);
-
-            this.tempsRecherche = setTimeout(async () => {
-                if (this.valeurRecherche.length >= 3) {
-                    this.rechercheVide = false;
-                    try {
-                        const reponse =
-                            await SaqProduitsDataService.getBouteilles(
-                                this.valeurRecherche
-                            );
-                        this.bouteilles = reponse.data;
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }
-            }, 500);
-            if (this.valeurRecherche.length < 3) {
-                this.rechercheVide = true;
-                this.tempsRecherche = setTimeout(() => {
-                    this.bouteilles = [];
-                }, 500);
-            }
-        },
-        reinitialiserRecherche() {
-            this.rechercheVide = true;
-            this.valeurRecherche = "";
-            this.tempsRecherche = setTimeout(() => {
-                this.bouteilles = [];
-            }, 500);
-        },
-    },
     computed: {
+        // Vérifie si l'utilisateur est connecté
         estConnecter() {
             return this.$store.state.session.utilisateur_id !== undefined;
         },
     },
 };
 </script>
-
-<style scoped>
-/* Add any necessary styles here */
-</style>

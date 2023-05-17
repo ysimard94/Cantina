@@ -292,7 +292,6 @@ export default {
             try {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
-                console.log(this.celliers)
             } catch (error) {
                 console.log(error);
             }

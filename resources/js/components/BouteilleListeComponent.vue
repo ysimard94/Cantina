@@ -33,9 +33,9 @@
                         $ {{ liste.bouteille.prix }}
                     </span>
                 </div>
-                <!-- Notes -->
                 <div class="text-gray-700 font-medium mt-auto align-bottom p">
                     <div class="flex items-center">
+                        <!-- Liste des celliers, le cache s'il y en a qu'un, sinon montrer le champ select -->
                         <template v-if="celliers.length === 1">
                             <select id="cellier" hidden>
                                 <option v-for="cellier in celliers" :key="cellier.id" :value="cellier.id">
@@ -51,10 +51,11 @@
                                 </option>
                             </select>
                         </template>
-                        <input type="hidden" :value="liste.quantite" id="quantite">
+                        <!-- Bouton d'ajout de la bouteille au cellier -->
                         <button
                             class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-green-600 focus:text-green-600 hover:scale-125 active:scale-90"
                             @click="ajouterBouteille(liste.bouteille.id, $event, liste)">add</button>
+                        <!-- Bouton qui supprime la bouteille de la liste d'achats -->
                         <button
                             class="material-symbols-outlined text-4xl ml-2 add-button transform transition-all hover:text-red-600 focus:text-red-600 hover:scale-110 active:scale-90"
                             @click="supprimerBouteille(liste); messageSupprimer()">delete</button>
@@ -92,6 +93,7 @@ export default {
                 return bouteille.photo;
             }
         },
+        // Retournes la couleur de la catégorie de la bouteille
         categorieBgColor (categorieNom) {
             switch (categorieNom) {
                 case "Vin rouge":
@@ -104,6 +106,7 @@ export default {
                     return "bg-gray-500";
             }
         },
+        // Ajoute la bouteille au cellier sélectionné
         async ajouterBouteille (bouteilleId, event, liste) {
             let cellierId = event.target.parentNode.querySelector("#cellier").value;
 
@@ -129,6 +132,7 @@ export default {
                 console.log(reponse.data);
             }
         },
+        // Va supprimer la bouteille de la liste d'achats
         async supprimerBouteille (liste) {
             try {
                 if (liste.quantite >= 1) {
@@ -145,6 +149,7 @@ export default {
                 console.log(reponse.data);
             }
         },
+        // Va afficher le message de succès quand la bouteille est supprimée
         messageSupprimer () {
             this.$emit("succesPopup", {
                 succes: true,

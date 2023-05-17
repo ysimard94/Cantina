@@ -57,12 +57,14 @@ class BouteilleDataService {
         return await apiClient.get(`/liste-achats/${utilisateurId}`);
     }
 
+    // Supprimer une bouteille de la liste d'achats
     async supprimerBouteilleDeLaListe(listeId, quantite, utilisateurId) {
         return await apiClient.delete(
             `/liste-achats/${listeId}+${quantite}+${utilisateurId}`
         );
     }
 
+    // Ajouter une bouteille à la liste d'achats
     async ajouterBouteilleALaListe(utilisateurId, bouteilleId) {
         return await apiClient.post(
             `/liste-achats/${utilisateurId}+${bouteilleId}`
