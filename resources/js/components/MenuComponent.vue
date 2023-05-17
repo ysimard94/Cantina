@@ -12,6 +12,7 @@
                 class="h-full w-full flex flex-col justify-center items-center"
             >
                 <span class="mt-auto"></span>
+                <!-- Page pour scrape les bouteilles de vin de la SAQ, seul les admin peuvent y accéder -->
                 <router-link
                     v-if="this.$store.getters.isAdmin"
                     :to="{ name: 'saq-produits' }"
@@ -19,18 +20,21 @@
                     @click="fermerMenu"
                     >Obtenir les bouteilles SAQ</router-link
                 >
+                <!-- Page de modification d'utilisateur -->
                 <router-link
                     :to="{ name: 'modifier-utilisateur' }"
                     class="w-full text-2xl text-white py-2"
                     @click="fermerMenu"
                     >Modifier profil</router-link
                 >
+                <!-- Page d'à propos -->
                 <router-link
                     :to="{ name: 'a-propos' }"
                     class="w-full text-2xl text-white py-2"
                     @click="fermerMenu"
                     >À propos</router-link
                 >
+                <!-- Page de déconnexion -->
                 <router-link
                     :to="{ name: 'deconnexion' }"
                     class="w-full text-2xl text-white py-2 mb-auto"
@@ -39,7 +43,7 @@
                 >
             </nav>
         </div>
-        <!-- Bouton pour fermer le menu -->
+        <!-- Bouton pour fermer le menu secondaire -->
         <button
             :class="{
                 'transform -rotate-180 opacity-0': !menuOuvert,
@@ -63,6 +67,7 @@ export default {
         menuOuvert: Boolean,
     },
     methods: {
+        // Pour fermer le menu secondaire
         fermerMenu() {
             console.log(this.$store.getters.session);
             this.$emit("fermer-menu");

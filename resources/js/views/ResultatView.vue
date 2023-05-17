@@ -8,7 +8,7 @@
             leave-class="transform translate-y-0  opacity-100"
             leave-to-class="transform translate-y-full  opacity-0"
         >
-            <!-- Success Message -->
+            <!-- Message de succès -->
             <div
                 v-show="estSuccessPopup"
                 class="fixed bottom-0 left-0 right-0 flex justify-center mb-20"
@@ -194,7 +194,7 @@ export default {
 
                 this.message = reponse.data.message;
                 this.estSuccessPopup = true;
-                // Pour fermer le popup après 5 secondes
+                // Pour fermer le popup après 2 secondes
                 setTimeout(() => {
                     this.message = "";
                     this.estSuccessPopup = false;
@@ -203,6 +203,7 @@ export default {
                 console.log(reponse.data);
             }
         },
+        // Méthode pour ajouter la bouteille dans la liste d'achats de l'utilisateur
         async ajouterBouteilleALaListe(bouteilleId) {
             try {
                 const reponse =

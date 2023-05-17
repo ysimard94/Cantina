@@ -55,23 +55,23 @@ export default {
         };
     },
     methods: {
+        // Méthode pour charger la liste d'achats de bouteilles
         async chargerListe() {
             try {
                 const response =
                     await BouteilleDataService.getListeBouteilles(
                         this.$store.getters.session.utilisateur_id
                     );
-                console.log(response.data.liste)
                 this.liste = response.data.liste;
             } catch (error) {
                 console.log(error);
             }
         },
+        // Méthode pour charger les celliers de l'utilisateur
         async fetchCelliers() {
             try {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
-                console.log(this.celliers)
                 // Si il est existe au moins un cellier, on mis le premier comme cellier actif
                 if (this.celliers.length > 0) {
                     this.cellierActif = this.celliers[0];
@@ -80,15 +80,17 @@ export default {
                 console.log(error.response);
             }
         },
+        // Méthode pour gérer le message de succès
         handleSuccesPopup(props) {
             this.message = props.message;
             this.estSuccessPopup = props.succes;
         },
+        // Méthode pour fermer le message de succès
         fermerPopup() {
             this.estSuccessPopup = false;
         },
+        // Méthode pour supprimer une bouteille de la liste d'achats
         supprimerBouteille(listeId) {
-            console.log(listeId)
             this.liste = this.liste.filter((liste) => liste.id !== listeId);
         }
 
