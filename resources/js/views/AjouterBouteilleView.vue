@@ -86,6 +86,15 @@
                 </div>
                 <!-- Année  - Quantité -->
                 <div class="flex gap-2 items-center">
+                    <!-- Celliers -->
+                    <div class="mb-4 flex-1">
+                        <label for="cellier" class="block text-md text-left font-bold text-vin-rouge">Cellier</label>
+                        <select v-model="cellier" name="cellier" class="w-full rounded px-1 h-8 bg-white">
+                            <option v-for="cellier in celliers" :key="cellier.id" :value="cellier.id">
+                                {{ cellier.nom }}
+                            </option>
+                        </select>
+                    </div>
                     <!-- Quantité  -->
                     <div class="mb-4 flex-1">
                         <label for="quantite" class="block text-md text-left font-bold text-vin-rouge">Quantité</label>
@@ -96,30 +105,10 @@
                                 !v$.quantite.$error && v$.quantite.$dirty,
                         }" />
                         <p v-if="v$.quantite.$error" class="block text-xs text-red-500">
-                            Veillez entrer une quantité valide
-                        </p>
-                    </div>
-                    <!-- Année  -->
-                    <div class="mb-4 flex-1">
-                        <label for="annee" class="block text-md text-left font-bold text-vin-rouge">Année</label>
-                        <input type="number" v-model="annee" id="annee" class="w-full rounded py-2 px-1 h-8" :class="{
-                            'border border-red-500':
-                                v$.annee.$error && v$.annee.$dirty,
-                            'border border-green-500':
-                                !v$.annee.$error && v$.annee.$dirty,
-                        }" />
-                        <p v-if="v$.annee.$error" class="block text-xs text-red-500">
-                            Veillez entrer une année valide
+                            Veuillez entrer une quantité valide
                         </p>
                     </div>
                 </div>
-
-                <!-- Description -->
-                <div class="mb-4">
-                    <label for="description" class="block text-md text-left font-bold text-vin-rouge">Description</label>
-                    <textarea v-model="description" id="description" class="w-full rounded pt-2 pb-2 pl-1 pr-1"></textarea>
-                </div>
-
                 <!-- Image -->
                 <div class="mb-4">
                     <label for="photo" class="block text-md text-left font-bold text-vin-rouge">Select an image:</label>
@@ -142,7 +131,6 @@
                         </p>
                     </div>
                 </div>
-
                 <!-- Validation -->
                 <div>
                     <button type="submit" class="mb-4 mt-4 bg-vin-rouge text-white rounded py-2 px-6">
@@ -169,14 +157,15 @@ import {
 import PaysDataService from "@/services/PaysDataService";
 import CategorieDataService from "@/services/CategorieDataService";
 import BouteilleDataService from "@/services/BouteilleDataService";
+import CellierDataService from "@/services/CellierDataService";
 
 export default {
-    setup () {
+    setup() {
         return {
             v$: useVuelidate(),
         };
     },
-    data () {
+    data() {
         return {
             nom: "",
             description: "",
@@ -190,11 +179,13 @@ export default {
             message: "",
             pays: [],
             categories: [],
+            celliers: [],
+            cellier: null,
             quantite: 1,
         };
     },
 
-    validations () {
+    validations() {
         return {
             nom: {
                 required,
@@ -244,16 +235,12 @@ export default {
 
             // Ajouter les données de la bouteille dans le FormData
             formData.append("nom", this.nom);
-            formData.append("description", this.description);
             if (this.photo) {
                 formData.append("photo", this.photo);
             }
             formData.append("prix", this.prix);
-            formData.append("note", this.note);
-            formData.append("nbr_notes", this.nbr_notes);
             formData.append("pays_id", this.pays_id);
             formData.append("categorie_id", this.categorie_id);
-            formData.append("annee", this.annee);
             formData.append("quantite", this.quantite);
 
             try {
@@ -261,9 +248,10 @@ export default {
 
                 // Appeler le service pour créer la bouteille
                 const reponse = await BouteilleDataService.create(
-                    this.$route.params.cellierId,
+                    this.cellier,
                     formData
                 );
+
 
                 // renvoyer a la page celliers avec un message de succès
                 this.$router.push({
@@ -278,7 +266,7 @@ export default {
                 this.$emit("loading:end");
             }
         },
-        chargerPhoto (e) {
+        chargerPhoto(e) {
             this.photo = e.target.files[0];
         },
         getPays: async function () {
@@ -299,10 +287,27 @@ export default {
             } finally {
             }
         },
+        // Obtenir la liste des celliers
+        async fetchCelliers() {
+            try {
+                const response = await CellierDataService.getAll();
+                this.celliers = response.data;
+                console.log(this.celliers)
+            } catch (error) {
+                console.log(error);
+            }
+        },
     },
     mounted: async function () {
         await this.getCategories();
         await this.getPays();
+        // Obtenir la liste des celliers et mettre le premier cellier de sélectionné par défaut
+        this.fetchCelliers().then(() => {
+            if (this.celliers.length > 0) {
+                this.cellier = this.celliers[0].id
+            }
+        });
+
     },
 };
 </script>
