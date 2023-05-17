@@ -48,7 +48,7 @@
                 <p class="text-l font-bold mb-2">
                     {{ review.utilisateur.nom }}
 
-                    <span class="text-yellow-500">
+                    <span class="text-vin-blanc">
                         <!-- Ajouter autant d'étoiles jaunes que le nombre d'étoiles souhaité -->
                         <!-- Ajouter autant d'étoiles grises que le complément à 5 étoiles -->
                         <span v-for="i in 5" :key="i">
