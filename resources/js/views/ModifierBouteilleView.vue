@@ -1,5 +1,5 @@
 <template>
-    <section class="m-4 mt-6">
+    <section v-iv="afficherTemplate" class="m-4 mt-6">
         <div class="mb-6 flex justify-start">
             <button
                 @click="$router.go(-1)"
@@ -270,6 +270,7 @@ export default {
             message: "",
             quantite: 1,
             pivot: null,
+            afficherTemplate: false,
         };
     },
     validations() {
@@ -349,6 +350,7 @@ export default {
                 });
             } catch (error) {
                 console.error(error);
+                this.erreurServeur = error.response.data.message;
             } finally {
             }
         },
@@ -374,6 +376,8 @@ export default {
                         : null;
             } catch (error) {
                 console.error(error);
+            } finally {
+                this.afficherTemplate = true;
             }
         },
         getPays: async function () {
