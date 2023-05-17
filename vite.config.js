@@ -4,10 +4,12 @@ import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
 
 export default defineConfig({
+    base: "/",
     plugins: [
         laravel({
             input: ["resources/js/app.js"],
             refresh: true,
+            publicDir: "public/assets",
         }),
         vue({
             template: {

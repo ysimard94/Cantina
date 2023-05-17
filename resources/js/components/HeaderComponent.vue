@@ -12,7 +12,7 @@
                         >
                             <img
                                 class="max-h-[60px]"
-                                src="@assets/logo.svg"
+                                src="/assets/logo.svg"
                                 alt="Vino Logo"
                             />
                         </router-link>
@@ -23,7 +23,7 @@
                         >
                             <img
                                 class="max-h-[60px]"
-                                src="@assets/logo.svg"
+                                src="/assets/logo.svg"
                                 alt="Vino Logo"
                             />
                         </router-link>

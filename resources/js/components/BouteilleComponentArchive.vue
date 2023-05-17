@@ -37,7 +37,7 @@
                         class="w-[25px] block self-start"
                     >
                         <a :href="archive.bouteille.url_saq" target="_blank">
-                            <img src="@assets/saq.svg" alt="SAQ Icon" />
+                            <img src="/assets/saq.svg" alt="SAQ Icon" />
                         </a>
                     </span>
                 </div>
