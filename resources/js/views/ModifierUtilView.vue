@@ -1,6 +1,39 @@
 <template>
     <section class="mt-12">
         <div class="bg-bg-rose m-4 p-3 shadow-md rounded">
+            <transition
+                enter-active-class="transform transition-all duration-300 ease-in"
+                enter-class="transform translate-y-full opacity-0"
+                enter-to-class="transform translate-y-0  opacity-100"
+                leave-active-class="transform transition-all duration-300 ease-in"
+                leave-class="transform translate-y-0  opacity-100"
+                leave-to-class="transform translate-y-full  opacity-0"
+            >
+                <!-- Success Message -->
+                <div
+                    v-show="estSuccessPopup"
+                    class="fixed bottom-0 left-0 right-0 flex justify-center mb-20 z-50"
+                >
+                    <div
+                        class="bg-green-500 text-white font-bold rounded-lg px-4 py-2 flex items-center h-24 max-w-md shadow-lg w-full mx-2"
+                    >
+                        <!-- Success Icon (Google Material Icons) -->
+                        <span class="material-icons text-lg mr-2"
+                            >check_circle</span
+                        >
+                        <span class="flex-1 text-center text-sm">{{
+                            message
+                        }}</span>
+                        <button
+                            @click="fermerPopup"
+                            class="ml-2 material-symbols-outlined"
+                        >
+                            <!-- Close Icon (Google Material Icons) -->
+                            <span> close </span>
+                        </button>
+                    </div>
+                </div>
+            </transition>
             <form @submit.prevent="editUtilisateur">
                 <h3 class="mb-4 text-vin-rouge font-bold text-xl">
                     Modifier Utilisateur
@@ -9,39 +42,7 @@
                 <p v-if="erreurServeur" class="block text-md text-red-500">
                     {{ erreurServeur }}
                 </p>
-                <transition
-                    enter-active-class="transform transition-all duration-300 ease-in"
-                    enter-class="transform translate-y-full opacity-0"
-                    enter-to-class="transform translate-y-0  opacity-100"
-                    leave-active-class="transform transition-all duration-300 ease-in"
-                    leave-class="transform translate-y-0  opacity-100"
-                    leave-to-class="transform translate-y-full  opacity-0"
-                >
-                    <!-- Success Message -->
-                    <div
-                        v-show="estSuccessPopup"
-                        class="fixed bottom-0 left-0 right-0 flex justify-center mb-20 z-50"
-                    >
-                        <div
-                            class="bg-green-500 text-white font-bold rounded-lg px-4 py-2 flex items-center h-24 max-w-md shadow-lg w-full mx-2"
-                        >
-                            <!-- Success Icon (Google Material Icons) -->
-                            <span class="material-icons text-lg mr-2"
-                                >check_circle</span
-                            >
-                            <span class="flex-1 text-center text-sm">{{
-                                message
-                            }}</span>
-                            <button
-                                @click="fermerPopup"
-                                class="ml-2 material-symbols-outlined"
-                            >
-                                <!-- Close Icon (Google Material Icons) -->
-                                <span> close </span>
-                            </button>
-                        </div>
-                    </div>
-                </transition>
+
                 <div class="mb-4">
                     <label
                         for="nom"
@@ -183,6 +184,7 @@ export default {
             erreurServeur: "",
             message: "",
             estSuccessPopup: false,
+            timeoutInstance: null,
         };
     },
     // Ajouter les règles de validation
@@ -206,6 +208,7 @@ export default {
     methods: {
         // Fermer Le popup du message de succès
         fermerPopup() {
+            clearTimeout(this.timeoutInstance);
             this.message = "";
             this.erreurServeur = "";
             this.estSuccessPopup = false;
@@ -244,6 +247,7 @@ export default {
                             this.mdp_nouveau !== "" ? this.mdp_nouveau : null,
                     }
                 );
+                console.log("hello");
 
                 if (reponse.data.erreur) {
                     this.erreurServeur = reponse.data.erreur;
@@ -252,8 +256,9 @@ export default {
                     this.message = reponse.data.message;
                     this.estSuccessPopup = true;
                     // Pour fermer le popup après 5 secondes
-                    setTimeout(() => {
+                    this.timeoutInstance = setTimeout(() => {
                         this.message = "";
+                        this.erreurServeur = "";
                         this.estSuccessPopup = false;
                     }, 2000);
                 }
