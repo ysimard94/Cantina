@@ -360,7 +360,6 @@ export default {
                     this.bouteilleId
                 );
                 const bouteille = response.data.bouteille;
-                console.log(bouteille);
 
                 // Peuple le formulaire avec les données extraites
                 this.nom = bouteille.nom;
