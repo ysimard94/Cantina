@@ -30,7 +30,7 @@
                     <label class="relative flex items-center">
                         <input v-model="valeurRecherche" type="text" class="w-full py-1 pl-2 pr-[32px] rounded"
                             placeholder="Ajouter une bouteille de la SAQ" @keyup="recherche" @keyup.enter="goAuxResultats(valeurRecherche)"/>
-                        <button class="material-symbols-outlined absolute right-0 p-1">
+                        <button class="material-symbols-outlined absolute right-0 p-1" @click="goAuxResultats(valeurRecherche)">
                             search
                         </button>
                     </label>
