@@ -9,20 +9,21 @@
                     <!-- Affiche ou non avec une animation si la recherche est vide ou non -->
                     <ul class="absolute mt-3 bg-white w-full rounded shadow z-10 transform transition-all duration-300 bottom-10"
                         :class="{
-                            'transform translate-y-1 opacity-0':
-                                rechercheVide,
-                            'transform translate-y-0 opacity-100':
-                                !rechercheVide,
-                        }">
+                            'transform translate-y-1 opacity-0': rechercheVide,
+                            'transform translate-y-0 opacity-100': !rechercheVide,
+                        }"
+                        style="max-height: 10rem; overflow-y: scroll;">
                         <!-- Liste des bouteilles suggérées, et afficher une bordure en bas sauf pour la dernière suggestion -->
-                        <li class="mx-4 flex text-left" :class="{
-                            'border-b-2':
-                                index !== bouteilles.length - 1,
-                        }" v-for="(bouteille, index) in bouteilles" :key="index">
+                        <li class="mx-4 flex text-left"
+                            :class="{ 'border-b-2': index !== bouteilles.length - 1 }"
+                            v-for="(bouteille, index) in bouteilles"
+                            :key="index">
                             <router-link :to="{
                                 name: 'resultat-recherche',
                                 params: { valeur: bouteille.nom },
-                            }" @click="reinitialiserRecherche(); reinitialiserPage();" class="pt-1">
+                            }"
+                            @click="reinitialiserRecherche(); reinitialiserPage();"
+                            class="pt-1">
                                 {{ bouteille.nom }}
                             </router-link>
                         </li>
@@ -38,13 +39,16 @@
             </form>
             <span>
                 <!-- Lien qui redirige vers le formulaire pour ajouter sa propre bouteille -->
-                <router-link :to="{ name: 'ajouter-bouteille' }" @click="reinitialiserRecherche(); reinitialiserPage();"
-                    class="text-vin-rouge border-b border-vin-rouge hover:text-red-700 ml-2">Ajouter votre propre
-                    bouteille?</router-link>
+                <router-link :to="{ name: 'ajouter-bouteille' }"
+                    @click="reinitialiserRecherche(); reinitialiserPage();"
+                    class="text-vin-rouge border-b border-vin-rouge hover:text-red-700 ml-2">
+                    Ajouter votre propre bouteille?
+                </router-link>
             </span>
         </div>
     </div>
 </template>
+
 <script>
 import SaqProduitsDataService from "../services/SaqProduitsDataService";
 export default {

@@ -174,10 +174,6 @@ export default {
             }
         },
 
-        handleChangerCellier() {
-            console.log(this.cellierActif);
-        },
-
         // Méthode pour ajouter la bouteille au cellier sélectionné ainsi que la quantité
         async ajouterBouteille(bouteilleId, event) {
             let cellierId =

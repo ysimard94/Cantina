@@ -397,7 +397,6 @@ class BouteilleController extends Controller
                         ->groupBy('bouteille_id');
                 }
             ])
-            ->take(5)
             ->get();
 
         foreach ($bouteilles as $bouteille) {
