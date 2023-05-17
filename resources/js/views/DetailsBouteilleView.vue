@@ -6,7 +6,7 @@
         </button>
         <section class="grid grid-cols-1 md:grid-cols-2 gap- items-center relative my-4">
             <div class="mx-auto md:mx-0 p-2">
-                <img :src="bouteille.photo" :alt="bouteille.nom" class="w-full h-auto">
+                <img :src="imageUrl(bouteille)" :alt="bouteille.nom" class="w-full h-auto">
             </div>
 
             <h1 class="text-xl md:text-4xl font-bold text-vin-rouge mb-4">{{ bouteille.nom }}</h1>
@@ -87,7 +87,18 @@ export default {
 
             }
         },
-
+        imageUrl(bouteille) {
+            const baseUrl = import.meta.env.VITE_BASE_URL || "";
+            if (
+                bouteille.photo !==
+                    "https://www.saq.com/media/catalog/product/1/4/14064101-1_1578550524.png?quality=80&fit=bounds&height=166&width=111&canvas=111:166" &&
+                bouteille.code_saq === null
+            ) {
+                return `${baseUrl}${bouteille.photo}`;
+            } else {
+                return bouteille.photo;
+            }
+        },
 
 
     },
