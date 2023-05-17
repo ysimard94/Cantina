@@ -109,7 +109,7 @@
                                 class="w-[32px] my-auto mr-2"
                             >
                                 <a :href="bouteille.url_saq" target="_blank">
-                                    <img src="@assets/saq.svg" alt="SAQ Icon" />
+                                    <img src="/assets/saq.svg" alt="SAQ Icon" />
                                 </a>
                             </div>
                             <!-- Bouton pour supprimer qui va jouer une animation selon l'état du booléen -->
