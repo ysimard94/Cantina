@@ -57,6 +57,9 @@ const store = createStore({
         },
     },
     getters: {
+        estConnecter: (state) => {
+            return state.session && !!state.session.utilisateur;
+        },
         isLoading: (state) => state.isLoading,
         session: (state) => state.session,
         cellierFiltreValeurs: (state) => state.cellierFiltreValeurs,
