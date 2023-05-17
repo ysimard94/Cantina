@@ -230,8 +230,24 @@ class BouteilleController extends Controller
     public function getBouteillesByCellierId(Cellier $cellier)
     {
         try {
-            // Obtenir les bouteilles appartenant au cellier passé en paramètre
-            $bouteilles = $cellier->bouteilles()->with('categorie', 'pays')->withPivot('quantite')->get();
+            // Obtenir les bouteilles appartenant au cellier passé en paramètre avec les informations de la catégorie et du pays et aussi en calculant la moyenne des notes
+            $bouteilles = $cellier->bouteilles()
+            ->with(['categorie', 'pays', 'avis' => function($query) {
+                $query->selectRaw('bouteille_id, AVG(note) as moyenneNotes')
+                    ->groupBy('bouteille_id');
+            }])
+            ->withPivot('quantite')
+            ->get();
+
+            //  Ajouter un attribut moyenneNotes à chaque bouteille
+            foreach ($bouteilles as $bouteille) {
+                if(!$bouteille->avis->isEmpty()){
+                    $avis = $bouteille->avis->first();
+                    $bouteille->moyenneNotes = $avis->moyenneNotes;
+                } else {
+                    $bouteille->moyenneNotes = 0;
+                }
+            }
 
             // Renvoyer la réponse avec les bouteilles
             return response()->json([
@@ -373,9 +389,25 @@ class BouteilleController extends Controller
     public function getResultatsBouteilles($valeur)
     {
         // Va chercher la bouteille correspondant à le nom envoyé
-        $bouteilles = Bouteille::where('nom', 'LIKE', '%' . $valeur . '%')->whereNotNull('code_saq')->with('categorie', 'pays')->take(5)->get();
+        $bouteilles = Bouteille::where('nom', 'LIKE', '%' . $valeur . '%')
+            ->whereNotNull('code_saq')
+            ->with(['categorie', 'pays', 
+                'avis' => function($query) {
+                    $query->selectRaw('bouteille_id, AVG(note) as moyenneNotes')
+                        ->groupBy('bouteille_id');
+                }
+            ])
+            ->take(5)
+            ->get();
 
-        Log::info($valeur);
+        foreach ($bouteilles as $bouteille) {
+            if(!$bouteille->avis->isEmpty()){
+                $avis = $bouteille->avis->first();
+                $bouteille->moyenneNotes = $avis->moyenneNotes;
+            } else {
+                $bouteille->moyenneNotes = 0;
+            }
+        }
 
         return response()->json($bouteilles);
     }

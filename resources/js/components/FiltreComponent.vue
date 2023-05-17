@@ -464,8 +464,7 @@ export default {
                     estPaysSelectionne &&
                     estSourceSelectionnee &&
                     estPrixInclus &&
-                    bouteille.note >=
-                        this.nbrEtoileFiltrer
+                    bouteille.moyenneNotes >= this.nbrEtoileFiltrer
                 );
             });
         },

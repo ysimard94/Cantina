@@ -48,6 +48,6 @@ class Bouteille extends Model
     }
     public function avis()
     {
-        return $this->hasMany(Avis::class)->withPivot('note');;
+        return $this->hasMany(Avis::class);
     }
 }
