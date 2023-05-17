@@ -38,9 +38,9 @@
 export default {
     name: "HeaderComponent",
     computed: {
-        // Vérifie si l'utilisateur est connecté
+        //  Vérifie si l'utilisateur est connecté
         estConnecter() {
-            return this.$store.state.session.utilisateur_id !== undefined;
+            return this.$store.getters.estConnecter;
         },
     },
 };
