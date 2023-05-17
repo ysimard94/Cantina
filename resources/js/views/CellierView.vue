@@ -402,6 +402,12 @@ export default {
                         this.cellierActif.id
                     );
                 this.bouteilles = response.data.bouteilles;
+                await Promise.all(
+                    this.bouteilles.map(async (bouteille) => {
+                        bouteille.note = await this.getAvisBouteille(bouteille);
+                    })
+                );
+                console.log(this.bouteilles);
             } catch (error) {
                 console.log(error);
             } finally {
@@ -417,6 +423,16 @@ export default {
             this.afficheModale = false;
 
             this.supprimerBouteille(this.bouteilleASupprimer);
+        },
+        async getAvisBouteille(bouteille) {
+            const reponse = await AvisDataService.avisBouteille(bouteille.id);
+            const avis = reponse.data;
+            
+            const notes = avis.map((avis) => avis.note);
+            const sommeNotes = notes.reduce((acc, note) => acc + note, 0);
+            if(sommeNotes === 0) return 0
+            const moyenneNotes = sommeNotes / avis.length;
+            return moyenneNotes.toFixed(0);
         },
         //fait apparaître une modale puis supprimer une bouteille dans le cellier actif puis l'archiver
         async supprimerBouteille(bouteille) {
