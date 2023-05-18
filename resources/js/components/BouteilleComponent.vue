@@ -217,12 +217,6 @@ export default {
                     bouteille.pivot.quantite,
                     this.cellierId
                 );
-                console.log(
-                    bouteille.id,
-                    bouteille.pivot.quantite,
-                    this.cellierId
-                );
-                console.log("Quantité mise à jour avec succès");
             } catch (error) {
                 console.log(error);
             }

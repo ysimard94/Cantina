@@ -387,7 +387,6 @@ export default {
                 const response = await CellierDataService.getAll();
                 this.celliers = response.data;
             } catch (error) {
-                console.log(error);
             } finally {
                 this.$nextTick(() => {
                     this.$emit("loading:end");

@@ -80,9 +80,7 @@ export default {
                     this.$store.getters.session.utilisateur_id
                 );
                 this.liste = response.data.liste;
-            } catch (error) {
-                console.log(error);
-            }
+            } catch (error) {}
         },
         // Méthode pour charger les celliers de l'utilisateur
         async fetchCelliers() {
@@ -94,7 +92,6 @@ export default {
                     this.cellierActif = this.celliers[0];
                 }
             } catch (error) {
-                console.log(error.response);
             } finally {
                 this.$nextTick(() => {
                     this.$emit("loading:end");

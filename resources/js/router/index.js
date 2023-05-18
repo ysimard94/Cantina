@@ -178,8 +178,6 @@ router.afterEach(() => {
 });
 
 async function logout(to, from, next) {
-    console.log("logout");
-
     // Effacer le token de local storage
     localStorage.removeItem("jwt-token");
 
@@ -189,14 +187,10 @@ async function logout(to, from, next) {
     // Effacer le session state in Vuex
     store.commit("resetSession");
 
-    console.log(store.getters.session);
-
     // Redirigé vers la page de connexion
     if (to.params.message) {
-        console.log("yes");
         next({ name: "connexion", params: { message: to.params.message } });
     } else {
-        console.log("no");
         next({ name: "connexion" });
     }
 }

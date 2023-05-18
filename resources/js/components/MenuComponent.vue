@@ -69,7 +69,6 @@ export default {
     methods: {
         // Pour fermer le menu secondaire
         fermerMenu() {
-            console.log(this.$store.getters.session);
             this.$emit("fermer-menu");
         },
         // Pour réinitialiser l'état de la page active à sa valeur initiale dans le footer

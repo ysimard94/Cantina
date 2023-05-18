@@ -122,7 +122,6 @@ export default {
     },
     methods: {
         show() {
-            console.log("show");
             console.log(this.message);
         },
         connexion: async function () {

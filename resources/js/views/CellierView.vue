@@ -426,6 +426,7 @@ export default {
         ouvrirModale() {
             this.afficheModale = true;
         },
+        // fermer la modale
         fermerModale() {
             this.estConfirmé = true;
             this.afficheModale = false;
@@ -479,7 +480,7 @@ export default {
                 }
             }
         },
-
+        //  envoyer un avis sur une bouteille
         async sendAvis() {
             try {
                 await AvisDataService.sendAvisBouteille({
@@ -564,26 +565,30 @@ export default {
             if (this.recherche === "") {
                 this.effacerRecherche();
             }
-            // console.log(this.bouteillesRecherche);
         },
+        // Vide le champ de recherche et la liste de bouteilles recherchées
         effacerRecherche() {
             this.recherche = "";
             this.bouteillesRecherche = [];
         },
+        // Ajouter un cellier
         async ajoutCellier(nouveaucellier) {
             this.cellierActif = nouveaucellier; // mettre à jour le cellierActif avec le nouveau cellier
             this.celliers.push(nouveaucellier); // ajouter le nouveau cellier à la liste des celliers
             await this.fetchBouteillesCellier();
         },
+        // Ouvrir le block d'ajout du cellier
         handleAddButton() {
             this.showModifierCellier = false;
             this.showAjouterCellier = !this.showAjouterCellier;
             this.estAjouterCellier = !this.estAjouterCellier;
         },
+        // Ouvrir le block de modification du cellier
         handleEditButton() {
             this.showAjouterCellier = false;
             this.showModifierCellier = true;
         },
+        // Mettre à jour le cellier
         mettreAJourCellier(cellierModifie) {
             this.celliers = this.celliers.map((cellier) => {
                 if (cellier.id === cellierModifie.id) {
@@ -602,6 +607,7 @@ export default {
 
             this.cellierSelectionne = null;
         },
+        // Supprimer le cellier
         async supprimerCellier() {
             this.celliers = this.celliers.filter(
                 (c) => c.id !== this.cellierActif.id
@@ -618,6 +624,7 @@ export default {
                 this.cellierActif = { id: 0, nom: "Aucun cellier" };
             }
         },
+        // Trier les bouteilles du cellier
         triCellier() {
             if (this.filteredBouteilles.length > 0) {
                 this.filteredBouteilles.reverse();
@@ -625,6 +632,7 @@ export default {
                 this.bouteilles.reverse();
             }
         },
+        // Réinitialiser les bouteilles du cellier
         async reinitialisationBouteilles() {
             await this.fetchBouteillesCellier();
             if (this.filteredBouteilles.length > 0) {
@@ -633,6 +641,7 @@ export default {
             // Mettre à jour les valeurs du filtre
             this.setCellierFiltreValeurs({});
         },
+        // Ouvrir le popup de confirmation
         showSuccessPopup() {
             this.estPopupOuvert = true;
             setTimeout(() => {
@@ -640,6 +649,7 @@ export default {
                 this.estPopupOuvert = false;
             }, 3000);
         },
+        // Fermer le popup de confirmation
         fermerPopup() {
             this.estPopupOuvert = false;
         },

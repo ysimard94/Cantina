@@ -136,16 +136,17 @@ export default {
         };
     },
     computed: {
+        // retourne les bouteilles qui sont dans les archives
         getBouteilles() {
             return this.archives.map((archive) => archive.bouteille);
         },
+        // retourne les archives filtrées, soit par recherche ou par filtre
         archivesAffiches() {
             //
             if (this.recherche !== "") {
                 return this.archives.filter((archive) => {
                     return this.bouteillesRecherche.some((bouteille) => {
                         if (archive.bouteille_id === bouteille.bouteille_id) {
-                            console.log("found");
                         }
                         return archive.bouteille_id === bouteille.bouteille_id;
                     });
@@ -251,7 +252,6 @@ export default {
                 return 0;
             });
         },
-
         // Fonction de tri par date
         fTriParDate() {
             this.triParDate = !this.triParDate;
@@ -274,8 +274,8 @@ export default {
             if (this.recherche === "") {
                 this.effacerRecherche();
             }
-            // console.log(this.bouteillesRecherche);
         },
+        // Efface la recherche
         effacerRecherche() {
             this.recherche = "";
             this.bouteillesRecherche = [];
