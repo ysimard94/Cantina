@@ -71,8 +71,6 @@ class AuthController extends Controller
                 return response()->json(['erreur' => 'Les données sont invalide, veuillez remplir les champs correctement'], 422);
             }
         } catch (\Exception $e) {
-            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
-            error_log($e->getMessage());
 
             // Retourner un message d'erreur général au client
             return response()->json(['erreur' => 'Nous nous excusons, une erreur s\'est produite sur le serveur. Veuillez réessayer plus tard.'], 500);
@@ -117,8 +115,6 @@ class AuthController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['erreur' => 'Les données sont invalide, veuillez remplir les champs correctement'], 422);
         } catch (\Exception $e) {
-            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
-            error_log($e->getMessage());
 
             // Retourner un message d'erreur général au client
             return response()->json(['erreur' => $e->getMessage()], 422);
@@ -137,8 +133,6 @@ class AuthController extends Controller
                 'message' => 'Déconnecté avec succès',
             ], 200);
         } catch (\Exception $e) {
-            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
-            error_log($e->getMessage());
 
             // Retourner un message d'erreur général au client
             return response()->json(['erreur' => 'Nous nous excusons, une erreur s\'est produite sur le serveur lors de la déconnexion. Veuillez réessayer plus tard.'], 500);

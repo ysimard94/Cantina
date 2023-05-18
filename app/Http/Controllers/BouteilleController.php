@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Bouteille;
 use App\Models\Cellier;
-use App\Models\archive;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,9 +27,6 @@ class BouteilleController extends Controller
             // Retourner les bouteilles en format JSON
             return response()->json($bouteilles);
         } catch (\Exception $e) {
-
-            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
-            error_log($e->getMessage());
 
             // Retourner un message d'erreur général au client
             return response()->json([
@@ -111,8 +106,6 @@ class BouteilleController extends Controller
                 ], 422);
 
             } catch (\Exception $e) {
-                // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
-                error_log($e->getMessage());
 
                 // Retourner un message d'erreur général au client
                 return response()->json([
@@ -167,9 +160,6 @@ class BouteilleController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-
-            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
-            error_log($e->getMessage());
 
             return response()->json([
                 'status' => 'échec',
@@ -255,8 +245,6 @@ class BouteilleController extends Controller
                 'bouteilles' => $bouteilles
             ], 200);
         } catch (\Exception $e) {
-            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
-            error_log($e->getMessage());
 
             return response()->json([
                 'status' => 'échec',
@@ -287,8 +275,6 @@ class BouteilleController extends Controller
                 ], 403);
             }
         } catch (\Exception $e) {
-            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
-            error_log($e->getMessage());
 
             return response()->json([
                 'status' => 'échec',
@@ -359,8 +345,6 @@ class BouteilleController extends Controller
                 'message' => 'La bouteille a été modifiée avec succès'
             ]);
         } catch (\Exception $e) {
-            // Afficher un message d'erreur personnalisé dans la console pour des raisons de débogage
-            error_log($e->getMessage());
 
             // Retourner un message d'erreur général au client
             return response()->json([

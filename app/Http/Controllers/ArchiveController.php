@@ -8,7 +8,6 @@ use App\Models\Cellier;
 use App\Models\Utilisateur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ArchiveController extends Controller
 {
@@ -17,7 +16,6 @@ class ArchiveController extends Controller
      */
     public function index(Utilisateur $utilisateur)
     {
-        Log::info($utilisateur);
         // Verifier  si le cellier appartiens a l'utilisateur connecté
         if ($utilisateur->id == Auth::user()->id) {
             try {

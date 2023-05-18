@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use App\Models\Pays;
@@ -17,7 +16,6 @@ class SAQController extends Controller
 {
     public function __construct()
     {
-        Log::debug('SAQController::__construct');
         $this->middleware('admin')->only('index');
     }
     // Récupère les produits de la SAQ et les enregistre dans la table bouteilles

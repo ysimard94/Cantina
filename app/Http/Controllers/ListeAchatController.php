@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Bouteille;
 use App\Models\ListeAchat;
 use App\Models\Utilisateur;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class ListeAchatController extends Controller
 {
