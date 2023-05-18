@@ -140,21 +140,18 @@ export default {
         getBouteilles() {
             return this.archives.map((archive) => archive.bouteille);
         },
-        // retourne les archives filtrées, soit par recherche ou par filtre
+        // retourne les archives, soit par recherche par filtre, ou toutes les archives
         archivesAffiches() {
-            //
             if (this.recherche !== "") {
                 return this.archives.filter((archive) => {
                     return this.bouteillesRecherche.some((bouteille) => {
-                        if (archive.bouteille_id === bouteille.bouteille_id) {
-                        }
-                        return archive.bouteille_id === bouteille.bouteille_id;
+                        return archive.bouteille_id == bouteille.bouteille_id;
                     });
                 });
             } else if (this.filteredBouteilles.length > 0) {
                 return this.archives.filter((archive) => {
                     return this.filteredBouteilles.some((bouteille) => {
-                        return archive.bouteille_id === bouteille.id;
+                        return archive.bouteille_id == bouteille.id;
                     });
                 });
             } else {

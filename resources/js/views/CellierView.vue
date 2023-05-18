@@ -360,11 +360,6 @@ export default {
         }
     },
     computed: {
-        // bouteillesAffiches() {
-        //     return this.filteredBouteilles.length > 0
-        //         ? this.filteredBouteilles
-        //         : this.bouteilles;
-        // },
         bouteillesAffiches() {
             //
             if (this.recherche !== "") {
