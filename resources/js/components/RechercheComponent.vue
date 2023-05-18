@@ -19,6 +19,7 @@
                             'transform translate-y-0 opacity-100':
                                 !rechercheVide,
                         }"
+                        style="max-height: 10rem; overflow-y: scroll"
                     >
                         <!-- Liste des bouteilles suggérées, et afficher une bordure en bas sauf pour la dernière suggestion -->
                         <li
