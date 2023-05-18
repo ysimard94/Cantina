@@ -9,6 +9,9 @@
             </p>
         </div>
         <div class="bg-bg-rose m-4 p-3 shadow-md rounded">
+            <p v-if="message" class="block text-md text-red-400 my-2">
+                {{ message }}
+            </p>
             <form @submit.prevent="connexion">
                 <h3 class="mb-4 text-vin-rouge font-bold text-xl">Connexion</h3>
                 <!-- Erreurs serveur -->
@@ -103,7 +106,13 @@ export default {
             mdp: "",
             utilisateur_id: "",
             erreurServeur: "",
+            message: null,
         };
+    },
+    computed: {
+        show() {
+            return this.message !== "";
+        },
     },
     validations() {
         return {
@@ -112,19 +121,26 @@ export default {
         };
     },
     methods: {
+        show() {
+            console.log("show");
+            console.log(this.message);
+        },
         connexion: async function () {
             this.v$.$touch(); // Déclenche la validation
             if (!this.v$.$invalid) {
                 await this.connecterUtilisateur();
             }
         },
+        // Méthode pour connecter un utilisateur
         connecterUtilisateur: async function () {
             this.$emit("loading:start");
             try {
+                // Appel à l'API pour connecter l'utilisateur
                 const reponse = await AuthDataService.connexion({
                     courriel: this.courriel,
                     mdp: this.mdp,
                 });
+                // Enregistrement des données de l'utilisateur dans le store
                 this.$store.commit("setSession", {
                     key: "utilisateur_id",
                     value: reponse.data.utilisateur.id,
@@ -133,11 +149,14 @@ export default {
                     key: "utilisateur",
                     value: reponse.data.utilisateur,
                 });
+
+                // Enregistrement du token dans le local storage
                 localStorage.setItem("jwt-token", reponse.data.token);
+
+                // Redirection vers la page d'accueil
                 this.$router.push({ name: "mes-celliers" });
             } catch (error) {
-                console.error("Error fetching data:", error);
-                // Check if the error response contains an error message
+                // Affichage de l'erreur
                 if (
                     error.response &&
                     error.response.data &&
@@ -152,6 +171,10 @@ export default {
                 this.$emit("loading:end");
             }
         },
+    },
+    mounted() {
+        // Si un message est passé en paramètre, on l'affiche
+        this.message = this.$route.params.message;
     },
     components: { parse },
 };

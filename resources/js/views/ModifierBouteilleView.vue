@@ -1,5 +1,5 @@
 <template>
-    <section v-iv="afficherTemplate" class="m-4 mt-6">
+    <section v-if="afficherTemplate" class="m-4 mt-6">
         <div class="mb-6 flex justify-start">
             <button
                 @click="$router.go(-1)"
@@ -124,21 +124,6 @@
                         </p>
                     </div>
                 </div>
-
-                <!-- Description -->
-                <div class="mb-4">
-                    <label
-                        for="description"
-                        class="block text-md text-left font-bold text-vin-rouge"
-                        >Description</label
-                    >
-                    <textarea
-                        v-model="description"
-                        id="description"
-                        class="w-full rounded pt-2 pb-2 pl-1 pr-1"
-                    ></textarea>
-                </div>
-
                 <!-- Ajouter une photo -->
                 <div class="mb-4">
                     <label
@@ -157,29 +142,30 @@
                 </div>
                 <!-- Prix et Année -->
                 <div class="flex gap-2 items-center">
-                    <!-- Année -->
+                    <!-- Quantité  -->
                     <div class="mb-4 flex-1">
                         <label
-                            for="annee"
+                            for="quantite"
                             class="block text-md text-left font-bold text-vin-rouge"
-                            >Année</label
+                            >Quantité</label
                         >
                         <input
-                            v-model="annee"
-                            id="annee"
-                            class="w-full rounded pt-2 pb-2 pl-1 pr-1 h-8 bg-white"
+                            type="number"
+                            v-model="quantite"
+                            id="quantite"
+                            class="w-full rounded py-2 px-1 h-8"
                             :class="{
                                 'border border-red-500':
-                                    v$.annee.$error && v$.annee.$dirty,
+                                    v$.quantite.$error && v$.quantite.$dirty,
                                 'border border-green-500':
-                                    !v$.annee.$error && v$.annee.$dirty,
+                                    !v$.quantite.$error && v$.quantite.$dirty,
                             }"
                         />
                         <p
-                            v-if="v$.annee.$error"
+                            v-if="v$.quantite.$error"
                             class="block text-xs text-red-500"
                         >
-                            Veillez entrer une année valide
+                            Veuillez entrer une quantité valide
                         </p>
                     </div>
                     <!-- Prix -->
@@ -346,7 +332,9 @@ export default {
                 // renvoyer a la page celliers avec un message de succès
                 this.$router.push({
                     name: "mes-celliers",
-                    query: { message: reponse.data.message },
+                    params: {
+                        message: reponse.data.message,
+                    },
                 });
             } catch (error) {
                 console.error(error);
@@ -354,6 +342,7 @@ export default {
             } finally {
             }
         },
+        // Récupère les données de la bouteille à modifier
         obtenirBouteille: async function () {
             try {
                 const response = await BouteilleDataService.get(
@@ -375,10 +364,9 @@ export default {
                         : null;
             } catch (error) {
                 console.error(error);
-            } finally {
-                this.afficherTemplate = true;
             }
         },
+        // Récupère les pays
         getPays: async function () {
             try {
                 const reponse = await PaysDataService.getAll();
@@ -388,6 +376,7 @@ export default {
             } finally {
             }
         },
+        // Récupère la quantité de la bouteille dans le cellier
         getCellierBouteillePivot: async function () {
             try {
                 const reponse =
@@ -399,8 +388,13 @@ export default {
             } catch (error) {
                 console.error(error);
             } finally {
+                this.$nextTick(() => {
+                    this.$emit("loading:end");
+                    this.afficherTemplate = true;
+                });
             }
         },
+        // Récupère les catégories
         getCategories: async function () {
             try {
                 const reponse = await CategorieDataService.getAll();
@@ -410,11 +404,13 @@ export default {
             } finally {
             }
         },
+        // Récupère la photo de la bouteille
         chargerPhoto(e) {
             this.photo = e.target.files[0];
         },
     },
     mounted: async function () {
+        this.$emit("loading:start");
         await this.obtenirBouteille();
         await this.getCategories();
         await this.getPays();

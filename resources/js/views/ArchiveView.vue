@@ -1,8 +1,5 @@
 <template>
     <div v-if="afficherTemplate" class="mx-2 mt-8">
-        <!-- <h3 class="mb-4 text-vin-rouge font-bold text-xl mt-6">
-            Historique des bouteilles bues
-        </h3> -->
         <h1 class="text-5xl mb-4 text-vin-rouge">Historique</h1>
         <template v-if="archives.length === 0">
             <p>Il n'y a aucune bouteille archivée</p>
@@ -10,7 +7,7 @@
         <!-- Sinon itérer à travers pour montrer les bouteilles dans la liste -->
         <template v-else>
             <!-- recherche dans les archives -->
-            <div class="flex items-center mx-auto p-2 mb-4">
+            <div class="flex items-center mx-auto p-2 mb-2 text-lg">
                 <form @submit.prevent="" class="w-full">
                     <label class="relative flex items-center">
                         <input
@@ -22,9 +19,13 @@
                         />
                         <button
                             class="material-symbols-outlined absolute right-0 p-1"
-                            @click="rechercheBouteillesCellier"
+                            @click="
+                                recherche === ''
+                                    ? rechercheBouteillesCellier()
+                                    : effacerRecherche()
+                            "
                         >
-                            search
+                            {{ recherche === "" ? "search" : "clear" }}
                         </button>
                     </label>
                 </form>
@@ -82,6 +83,14 @@
                     date_range
                 </button>
             </div>
+            <p
+                v-if="recherche !== '' && bouteillesRecherche.length === 0"
+                class="text-xl mt-4 border-2 border-vin-rouge rounded p-4 mx-2"
+            >
+                Aucun résultat trouvé pour votre recherche. Essayez un autre
+                terme de recherche ou ajoutez plus de bouteilles à votre
+                cellier.
+            </p>
             <ul class="flex flex-col gap-2">
                 <li
                     v-for="(archive, index) in archivesAffiches"
@@ -131,13 +140,25 @@ export default {
             return this.archives.map((archive) => archive.bouteille);
         },
         archivesAffiches() {
-            return this.filteredBouteilles.length > 0
-                ? this.archives.filter((archive) => {
-                      return this.filteredBouteilles.some((bouteille) => {
-                          return archive["bouteille_id"] === bouteille.id;
-                      });
-                  })
-                : this.archives;
+            //
+            if (this.recherche !== "") {
+                return this.archives.filter((archive) => {
+                    return this.bouteillesRecherche.some((bouteille) => {
+                        if (archive.bouteille_id === bouteille.bouteille_id) {
+                            console.log("found");
+                        }
+                        return archive.bouteille_id === bouteille.bouteille_id;
+                    });
+                });
+            } else if (this.filteredBouteilles.length > 0) {
+                return this.archives.filter((archive) => {
+                    return this.filteredBouteilles.some((bouteille) => {
+                        return archive.bouteille_id === bouteille.id;
+                    });
+                });
+            } else {
+                return this.archives;
+            }
         },
     },
 
@@ -177,17 +198,21 @@ export default {
 
             await this.chargerArchives();
         },
+        // Obtenir la liste des archives de l'utilisateur
         async chargerArchives() {
             try {
                 const response =
                     await BouteilleDataService.obtenirArchivesUtilisateur(
                         this.$store.getters.session.utilisateur_id
                     );
+
                 this.archives = response.data.archives;
             } catch (error) {
-                console.log(error);
             } finally {
-                this.afficherTemplate = true;
+                this.$nextTick(() => {
+                    this.$emit("loading:end");
+                    this.afficherTemplate = true;
+                });
             }
         },
         // Va ajouter la bouteille à la liste d'achats de l'utilisateur
@@ -200,9 +225,7 @@ export default {
                     );
 
                 this.$router.push({ name: "liste-achats" });
-            } catch (error) {
-                console.log(reponse.data);
-            }
+            } catch (error) {}
         },
         // Pour fermer le popup au clic du bouton X
         fermerPopup() {
@@ -242,19 +265,25 @@ export default {
             });
         },
         //Applique le résultat de la recherche avec les filtres ou non dans le celliers
-        async rechercheBouteillesCellier() {
+        rechercheBouteillesCellier() {
             this.bouteillesRecherche = this.archives.filter((archive) => {
                 return archive.bouteille.nom
                     .toLowerCase()
                     .includes(this.recherche.toLowerCase());
             });
             if (this.recherche === "") {
-                await this.chargerArchives();
+                this.effacerRecherche();
             }
+            // console.log(this.bouteillesRecherche);
+        },
+        effacerRecherche() {
+            this.recherche = "";
+            this.bouteillesRecherche = [];
         },
         ...mapMutations(["setArchiveFiltreValeurs"]),
     },
     async mounted() {
+        this.$emit("loading:start");
         //  Charger les archive de l'utilisateur
         await this.chargerArchives();
         this.reinitialisationBouteilles();

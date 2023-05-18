@@ -10,18 +10,18 @@
         >
             <!-- Success Message -->
             <div
-                v-show="estSuccessPopup"
+                v-show="estPopupOuvert"
                 class="fixed bottom-0 left-0 right-0 flex justify-center mb-20 z-50"
             >
                 <div
-                    class="bg-green-500 text-white font-bold rounded-lg px-4 py-2 flex items-center h-24 max-w-md shadow-lg w-full mx-2"
+                    class="bg-green-500 bg-opacity-80 text-white font-bold rounded-lg px-4 py-2 flex items-center h-24 max-w-md shadow-lg w-full mx-4"
                 >
                     <!-- Success Icon (Google Material Icons) -->
                     <span class="material-icons text-lg mr-2"
                         >check_circle</span
                     >
                     <span class="flex-1 text-center text-sm">{{
-                        successMessage
+                        message
                     }}</span>
                     <button
                         @click="fermerPopup"
@@ -100,16 +100,21 @@
             <form @submit.prevent="" class="w-full">
                 <label class="relative flex items-center">
                     <input
-                        v-model="rechercheCellier"
+                        v-model="recherche"
                         type="text"
                         class="w-full py-1 pl-2 pr-[32px] rounded"
                         placeholder="Rechercher dans le cellier"
+                        @input="rechercheBouteillesCellier"
                     />
                     <button
                         class="material-symbols-outlined absolute right-0 p-1"
-                        @click="rechercheBouteillesCellier"
+                        @click="
+                            recherche === ''
+                                ? rechercheBouteillesCellier()
+                                : effacerRecherche()
+                        "
                     >
-                        search
+                        {{ recherche === "" ? "search" : "clear" }}
                     </button>
                 </label>
             </form>
@@ -118,7 +123,7 @@
             v-if="cellierActif.id === 0"
             class="w-full flex flex-col items-center justify-center h-full"
         >
-            <p>
+            <p class="text-xl mt-4 border-2 border-vin-rouge rounded p-4 mx-2">
                 Vous n'avez pas encore enregistré de cellier. Pour commencer,
                 cliquez sur le bouton ci-dessous pour ajouter un nouveau
                 cellier.
@@ -129,7 +134,7 @@
             >
                 add
             </button>
-            <p>
+            <p class="text-xl mt-4 border-2 border-vin-rouge rounded p-4 mx-2">
                 Vous pourrez ensuite ajouter vos vins préférés et commencer à
                 les suivre facilement
             </p>
@@ -211,13 +216,22 @@
             </div>
             <div
                 v-show="!estSHow"
-                class="w-full flex flex-col items-center justify-center h-full mt-4"
+                class="w-full flex flex-col items-center justify-center h-full mt-4 text-lg"
             >
-                <p>
+                <p
+                    class="text-xl mt-4 border-2 border-vin-rouge rounded p-4 mx-2"
+                    v-if="recherche === ''"
+                >
                     Félicitations, votre cellier a été ajouté avec succès ! Pour
                     commencer à suivre vos bouteilles de vin, vous pouvez
                     ajouter une bouteille dès maintenant en cliquant sur le
                     bouton Plus(+) ci-dessous
+                </p>
+                <p
+                    class="text-xl mt-4 border-2 border-vin-rouge rounded p-4 mx-2"
+                    v-else
+                >
+                    Aucun résultat trouvé !
                 </p>
             </div>
         </div>
@@ -321,9 +335,17 @@ export default {
             commentaire: "",
             afficheModale: false,
             bouteilleASupprimer: [],
+            message: null,
+            recherche: "",
+            bouteillesRecherche: [],
         };
     },
     async mounted() {
+        this.$emit("loading:start");
+        if (this.$route.params.message) {
+            this.message = this.$route.params.message;
+            this.showSuccessPopup();
+        }
         await this.fetchCelliers();
         if (this.$store.getters.cellierActif) {
             this.cellierActif = this.$store.getters.cellierActif;
@@ -338,36 +360,25 @@ export default {
         }
     },
     computed: {
+        // bouteillesAffiches() {
+        //     return this.filteredBouteilles.length > 0
+        //         ? this.filteredBouteilles
+        //         : this.bouteilles;
+        // },
         bouteillesAffiches() {
-            return this.filteredBouteilles.length > 0
-                ? this.filteredBouteilles
-                : this.bouteilles;
-        },
-
-        successMessage() {
-            const message =
-                this.$route.query.message || this.bouteilleSuprimeeMessage;
-
-            if (message && message !== "") {
-                this.showSuccessPopup();
+            //
+            if (this.recherche !== "") {
+                return this.bouteillesRecherche;
+            } else if (this.filteredBouteilles.length > 0) {
+                return this.filteredBouteilles;
+            } else {
+                return this.bouteilles;
             }
-
-            return message;
-        },
-        estSuccessPopup() {
-            return this.successMessage !== "" && this.estPopupOuvert;
         },
         estSHow() {
             return (
                 this.bouteillesAffiches && this.bouteillesAffiches.length > 0
             );
-        },
-    },
-    watch: {
-        successMessage(newVal) {
-            if (newVal !== "") {
-                this.showSuccessPopup();
-            }
         },
     },
     methods: {
@@ -397,15 +408,18 @@ export default {
         // Obtenir tous les bouteilles du cellier actif
         async fetchBouteillesCellier() {
             try {
+                this.$emit("loading:start");
                 const response =
                     await BouteilleDataService.getBouteillesByCellierId(
                         this.cellierActif.id
                     );
                 this.bouteilles = response.data.bouteilles;
             } catch (error) {
-                console.log(error);
             } finally {
-                this.afficherTemplate = true;
+                this.$nextTick(() => {
+                    this.$emit("loading:end");
+                    this.afficherTemplate = true;
+                });
             }
         },
         //ouvrir et fermer la modale, fermer renvoie la bouteille à supprimer vers la fonction supprimerBouteille
@@ -452,8 +466,7 @@ export default {
                     );
 
                     // initier le message de confirmation
-                    this.bouteilleSuprimeeMessage =
-                        "La bouteille a été archivé avec succès.";
+                    this.message = "La bouteille a été archivé avec succès.";
 
                     // Montrer le message de confirmation
                     this.showSuccessPopup();
@@ -462,7 +475,6 @@ export default {
                     this.note = 0;
                     this.commentaire = "";
                 } catch (error) {
-                    console.log(error);
                 } finally {
                 }
             }
@@ -479,9 +491,7 @@ export default {
                 this.estConfirmé = true;
                 this.afficheModale = false;
                 this.supprimerBouteille(this.bouteilleASupprimer);
-            } catch (error) {
-                console.log(error);
-            }
+            } catch (error) {}
         },
 
         // Obtenir la liste des celliers
@@ -493,9 +503,7 @@ export default {
                 if (this.celliers.length > 0) {
                     this.cellierActif = this.celliers[0];
                 }
-            } catch (error) {
-                console.log(error);
-            }
+            } catch (error) {}
         },
         //Animation du bouton de réinitialisation
         rotation() {
@@ -544,9 +552,23 @@ export default {
                         );
                     });
                 }
-            } catch (error) {
-                console.log(error);
+            } catch (error) {}
+        },
+        //Applique le résultat de la recherche avec les filtres ou non dans le celliers
+        rechercheBouteillesCellier() {
+            this.bouteillesRecherche = this.bouteilles.filter((bouteille) => {
+                return bouteille.nom
+                    .toLowerCase()
+                    .includes(this.recherche.toLowerCase());
+            });
+            if (this.recherche === "") {
+                this.effacerRecherche();
             }
+            // console.log(this.bouteillesRecherche);
+        },
+        effacerRecherche() {
+            this.recherche = "";
+            this.bouteillesRecherche = [];
         },
         async ajoutCellier(nouveaucellier) {
             this.cellierActif = nouveaucellier; // mettre à jour le cellierActif avec le nouveau cellier
@@ -614,17 +636,13 @@ export default {
         showSuccessPopup() {
             this.estPopupOuvert = true;
             setTimeout(() => {
-                this.bouteilleSuprimeeMessage = "";
-                this.$router.replace({
-                    query: { ...this.$route.query, message: "" },
-                });
+                this.message = null;
                 this.estPopupOuvert = false;
             }, 3000);
         },
         fermerPopup() {
             this.estPopupOuvert = false;
         },
-
         ...mapMutations(["setCellierFiltreValeurs", "setCellierActif"]),
     },
 };

@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto">
+    <div v-if="afficherTemplate" class="container mx-auto">
         <transition
             enter-active-class="transition-all duration-200 ease-out"
             enter-class="transform translate-y-full opacity-0"
@@ -14,7 +14,7 @@
                 class="fixed bottom-0 left-0 right-0 flex justify-center mb-20"
             >
                 <div
-                    class="bg-green-500 text-white font-bold rounded-lg px-4 py-2 flex items-center h-24 max-w-md shadow-lg w-full mx-2"
+                    class="bg-green-500 text-white font-bold rounded-lg px-4 py-2 flex items-center h-24 max-w-md shadow-lg w-full mx-4"
                 >
                     <!-- Success Icon (Google Material Icons) -->
                     <span class="material-icons text-lg mr-2"
@@ -137,6 +137,7 @@ export default {
     name: "ResultatView",
     data() {
         return {
+            afficherTemplate: false,
             bouteilles: [],
             celliers: [],
             message: "",
@@ -157,6 +158,8 @@ export default {
                 this.bouteilles = reponse.data;
             } catch (e) {
                 console.log(e);
+            } finally {
+                this.afficherTemplate = true;
             }
         },
 

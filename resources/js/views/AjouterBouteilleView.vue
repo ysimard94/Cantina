@@ -1,14 +1,19 @@
 <template>
-    <section class="m-4 mt-6">
+    <section v-if="afficherTemplate" class="m-4 mt-6">
         <div class="mb-6 flex justify-start">
-            <button @click="$router.go(-1)"
-                class="bg-vin_blanc hover:bg-gray-700 focus:bg-gray-700 text-white font-bold rounded-full cursor-pointer transform transition-all durtation-200">
+            <button
+                @click="$router.go(-1)"
+                class="bg-vin_blanc hover:bg-gray-700 focus:bg-gray-700 text-white font-bold rounded-full cursor-pointer transform transition-all durtation-200"
+            >
                 <i class="material-symbols-outlined py-4 px-4"> arrow_back </i>
             </button>
         </div>
 
         <div class="bg-bg-rose p-3 shadow-md rounded-lg">
-            <form @submit.prevent="ajouterBouteille" enctype="multipart/form-data">
+            <form
+                @submit.prevent="ajouterBouteille"
+                enctype="multipart/form-data"
+            >
                 <!-- Titre -->
                 <h3 class="mb-4 text-vin-rouge font-bold text-lg">
                     Ajouter une bouteille
@@ -23,13 +28,22 @@
                 </p>
                 <!-- Nom -->
                 <div class="mb-4">
-                    <label for="nom" class="block text-md text-left font-bold text-vin-rouge">Nom</label>
-                    <input v-model="nom" id="nom" class="w-full h-8 py-1 pl-2 rounded" :class="{
-                        'border border-red-500':
-                            v$.nom.$error && v$.nom.$dirty,
-                        'border border-green-500':
-                            !v$.nom.$error && v$.nom.$dirty,
-                    }" />
+                    <label
+                        for="nom"
+                        class="block text-md text-left font-bold text-vin-rouge"
+                        >Nom</label
+                    >
+                    <input
+                        v-model="nom"
+                        id="nom"
+                        class="w-full h-8 py-1 pl-2 rounded"
+                        :class="{
+                            'border border-red-500':
+                                v$.nom.$error && v$.nom.$dirty,
+                            'border border-green-500':
+                                !v$.nom.$error && v$.nom.$dirty,
+                        }"
+                    />
                     <p v-if="v$.nom.$error" class="block text-xs text-red-500">
                         Veillez entrer un nom valide
                     </p>
@@ -38,32 +52,53 @@
                 <div class="flex gap-2 items-center">
                     <!-- Pays -->
                     <div class="mb-4 flex-1">
-                        <label for="pays_id" class="block text-md text-left font-bold text-vin-rouge">
+                        <label
+                            for="pays_id"
+                            class="block text-md text-left font-bold text-vin-rouge"
+                        >
                             Pays
                         </label>
-                        <select v-model="pays_id" id="pays_id" class="w-full py-1 pl-2 h-8 rounded bg-white" :class="{
-                            'border border-red-500':
-                                v$.pays_id.$error && v$.pays_id.$dirty,
-                            'border border-green-500':
-                                !v$.pays_id.$error && v$.pays_id.$dirty,
-                        }">
+                        <select
+                            v-model="pays_id"
+                            id="pays_id"
+                            class="w-full py-1 pl-2 h-8 rounded bg-white"
+                            :class="{
+                                'border border-red-500':
+                                    v$.pays_id.$error && v$.pays_id.$dirty,
+                                'border border-green-500':
+                                    !v$.pays_id.$error && v$.pays_id.$dirty,
+                            }"
+                        >
                             <option disabled value="">
                                 Sélectionnez un pays
                             </option>
-                            <option v-for="paysItem in pays" :key="paysItem.id" :value="paysItem.id">
+                            <option
+                                v-for="paysItem in pays"
+                                :key="paysItem.id"
+                                :value="paysItem.id"
+                            >
                                 {{ paysItem.nom }}
                             </option>
                         </select>
-                        <p v-if="v$.pays_id.$error" class="block text-xs text-red-500">
+                        <p
+                            v-if="v$.pays_id.$error"
+                            class="block text-xs text-red-500"
+                        >
                             Veillez sélectionner un pays
                         </p>
                     </div>
                     <!-- Catégories -->
                     <div class="mb-4 flex-1">
-                        <label for="categorie_id" class="block text-md text-left font-bold text-vin-rouge">
+                        <label
+                            for="categorie_id"
+                            class="block text-md text-left font-bold text-vin-rouge"
+                        >
                             Catégorie
                         </label>
-                        <select v-model="categorie_id" id="categorie_id" class="w-full rounded py-2 px-1 h-8 bg-white"
+                        <select
+                            v-model="categorie_id"
+                            id="categorie_id"
+                            class="w-full rounded py-2 px-1 h-8 bg-white"
                             :class="{
                                 'border border-red-500':
                                     v$.categorie_id.$error &&
@@ -71,15 +106,23 @@
                                 'border border-green-500':
                                     !v$.categorie_id.$error &&
                                     v$.categorie_id.$dirty,
-                            }">
+                            }"
+                        >
                             <option disabled value="">
                                 Sélectionnez une catégorie
                             </option>
-                            <option v-for="categorie in categories" :key="categorie.id" :value="categorie.id">
+                            <option
+                                v-for="categorie in categories"
+                                :key="categorie.id"
+                                :value="categorie.id"
+                            >
                                 {{ categorie.nom }}
                             </option>
                         </select>
-                        <p v-if="v$.categorie_id.$error" class="block text-xs text-red-500">
+                        <p
+                            v-if="v$.categorie_id.$error"
+                            class="block text-xs text-red-500"
+                        >
                             Veillez sélectionner une catégorie
                         </p>
                     </div>
@@ -88,52 +131,103 @@
                 <div class="flex gap-2 items-center">
                     <!-- Celliers -->
                     <div class="mb-4 flex-1">
-                        <label for="cellier" class="block text-md text-left font-bold text-vin-rouge">Cellier</label>
-                        <select v-model="cellier" name="cellier" class="w-full rounded px-1 h-8 bg-white">
-                            <option v-for="cellier in celliers" :key="cellier.id" :value="cellier.id">
+                        <label
+                            for="cellier"
+                            class="block text-md text-left font-bold text-vin-rouge"
+                            >Cellier</label
+                        >
+                        <select
+                            v-model="cellier"
+                            name="cellier"
+                            class="w-full rounded px-1 h-8 bg-white"
+                        >
+                            <option
+                                v-for="cellier in celliers"
+                                :key="cellier.id"
+                                :value="cellier.id"
+                            >
                                 {{ cellier.nom }}
                             </option>
                         </select>
                     </div>
                     <!-- Quantité  -->
                     <div class="mb-4 flex-1">
-                        <label for="quantite" class="block text-md text-left font-bold text-vin-rouge">Quantité</label>
-                        <input type="number" v-model="quantite" id="quantite" class="w-full rounded py-2 px-1 h-8" :class="{
-                            'border border-red-500':
-                                v$.quantite.$error && v$.quantite.$dirty,
-                            'border border-green-500':
-                                !v$.quantite.$error && v$.quantite.$dirty,
-                        }" />
-                        <p v-if="v$.quantite.$error" class="block text-xs text-red-500">
+                        <label
+                            for="quantite"
+                            class="block text-md text-left font-bold text-vin-rouge"
+                            >Quantité</label
+                        >
+                        <input
+                            type="number"
+                            v-model="quantite"
+                            id="quantite"
+                            class="w-full rounded py-2 px-1 h-8"
+                            :class="{
+                                'border border-red-500':
+                                    v$.quantite.$error && v$.quantite.$dirty,
+                                'border border-green-500':
+                                    !v$.quantite.$error && v$.quantite.$dirty,
+                            }"
+                        />
+                        <p
+                            v-if="v$.quantite.$error"
+                            class="block text-xs text-red-500"
+                        >
                             Veuillez entrer une quantité valide
                         </p>
                     </div>
                 </div>
                 <!-- Image -->
                 <div class="mb-4">
-                    <label for="photo" class="block text-md text-left font-bold text-vin-rouge">Sélectionner une image:</label>
-                    <input @change="chargerPhoto" id="photo" type="file" accept="image/*" name="photo"
-                        class="w-full text-md rounded pt-2 pb-2 pl-1 pr-1 bg-white" />
+                    <label
+                        for="photo"
+                        class="block text-md text-left font-bold text-vin-rouge"
+                        >Sélectionner une image:</label
+                    >
+                    <input
+                        @change="chargerPhoto"
+                        id="photo"
+                        type="file"
+                        accept="image/*"
+                        name="photo"
+                        class="w-full text-md rounded pt-2 pb-2 pl-1 pr-1 bg-white"
+                    />
                 </div>
                 <!-- Année - Notes - Prix -->
                 <div class="flex gap-2 items-center">
                     <!-- Prix -->
                     <div class="mb-4 flex-1">
-                        <label for="prix" class="block text-md text-left font-bold text-vin-rouge">Prix</label>
-                        <input type="number" v-model="prix" id="prix" class="w-full rounded pt-2 pb-2 pl-1 pr-1 h-8" :class="{
-                            'border border-red-500':
-                                v$.prix.$error && v$.prix.$dirty,
-                            'border border-green-500':
-                                !v$.prix.$error && v$.prix.$dirty,
-                        }" />
-                        <p v-if="v$.prix.$error" class="block text-xs text-red-500">
+                        <label
+                            for="prix"
+                            class="block text-md text-left font-bold text-vin-rouge"
+                            >Prix</label
+                        >
+                        <input
+                            type="number"
+                            v-model="prix"
+                            id="prix"
+                            class="w-full rounded pt-2 pb-2 pl-1 pr-1 h-8"
+                            :class="{
+                                'border border-red-500':
+                                    v$.prix.$error && v$.prix.$dirty,
+                                'border border-green-500':
+                                    !v$.prix.$error && v$.prix.$dirty,
+                            }"
+                        />
+                        <p
+                            v-if="v$.prix.$error"
+                            class="block text-xs text-red-500"
+                        >
                             Veillez entrer un prix valide
                         </p>
                     </div>
                 </div>
                 <!-- Validation -->
                 <div>
-                    <button type="submit" class="mb-4 mt-4 bg-vin-rouge text-white rounded py-2 px-6">
+                    <button
+                        type="submit"
+                        class="mb-4 mt-4 bg-vin-rouge text-white rounded py-2 px-6"
+                    >
                         Ajouter
                     </button>
                 </div>
@@ -167,6 +261,7 @@ export default {
     },
     data() {
         return {
+            afficherTemplate: false,
             nom: "",
             description: "",
             photo: null,
@@ -251,16 +346,15 @@ export default {
                     this.cellier,
                     formData
                 );
-
-
-                // renvoyer a la page celliers avec un message de succès
                 this.$router.push({
                     name: "mes-celliers",
-                    query: { message: reponse.data.message },
+                    params: {
+                        message: reponse.data.message,
+                    },
                 });
             } catch (erreur) {
                 // Afficher un message d'erreur
-                this.erreurServeur = erreur.response.data.erreur;
+                this.erreurServeur = erreur;
             } finally {
                 // Émettre un événement pour indiquer la fin du chargement
                 this.$emit("loading:end");
@@ -294,19 +388,24 @@ export default {
                 this.celliers = response.data;
             } catch (error) {
                 console.log(error);
+            } finally {
+                this.$nextTick(() => {
+                    this.$emit("loading:end");
+                    this.afficherTemplate = true;
+                });
             }
         },
     },
     mounted: async function () {
+        this.$emit("loading:start");
         await this.getCategories();
         await this.getPays();
         // Obtenir la liste des celliers et mettre le premier cellier de sélectionné par défaut
         this.fetchCelliers().then(() => {
             if (this.celliers.length > 0) {
-                this.cellier = this.celliers[0].id
+                this.cellier = this.celliers[0].id;
             }
         });
-
     },
 };
 </script>

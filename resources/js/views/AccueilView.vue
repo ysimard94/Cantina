@@ -1,6 +1,8 @@
 <template>
     <div>
-        <section class="hero-section bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white py-20">
+        <section
+            class="hero-section bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white py-20"
+        >
             <div class="container mx-auto px-4">
                 <div class="flex flex-col items-center justify-center">
                     <h1 class="font-bold text-4xl sm:text-5xl lg:text-6xl mb-6">
@@ -12,16 +14,14 @@
                         travaillez et vous amusez. Restez à l'affût pour la
                         grande révélation!
                     </p>
-                    <router-link to="/catalogue"
-                        class="btn btn-primary bg-white text-purple-600 font-semibold py-3 px-6 rounded-lg hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 transition duration-150">
-                        Voir le catalogue
-                    </router-link>
                 </div>
             </div>
         </section>
         <section class="features-section py-20">
             <div class="container mx-auto px-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                >
                     <div class="card p-6 bg-white shadow-md rounded-lg">
                         <div class="card-body">
                             <h5 class="card-title font-semibold text-xl mb-4">
@@ -68,7 +68,5 @@
     </div>
 </template>
 <script>
-export default {
-
-};
+export default {};
 </script>

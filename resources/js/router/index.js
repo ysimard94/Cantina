@@ -28,11 +28,11 @@ const routes = [
         path: "/connexion",
         name: "connexion",
         component: LoginView,
+        props: (route) => ({ message: route.params.message }),
     },
     {
         path: "/deconnexion",
         name: "deconnexion",
-        component: LoginView,
         meta: {
             requiresAuth: true,
         },
@@ -177,9 +177,9 @@ router.afterEach(() => {
     store.dispatch("setLoading", false);
 });
 
-// Effacer le token de session
-function logout(to, from, next) {
+async function logout(to, from, next) {
     console.log("logout");
+
     // Effacer le token de local storage
     localStorage.removeItem("jwt-token");
 
@@ -192,7 +192,13 @@ function logout(to, from, next) {
     console.log(store.getters.session);
 
     // Redirigé vers la page de connexion
-    next();
+    if (to.params.message) {
+        console.log("yes");
+        next({ name: "connexion", params: { message: to.params.message } });
+    } else {
+        console.log("no");
+        next({ name: "connexion" });
+    }
 }
 
 export { router };

@@ -46,7 +46,7 @@ apiClient.interceptors.response.use(
         } else if (error.response.status === 401) {
             // Rediriger l'utilisateur vers la page de connexion avec un message 'Session expirée, veillez vous reconnecter.'
             router.push({
-                name: "connexion",
+                name: "deconnexion",
                 params: {
                     message: "Session expirée, veillez vous reconnecter.",
                 },
